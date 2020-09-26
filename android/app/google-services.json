@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "96406912022",
+    "firebase_url": "https://getfrottest.firebaseio.com",
+    "project_id": "getfrottest",
+    "storage_bucket": "getfrottest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96406912022:android:9aa1a2c32a76b8be558937",
+        "android_client_info": {
+          "package_name": "br.com.gefrot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "96406912022-s343ng5el8q1vv11m2q9oaatrkrk6f2f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.gefrot",
+            "certificate_hash": "ac55f97bd9d8e3dc0c6bf6c5c2e20d52dfb2de42"
+          }
+        },
+        {
+          "client_id": "96406912022-vibbo0prc570eqkvees0va1a4po8blkd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0jP5S7BZVd8OoTZwNH2vtbvhB-McFZwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "96406912022-vibbo0prc570eqkvees0va1a4po8blkd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
