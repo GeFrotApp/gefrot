@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -5,7 +7,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class CustomTextField extends StatelessWidget {
 
   CustomTextField({this.hint, this.prefix, this.suffix, this.obscure = false,
-    this.textInputType, this.onChanged, this.enabled, this.controller, this.formatter,
+    this.textInputType, this.onChanged, this.enabled, this.controller, this.formatter, this.color
   });
 
   final TextEditingController controller;
@@ -17,6 +19,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String) onChanged;
   final bool enabled;
   final TextInputFormatter formatter;
+  final color;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,7 @@ class CustomTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
+        style: TextStyle(color: color),
         controller: controller,
         obscureText: obscure,
         keyboardType: textInputType,

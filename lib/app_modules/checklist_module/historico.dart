@@ -35,11 +35,11 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
           height: 400,
           child:
           StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('motoristas').document(baseStore.cpf.toString()).collection('CheckLists').snapshots(),
+            stream: FirebaseFirestore.instance.collection('motoristas').doc(baseStore.cpf.toString()).collection('CheckLists').snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) return new Text('Loading...');
               return new ListView(
-                children: snapshot.data.documents.map((DocumentSnapshot document) {
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
                   return new GestureDetector(
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.09,

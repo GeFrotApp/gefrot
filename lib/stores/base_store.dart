@@ -17,6 +17,7 @@ abstract class _BaseStore with Store{
   String cpf;
   String cnpj;
   double odometro;
+  double mediaProposta;
 
   @action
   void setOdometro(value)=> odometro = value;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:todomobx/app_modules/abastecimento_module/documento.dart';
 import 'package:todomobx/app_modules/abastecimento_module/historico.dart';
 import 'package:todomobx/app_modules/abastecimento_module/registro.dart';
 import 'package:todomobx/stores/abastecimento_base_store.dart';
@@ -12,8 +14,13 @@ class AbastecimentoBase extends StatefulWidget {
 }
 
 class _AbastecimentoBaseState extends State<AbastecimentoBase> {
-  AbastecimentoBaseStore abastecimentoBaseStore = new AbastecimentoBaseStore();
-
+  AbastecimentoBaseStore abastecimentoBaseStore;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    abastecimentoBaseStore = Provider.of<AbastecimentoBaseStore>(context);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,16 +44,19 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                                 color: Color.fromARGB(255, 140, 140, 140))),
-                        child: IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: Color.fromARGB(255, 170, 170, 170),
-                            ),
-                            onPressed: () {
-                              abastecimentoBaseStore.index == 0
-                                  ? Navigator.of(context).pop()
-                                  : abastecimentoBaseStore.setIndex(0);
-                            }),
+                        child: Center(
+                          child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_back_ios_rounded,
+                                color: Color.fromARGB(255, 170, 170, 170),
+                                  size: MediaQuery.of(context).size.width*0.05,
+                              ),
+                              onPressed: () {
+                                abastecimentoBaseStore.index == 0
+                                    ? Navigator.of(context).pop()
+                                    : abastecimentoBaseStore.setIndex(0);
+                              }),
+                        )
                       ),
                       Text(
                         "  Abastecimento  ",
@@ -134,7 +144,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                               ? SingleChildScrollView(
                         child: Registro(),
                       )
-                              : Container(),
+                              : abastecimentoBaseStore.index ==2?Container(child: Historico(),):Documento(),
                     ));
                   },
                 )

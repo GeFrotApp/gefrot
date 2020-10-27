@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
               child: SingleChildScrollView(
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 600,
+              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(color: Colors.white,),
               child: Column(
                 children: [
@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                                   child: Text(
                                     'Check list',
                                     style: TextStyle(
-                                        fontSize: 21,
+                                        fontSize: MediaQuery.of(context).size.width*0.051,
                                         color:
                                             Color.fromARGB(255, 170, 170, 170)),
                                   ),
@@ -119,7 +119,7 @@ class _HomeState extends State<Home> {
                                   alignment: Alignment.bottomCenter,
                                   child: Icon(
                                     Icons.format_list_bulleted,
-                                    size: 50,
+                                    size: MediaQuery.of(context).size.width*0.121,
                                     color: Color.fromARGB(255, 179, 232, 207),
                                   ),
                                   margin: EdgeInsets.all(15),
@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
                                   child: Text(
                                     'Abastecimento',
                                     style: TextStyle(
-                                        fontSize: 19,
+                                        fontSize: MediaQuery.of(context).size.width*0.044,
                                         color:
                                             Color.fromARGB(255, 170, 170, 170)),
                                   ),
@@ -159,7 +159,7 @@ class _HomeState extends State<Home> {
                                   alignment: Alignment.bottomCenter,
                                   child: FaIcon(
                                     FontAwesomeIcons.gasPump,
-                                    size: 40,
+                                    size: MediaQuery.of(context).size.width*0.097,
                                     color: Color.fromARGB(255, 240, 240, 139),
                                   ),
                                   margin: EdgeInsets.all(15),
@@ -196,14 +196,14 @@ class _HomeState extends State<Home> {
                                     Text(
                                       'Diário de ',
                                       style: TextStyle(
-                                          fontSize: 25,
+                                          fontSize: MediaQuery.of(context).size.width*0.06,
                                           color: Color.fromARGB(
                                               255, 170,170,170)),
                                     ),
                                     Text(
                                       'bordo',
                                       style: TextStyle(
-                                          fontSize: 25,
+                                          fontSize: MediaQuery.of(context).size.width*0.06,
                                           color: Color.fromARGB(
                                               255, 170, 170, 170)),
                                     ),
@@ -213,7 +213,7 @@ class _HomeState extends State<Home> {
                                   alignment: Alignment.bottomCenter,
                                   child: Icon(
                                     Icons.access_time,
-                                    size: 40,
+                                    size: MediaQuery.of(context).size.width*0.097,
                                     color: Color.fromARGB(255, 196, 212, 255),
                                   ),
                                   margin: EdgeInsets.all(15),
@@ -238,7 +238,7 @@ class _HomeState extends State<Home> {
                                   child: Text(
                                     'Multas',
                                     style: TextStyle(
-                                        fontSize: 25,
+                                        fontSize: MediaQuery.of(context).size.width*0.06,
                                         color:
                                             Color.fromARGB(255, 170, 170, 170)),
                                   ),
@@ -247,7 +247,7 @@ class _HomeState extends State<Home> {
                                   alignment: Alignment.bottomCenter,
                                   child: Icon(
                                     Icons.sim_card_alert,
-                                    size: 50,
+                                    size: MediaQuery.of(context).size.width*0.121,
                                     color: Color.fromARGB(255, 255, 204, 116),
                                   ),
                                   margin: EdgeInsets.all(15),
@@ -284,14 +284,14 @@ class _HomeState extends State<Home> {
                                     Text(
                                       'Não ',
                                       style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: MediaQuery.of(context).size.width*0.048,
                                           color: Color.fromARGB(
                                               255, 170, 170, 170)),
                                     ),
                                     Text(
                                       'conformidades',
                                       style: TextStyle(
-                                          fontSize: 19,
+                                          fontSize: MediaQuery.of(context).size.width*0.042,
                                           color: Color.fromARGB(
                                               255, 170, 170, 170)),
                                     ),
@@ -301,7 +301,7 @@ class _HomeState extends State<Home> {
                                   alignment: Alignment.bottomCenter,
                                   child: FaIcon(
                                     FontAwesomeIcons.exclamationCircle,
-                                    size: 35,
+                                    size: MediaQuery.of(context).size.width*0.085,
                                     color: Color.fromARGB(255, 255, 165, 165),
                                   ),
                                   margin: EdgeInsets.all(15),
@@ -334,7 +334,7 @@ class _HomeState extends State<Home> {
                           child: Text(
                             'Médias',
                             style: TextStyle(
-                                fontSize: 25,
+                                fontSize: MediaQuery.of(context).size.width*0.06,
                                 color:
                                 Color.fromARGB(255, 170, 170, 170)),
                           ),
@@ -343,7 +343,7 @@ class _HomeState extends State<Home> {
                                   alignment: Alignment.bottomCenter,
                                   child: Icon(
                                     Icons.graphic_eq,
-                                    size: 35,
+                                    size: MediaQuery.of(context).size.width*0.085,
                                     color: Color.fromARGB(255, 254, 182, 241),
                                   ),
                                   margin: EdgeInsets.all(15),

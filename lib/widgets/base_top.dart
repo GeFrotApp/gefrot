@@ -35,21 +35,13 @@ class _BaseTopState extends State<BaseTop> {
               children: [
                 Row(
                   children: [
-                    Text(
-                      " |",
-                      style: TextStyle(fontSize: 23, color: Colors.white),
-                    ),
-                    Text(
-                      "GetFrot",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "|",
-                      style: TextStyle(fontSize: 23, color: Colors.white),
-                    ),
+                    Text(" |", style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width*0.053, color: Colors.white),),
+                    Text("GetFrot", style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.049,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),),
+                    Text("|", style: TextStyle(
+                        fontSize: 23, color: Colors.white),),
                   ],
                 ),
                 Row(
@@ -60,23 +52,19 @@ class _BaseTopState extends State<BaseTop> {
                       "Boa noite, " + baseStore.nome,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: MediaQuery.of(context).size.width*0.049,
                       ),
                     )
                         : Text(
                       "Boa tarde, " + baseStore.nome,
                       style: TextStyle(
-                          color: Colors.white, fontSize: 20),
+                        color: Colors.white, fontSize: MediaQuery.of(context).size.width*0.049,),
                     )
                         : Text(
                       "Bom dia, " + baseStore.nome,
-                      style:
-                      TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).size.width*0.049,),
                     ),
-                    Icon(
-                      Icons.account_circle,
-                      color: Colors.white,
-                    )
+                    Icon(Icons.account_circle, color: Colors.white,)
                   ],
                 )
               ],

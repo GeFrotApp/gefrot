@@ -60,7 +60,7 @@ class _Cadastro1State extends State<Cadastro1> {
           "Veículo da jornada",
           style: TextStyle(
               color: Color.fromARGB(255, 137, 202, 204),
-              fontSize: 30,
+              fontSize: MediaQuery.of(context).size.width*0.073,
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -128,7 +128,7 @@ class _Cadastro1State extends State<Cadastro1> {
         builder: (_) {
           return SizedBox(
             height: 44,
-            width: 180,
+            width: MediaQuery.of(context).size.width*0.35,
             child: RaisedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
@@ -136,11 +136,11 @@ class _Cadastro1State extends State<Cadastro1> {
                 child: Row(children: <Widget>[
                   Text(
                     'Entrar',
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.061),
                   ),
                   Icon(
                     Icons.exit_to_app,
-                    size: 34,
+                    size: MediaQuery.of(context).size.width*0.083,
                   )
                 ]),
                 color: cadastro1Store.isFormValid
@@ -150,31 +150,32 @@ class _Cadastro1State extends State<Cadastro1> {
                 onPressed: cadastro1Store.isFormValid
                     ? () async{
 
-                        final firestore = Firestore.instance;
-                        var document = await firestore.collection("Companies").document(baseStore.cnpj).collection("Horses").document(cadastro1Store.placaCavalo).get();
-                        var cavaloExists = document.data?.isNotEmpty;
+                        final firestore = FirebaseFirestore.instance;
+                        var document = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Horses").doc(cadastro1Store.placaCavalo).get();
+                        var cavaloExists = document.data()?.isNotEmpty;
                         var carreta1Exists = true;
                         var carreta2Exists = true;
                         if(cadastro1Store.placaCarreta1.length == 8){
-                          var x = await firestore.collection("Companies").document(baseStore.cnpj).collection("Trailers").document(cadastro1Store.placaCarreta1).get();
-                            carreta1Exists = x.data?.isNotEmpty;
+                          var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta1).get();
+                            carreta1Exists = x.data()?.isNotEmpty;
 
                         }
                         if(cadastro1Store.placaCarreta2.length == 8){
-                          var x = await firestore.collection("Companies").document(baseStore.cnpj).collection("Trailers").document(cadastro1Store.placaCarreta2).get();
-                          carreta2Exists = x.data?.isNotEmpty;
+                          var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta2).get();
+                          carreta2Exists = x.data()?.isNotEmpty;
                         }
                         print(cavaloExists);
                         if(cavaloExists!=null && carreta1Exists!= null && carreta2Exists !=null){
-                          baseStore.odometro = document.data['odometer'].toDouble();
+                          baseStore.odometro = document.data()['odometer'].toDouble();
+                          baseStore.mediaProposta = document.data()['average'].toDouble();
                           print(baseStore.odometro.toString());
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) => Base()));
                           firestore
                               .collection('Drivers')
-                              .document(baseStore.cpf
+                              .doc(baseStore.cpf
                               .replaceAll('.', "")
-                              .replaceAll("-", "")).updateData({
+                              .replaceAll("-", "")).update({
                             'horse': cadastro1Store.placaCavalo,
                             'trailer1': cadastro1Store.placaCarreta1,
                             'trailer2': cadastro1Store.placaCarreta2,

@@ -77,17 +77,17 @@ class _Cadastro3State extends State<Cadastro3> {
         onChanged: (value) async {
           cadastro3Store.setCnpj(value);
           if (cadastro3Store.cnpj.length == 20) {
-            final firestore = Firestore.instance;
+            final firestore = FirebaseFirestore.instance;
             var x = await firestore
                 .collection('Companies')
-                .document(cadastro3Store.cnpj
+                .doc(cadastro3Store.cnpj
                     .replaceAll('.', "")
                     .replaceAll(" ", "")
                     .replaceAll("/", "")
                     .replaceAll("-", ""))
                 .get();
             if (x.data != null) {
-              cadastro3Store.setNomeEmpresa(x.data['name']);
+              cadastro3Store.setNomeEmpresa(x.data()['name']);
             } else {
               cadastro3Store.setNomeEmpresa("Empresa não cadastrada");
             }
@@ -136,13 +136,13 @@ class _Cadastro3State extends State<Cadastro3> {
                     Provider.of<Cadastro1Store>(context, listen: false);
                 var cadastro2Store =
                     Provider.of<Cadastro2Store>(context, listen: false);
-                final firestore = Firestore.instance;
+                final firestore = FirebaseFirestore.instance;
                 firestore
                     .collection('Drivers')
-                    .document(cadastro2Store.cpf
+                    .doc(cadastro2Store.cpf
                         .replaceAll('.', "")
                         .replaceAll("-", ""))
-                    .setData({
+                    .set({
                   'name': cadastro2Store.nome.toLowerCase(),
                   'password': cadastro2Store.pass,
                   'phone': cadastro2Store.telefone,
@@ -153,7 +153,7 @@ class _Cadastro3State extends State<Cadastro3> {
                         .replaceAll("/", "")
                         .replaceAll("-", ""),
                   'cnhDueDate': cadastro2Store.dataCNH,
-                  'companyApproval': 0
+                  'companyApproval': false
                 });
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (_) {

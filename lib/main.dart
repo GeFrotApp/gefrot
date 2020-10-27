@@ -1,9 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart';
 import 'package:todomobx/login_screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todomobx/stores/abastecimento_base_store.dart';
 import 'package:todomobx/stores/base_store.dart';
 import 'package:todomobx/stores/cadastro_1_store.dart';
 import 'package:todomobx/stores/cadastro_2_store.dart';
@@ -28,6 +32,7 @@ void main() async{
   }else{
     remember = false;
   }
+  await Firebase.initializeApp();
   runApp(MyApp(cpf, senha, remember));
 
 
@@ -54,9 +59,15 @@ class MyApp extends StatelessWidget {
         Provider<HomeStore>(create:(_)=> HomeStore(),),
         Provider<BaseStore>(create:(_)=> BaseStore(),),
         Provider<ChecklistItemStore>(create:(_)=> ChecklistItemStore(),),
-        Provider<ChecklistBaseStore>(create:(_)=>ChecklistBaseStore(),)
+        Provider<ChecklistBaseStore>(create:(_)=>ChecklistBaseStore(),),
+        Provider<AbastecimentoBaseStore>(create: (_)=>AbastecimentoBaseStore(),)
       ],
       child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: [const Locale('pt', 'BR')],
         title: 'MobX Tutorial',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

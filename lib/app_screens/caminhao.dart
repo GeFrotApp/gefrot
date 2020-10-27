@@ -153,21 +153,21 @@ class _CaminhaoState extends State<Caminhao> {
                       onPressed: cadastro1Store.isFormValid
                           ? () async{
 
-                        final firestore = Firestore.instance;
-                        var x = await firestore.collection("Companies").document(baseStore.cnpj).collection("Horses").document(cadastro1Store.placaCavalo).get();
+                        final firestore = FirebaseFirestore.instance;
+                        var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Horses").doc(cadastro1Store.placaCavalo).get();
                         print(x.data);
                         print(cadastro1Store.placaCavalo);
-                        var cavaloExists = x.data?.isNotEmpty;
+                        var cavaloExists = x.data()?.isNotEmpty;
                         var carreta1Exists = true;
                         var carreta2Exists = true;
                         if(cadastro1Store.placaCarreta1.length == 8){
-                          x = await firestore.collection("Companies").document(baseStore.cnpj).collection("Trailers").document(cadastro1Store.placaCarreta1).get();
-                          carreta1Exists = x.data?.isNotEmpty;
+                          x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta1).get();
+                          carreta1Exists = x.data()?.isNotEmpty;
 
                         }
                         if(cadastro1Store.placaCarreta2.length == 8){
-                          x = await firestore.collection("Companies").document(baseStore.cnpj).collection("Trailers").document(cadastro1Store.placaCarreta2).get();
-                          carreta2Exists = x.data?.isNotEmpty;
+                          x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta2).get();
+                          carreta2Exists = x.data()?.isNotEmpty;
                         }
                         print(cavaloExists);
                         if(cavaloExists!=null && carreta1Exists!= null && carreta2Exists !=null){
@@ -175,9 +175,9 @@ class _CaminhaoState extends State<Caminhao> {
                               MaterialPageRoute(builder: (context) => Base()));
                           firestore
                               .collection('Drivers')
-                              .document(baseStore.cpf
+                              .doc(baseStore.cpf
                               .replaceAll('.', "")
-                              .replaceAll("-", "")).updateData({
+                              .replaceAll("-", "")).update({
                             'Horse': cadastro1Store.placaCavalo,
                             'Trailer1': cadastro1Store.placaCarreta1,
                             'Trailer2': cadastro1Store.placaCarreta2,

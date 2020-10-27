@@ -46,18 +46,18 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
             ),
             child:
             StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection('empresas').document(baseStore.cnpj).collection('CheckListModel').snapshots(),
+              stream: FirebaseFirestore.instance.collection('empresas').doc(baseStore.cnpj).collection('CheckListModel').snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) return new Text('Loading...');
                 return new ListView(
-                  children: snapshot.data.documents.map((DocumentSnapshot document) {
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
                     return GestureDetector(
                       onTap: (){print("oi");
-                      checklistItemStore.setItemCode( document.documentID);
-                      print(document.documentID);
-                      checklistItemStore.itemArray = document.data['Fields'];
+                      checklistItemStore.setItemCode( document.id);
+                      print(document.id);
+                      checklistItemStore.itemArray = document.data()['Fields'];
                       checklistItemStore.selectionArray = ObservableList();
-                      checklistItemStore.selectionArray = { for (var v in document.data['Fields']) v: 0 };
+                      checklistItemStore.selectionArray = { for (var v in document.data()['Fields']) v: 0 };
                       checklistItemStore.setSelection("check1", 0);
                       checklistBaseStore.setIndex(3);
 
