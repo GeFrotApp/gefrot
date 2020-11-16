@@ -24,18 +24,21 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 40,
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
+        textAlign: TextAlign.left,
         style: TextStyle(color: color),
         controller: controller,
         obscureText: obscure,
         keyboardType: textInputType,
         onChanged: onChanged,
         enabled: enabled,
+        textCapitalization: TextCapitalization.characters,
         inputFormatters: <TextInputFormatter>[formatter!=null? formatter: new MaskTextInputFormatter(mask: '###############################################', filter: { "#": RegExp(r'[a-zA-Z0-9@. ]') })],
         decoration: InputDecoration(
           hintText: hint,
@@ -44,7 +47,7 @@ class CustomTextField extends StatelessWidget {
           prefixIcon: prefix,
           suffixIcon: suffix,
         ),
-        textAlignVertical: TextAlignVertical.center,
+        textAlignVertical: TextAlignVertical.bottom,
       ),
     );
   }

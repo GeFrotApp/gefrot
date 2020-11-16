@@ -46,19 +46,6 @@ class _WarningsState extends State<Warnings> {
                 color: Colors.white,
                 child: Row(
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      width: MediaQuery.of(context).size.height * 0.06,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10), border: Border.all(color: Color.fromARGB(255, 140, 140, 140))),
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.arrow_back_ios_outlined,
-                            size: MediaQuery.of(context).size.width*0.05,
-                            color: Color.fromARGB(255, 170, 170, 170),
-                          ),
-                          onPressed: () {}),
-                    ),
                     Text(
                       "  Avisos  ",
                       style: TextStyle(
@@ -72,7 +59,8 @@ class _WarningsState extends State<Warnings> {
                 ),
               ),
               Container(
-                height: 5,
+                height: 10,
+                decoration: BoxDecoration(color: Color.fromARGB(255,230,230,230)),
               ),
               Container(
                   height: MediaQuery.of(context).size.height * 0.55,

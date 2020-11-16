@@ -28,8 +28,8 @@ class _Cadastro2State extends State<Cadastro2> {
   Widget build(BuildContext context) {
     return CustomBackground(
         header: "Cadastro de motorista",
+        image: "img5.jpeg",
         children: [
-
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
@@ -41,7 +41,8 @@ class _Cadastro2State extends State<Cadastro2> {
                       color: Color.fromARGB(255, 140, 140, 140))),
               child: IconButton(
                   icon: Icon(
-                    Icons.arrow_back_ios,
+                    Icons.arrow_back_ios_outlined,
+                    size: MediaQuery.of(context).size.width*0.05,
                     color: Color.fromARGB(255, 170, 170, 170),
                   ),
                   onPressed: () {
@@ -53,7 +54,7 @@ class _Cadastro2State extends State<Cadastro2> {
           SizedBox(height: 20,),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("Suas informações",style: TextStyle(color: Color.fromARGB(255, 137, 202, 204), fontSize: 30, fontWeight: FontWeight.bold),),
+            child: Text("Suas informações",style: TextStyle(color: Color.fromARGB(255, 137, 202, 204), fontSize: MediaQuery.of(context).size.width*0.073, fontWeight: FontWeight.bold),),
           ),
           SizedBox(height: 40,),
 

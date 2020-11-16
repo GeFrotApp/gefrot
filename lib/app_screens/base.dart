@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -116,115 +117,242 @@ class _BaseState extends State<Base> {
                   child: Row(
                     children: [
                       Container(
-                        height: 60,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.42,
-                        child: Column(
-                          children: [
-                            Text(
-                              'Cavalo',
-                              style: TextStyle(color: Color.fromARGB(
-                                  255, 170, 170, 170), fontSize:
-                              MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width *
-                                  0.05),
-                            ),
-                            Container(
-                                height: 30,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.28,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(color: Color.fromARGB(
-                                        255, 110, 110, 110)),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                  child: Observer(
-                                    builder: (_) {
-                                      return Text(cadastro1Store.placaCavalo,
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 170, 170, 170),
-                                              fontSize:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width *
-                                                  0.05));
-                                    },
+                        width: MediaQuery.of(context).size.width*0.9,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Observer(
+                            builder: (_){
+                              return Row(
+                                children: [
+                                  Container(
+                                    height: 60,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.42,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Cavalo',
+                                          style: TextStyle(color: Color.fromARGB(
+                                              255, 170, 170, 170), fontSize:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width *
+                                              0.05),
+                                        ),
+                                        Container(
+                                            height: 30,
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width * 0.28,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(color: Color.fromARGB(
+                                                    255, 110, 110, 110)),
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: Center(
+                                              child: Observer(
+                                                builder: (_) {
+                                                  return Text(cadastro1Store.placaCavalo,
+                                                      style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 170, 170, 170),
+                                                          fontSize:
+                                                          MediaQuery
+                                                              .of(context)
+                                                              .size
+                                                              .width *
+                                                              0.05));
+                                                },
+                                              ),
+                                            )),
+                                      ],
+                                    ),
                                   ),
-                                )),
-                          ],
+                                  Text("|", style: TextStyle(fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height *
+                                      0.07,
+                                      color: Color.fromARGB(255, 170, 170, 170),
+                                      fontWeight: FontWeight.w100),),
+                                  Container(
+                                    height: 60,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.42,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Carreta',
+                                          style: TextStyle(color: Color.fromARGB(
+                                              255, 170, 170, 170), fontSize:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width *
+                                              0.05),
+                                        ),
+                                        Container(
+                                            height: 30,
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width * 0.28,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(color: Color.fromARGB(
+                                                    255, 110, 110, 110)),
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: Center(
+                                              child: Observer(
+                                                builder: (_) {
+                                                  return Text(cadastro1Store.placaCarreta1,
+                                                      style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 170, 170, 170),
+                                                          fontSize:
+                                                          MediaQuery
+                                                              .of(context)
+                                                              .size
+                                                              .width *
+                                                              0.05));
+                                                },
+                                              ),
+                                            )),
+
+                                      ],
+                                    ),
+                                  ),
+                                  Text("|", style: TextStyle(fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height *
+                                      0.07,
+                                      color: Color.fromARGB(255, 170, 170, 170),
+                                      fontWeight: FontWeight.w100),),
+                                  cadastro1Store.numCarretas>1?Container(
+                                    height: 60,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.42,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Carreta',
+                                          style: TextStyle(color: Color.fromARGB(
+                                              255, 170, 170, 170), fontSize:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width *
+                                              0.05),
+                                        ),
+                                        Container(
+                                            height: 30,
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width * 0.28,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(color: Color.fromARGB(
+                                                    255, 110, 110, 110)),
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: Center(
+                                              child: Observer(
+                                                builder: (_) {
+                                                  return Text(cadastro1Store.placaCarreta2,
+                                                      style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 170, 170, 170),
+                                                          fontSize:
+                                                          MediaQuery
+                                                              .of(context)
+                                                              .size
+                                                              .width *
+                                                              0.05));
+                                                },
+                                              ),
+                                            )),
+
+                                      ],
+                                    ),
+                                  ):Container(),
+                                  cadastro1Store.numCarretas>1?Text("|", style: TextStyle(fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height *
+                                      0.07,
+                                      color: Color.fromARGB(255, 170, 170, 170),
+                                      fontWeight: FontWeight.w100),):Container(),
+                                  cadastro1Store.numCarretas>2?Container(
+                                    height: 60,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.42,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Carreta',
+                                          style: TextStyle(color: Color.fromARGB(
+                                              255, 170, 170, 170), fontSize:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width *
+                                              0.05),
+                                        ),
+                                        Container(
+                                            height: 30,
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width * 0.28,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(color: Color.fromARGB(
+                                                    255, 110, 110, 110)),
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: Center(
+                                              child: Observer(
+                                                builder: (_) {
+                                                  return Text(cadastro1Store.placaCarreta3,
+                                                      style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 170, 170, 170),
+                                                          fontSize:
+                                                          MediaQuery
+                                                              .of(context)
+                                                              .size
+                                                              .width *
+                                                              0.05));
+                                                },
+                                              ),
+                                            )),
+
+                                      ],
+                                    ),
+                                  ):Container(),
+                                  cadastro1Store.numCarretas>2?Text("|", style: TextStyle(fontSize: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height *
+                                      0.07,
+                                      color: Color.fromARGB(255, 170, 170, 170),
+                                      fontWeight: FontWeight.w100),):Container(),
+                                ],
+                              );
+                            },
+                          )
                         ),
                       ),
-                      Text("|", style: TextStyle(fontSize: MediaQuery
-                          .of(context)
-                          .size
-                          .height *
-                          0.07,
-                          color: Color.fromARGB(255, 170, 170, 170),
-                          fontWeight: FontWeight.w100),),
-                      Container(
-                        height: 60,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.42,
-                        child: Column(
-                          children: [
-                            Text(
-                              'Carreta',
-                              style: TextStyle(color: Color.fromARGB(
-                                  255, 170, 170, 170), fontSize:
-                              MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width *
-                                  0.05),
-                            ),
-                            Container(
-                                height: 30,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.28,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(color: Color.fromARGB(
-                                        255, 110, 110, 110)),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                  child: Observer(
-                                    builder: (_) {
-                                      return Text(cadastro1Store.placaCarreta1,
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 170, 170, 170),
-                                              fontSize:
-                                              MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width *
-                                                  0.05));
-                                    },
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),
-                      Text("|", style: TextStyle(fontSize: MediaQuery
-                          .of(context)
-                          .size
-                          .height *
-                          0.07,
-                          color: Color.fromARGB(255, 170, 170, 170),
-                          fontWeight: FontWeight.w100),),
                       Container(
                         width: MediaQuery
                             .of(context)
@@ -235,6 +363,11 @@ class _BaseState extends State<Base> {
                               .of(context)
                               .size
                               .width * 0.06,),
+                          onPressed: (){
+                            setState(() {
+                              selectedIndex = 2;
+                            });
+                          },
                         ),
                       )
                     ],

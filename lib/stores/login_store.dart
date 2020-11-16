@@ -7,16 +7,8 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
-  final String loginCpf = "";
-  final String loginSenha = "";
-  final String loginRemember = "";
 
   _LoginStore(loginCpf, loginSenha, loginRemember) {
-    autorun((_) {
-      print(cpf);
-      print(pass);
-      print(passVisible);
-    });
     if(loginCpf!=null){setCPF(loginCpf);}
     if(loginSenha!=null){setPass(loginSenha);}
 

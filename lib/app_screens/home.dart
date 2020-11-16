@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart';
 import 'package:todomobx/app_modules/checklist_module/checklist_base.dart';
 import 'package:todomobx/stores/base_store.dart';
+import 'package:todomobx/stores/cadastro_1_store.dart';
 import 'package:todomobx/stores/home_store.dart';
 
 import 'media.dart';
@@ -18,12 +20,14 @@ class _HomeState extends State<Home> {
   var hora = new DateTime.now().hour;
   HomeStore homeStore;
   BaseStore baseStore;
+  Cadastro1Store cadastro1Store;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     homeStore = Provider.of<HomeStore>(context);
     baseStore = Provider.of<BaseStore>(context);
+    cadastro1Store = Provider.of<Cadastro1Store>(context);
   }
 
   @override
@@ -313,11 +317,21 @@ class _HomeState extends State<Home> {
                           width: MediaQuery.of(context).size.width * 0.4,
                           height: MediaQuery.of(context).size.width * 0.4,
                           child: RaisedButton(
-                            onPressed: () {
+                            onPressed: () async{
+                              var average = (await FirebaseFirestore.instance
+                                  .collection('Drivers')
+                                  .doc(baseStore.cpf)
+                                  .collection('Averages').doc(cadastro1Store.placaCavalo).get());
+                              var proposedAverage = 0.0;
+                              var currentAverage = 0.0;
+                              if(average.exists){
+                                proposedAverage = average.data()['proposedAverage'];
+                                currentAverage = average.data()['average'];
+                              }
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_){
-                                    return Media();
+                                    return Media(proposedAverage, currentAverage);
                                   }
                                 )
                               );

@@ -24,7 +24,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: Container(
           color: Color.fromARGB(255, 230, 230, 230),
           child: SafeArea(

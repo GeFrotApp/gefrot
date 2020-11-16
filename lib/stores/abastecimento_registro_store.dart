@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -8,6 +9,11 @@ class AbastecimentoRegistroStore = _AbastecimentoRegistroStore with _$Abastecime
 
 abstract class _AbastecimentoRegistroStore with Store{
 
+  var base;
+  var cadastro;
+  var first = false;
+  var last = true;
+  var idAbsNew;
   @observable
   var posto = "";
 
@@ -21,7 +27,25 @@ abstract class _AbastecimentoRegistroStore with Store{
   var data = DateTime.now();
 
   @action
-  void setData(value)=>data = value;
+  Future<void> setData(value)async{
+    data = value;
+    var fb =FirebaseFirestore.instance;
+    var absOld = (await fb.collection('Companies').doc(base.cnpj).collection("Supplies").where("licensePlate", isEqualTo: cadastro.placaCavalo).where("date", isLessThan: Timestamp.fromMillisecondsSinceEpoch(data.millisecondsSinceEpoch)).orderBy("date", descending: true).limit(1).get()).docs;
+    var absNew = (await fb.collection('Companies').doc(base.cnpj).collection("Supplies").where("licensePlate", isEqualTo: cadastro.placaCavalo).where("date", isGreaterThan: Timestamp.fromMillisecondsSinceEpoch(data.millisecondsSinceEpoch)).orderBy("date", descending: false).limit(1).get()).docs;
+    if(absOld.length == 0){
+      first = true;
+      odometroOld = base.odometro;
+    }else{
+      first = false;
+      odometroOld = absOld.last.data()['odometerNew'];
+    }
+    if(absNew.length == 1){
+      last = false;
+      idAbsNew = absNew.last.id;
+    }else{
+      last = true;
+    }
+  }
 
   @action
   void setPosto(value)=>posto = value;
@@ -40,6 +64,7 @@ abstract class _AbastecimentoRegistroStore with Store{
       if(response.data['status']=="OK"){
         print(response.data['nome']);
         nomePostoController.text = response.data['nome'];
+        posto = response.data['nome'];
       }
 
 
@@ -75,6 +100,9 @@ abstract class _AbastecimentoRegistroStore with Store{
 
   @action
   void setTanqueCheio(value)=>tanqueCheio=value;
+
+  @observable
+  var odometroOld = 0.0;
 
 
 

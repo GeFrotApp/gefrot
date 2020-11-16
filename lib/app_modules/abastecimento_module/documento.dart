@@ -123,6 +123,7 @@ class _DocumentoState extends State<Documento> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
 
             child: CustomTextField(
+              hint: "",
               formatter: new MaskTextInputFormatter(
                   mask: 'XX. XXX. XXX/XXXX-XX', filter: {"X": RegExp(r'[0-9]')}),
               color: Color.fromARGB(255, 137, 202, 204),
@@ -147,6 +148,7 @@ class _DocumentoState extends State<Documento> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: CustomTextField(
+              hint: "",
               controller: abastecimentoBaseStore.nomePostoController,
               color: Color.fromARGB(255, 137, 202, 204),
               onChanged: abastecimentoBaseStore.setPosto,
@@ -171,6 +173,7 @@ class _DocumentoState extends State<Documento> {
               child: Stack(
                 children: [
                   CustomTextField(
+                    hint:"",
                     color: Color.fromARGB(255, 137, 202, 204),
                     controller: data,
                     enabled: false,
@@ -215,6 +218,7 @@ class _DocumentoState extends State<Documento> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: CustomTextField(
+              hint: "",
               color: Color.fromARGB(255, 137, 202, 204),
               controller: odometro,
               onChanged: (value) {
@@ -266,6 +270,7 @@ class _DocumentoState extends State<Documento> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: CustomTextField(
+              hint: "",
               color: Color.fromARGB(255, 137, 202, 204),
               controller: valor,
               onChanged: (value) {
@@ -291,6 +296,7 @@ class _DocumentoState extends State<Documento> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: CustomTextField(
+              hint:"",
               color: Color.fromARGB(255, 137, 202, 204),
               controller: nf,
               onChanged: (value) {
@@ -434,17 +440,13 @@ class _DocumentoState extends State<Documento> {
                     .collection("Supplies")
                     .doc(abastecimentoBaseStore.documento)
                     .update({
-                  'licensePlate': cadastro1store.placaCavalo,
                   'gasStationName': abastecimentoBaseStore.posto,
                   'gasStationCnpj': abastecimentoBaseStore.cnpjPosto,
-                  'odometerOld': baseStore.odometro,
                   'odometerNew': abastecimentoBaseStore.odometroNew,
                   'amount': abastecimentoBaseStore.litros,
                   'totalPrice': abastecimentoBaseStore.valor,
                   'invoice': abastecimentoBaseStore.nf,
                   'fullTank': abastecimentoBaseStore.tanqueCheio,
-                  'date': Timestamp.fromMillisecondsSinceEpoch(abastecimentoBaseStore.data.millisecondsSinceEpoch),
-                  'driverCpf': baseStore.cpf,
                   'invoicePhoto': path!=""?abastecimentoBaseStore.invoicePhoto:path
                 });
                 firestore

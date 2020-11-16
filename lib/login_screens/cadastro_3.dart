@@ -28,7 +28,7 @@ class _Cadastro3State extends State<Cadastro3> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomBackground(header: "Cadastro do motorista", children: [
+    return CustomBackground(header: "Cadastro do motorista", image: "img1.jpeg",children: [
       Align(
         alignment: Alignment.centerLeft,
         child: Container(
@@ -39,7 +39,8 @@ class _Cadastro3State extends State<Cadastro3> {
               border: Border.all(color: Color.fromARGB(255, 140, 140, 140))),
           child: IconButton(
               icon: Icon(
-                Icons.arrow_back_ios,
+                Icons.arrow_back_ios_outlined,
+                size: MediaQuery.of(context).size.width*0.05,
                 color: Color.fromARGB(255, 170, 170, 170),
               ),
               onPressed: () {
@@ -55,7 +56,7 @@ class _Cadastro3State extends State<Cadastro3> {
         child: Text(
           "Vincule sua conta a uma transportadora",
           style: TextStyle(
-              fontSize: 25, color: Color.fromARGB(255, 137, 202, 204)),
+              fontSize: MediaQuery.of(context).size.width*0.061, color: Color.fromARGB(255, 137, 202, 204)),
         ),
       ),
       SizedBox(
@@ -66,7 +67,7 @@ class _Cadastro3State extends State<Cadastro3> {
         child: Text(
           "Transportadora (CNPJ) *",
           style:
-              TextStyle(fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
+              TextStyle(fontSize: MediaQuery.of(context).size.width*0.048, color: Color.fromARGB(255, 11, 78, 78)),
         ),
       ),
       CustomTextField(
@@ -148,7 +149,7 @@ class _Cadastro3State extends State<Cadastro3> {
                   'phone': cadastro2Store.telefone,
                   'email': cadastro2Store.email,
                   'cnpj': cadastro3Store.cnpj
-                    ..replaceAll('.', "")
+                    .replaceAll('.', "")
                         .replaceAll(" ", "")
                         .replaceAll("/", "")
                         .replaceAll("-", ""),

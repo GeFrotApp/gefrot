@@ -27,14 +27,18 @@ class _RegistroState extends State<Registro> {
   File foto;
   String path = "";
   TextEditingController data = new TextEditingController();
+  TextEditingController valorLitro = new TextEditingController();
   final f = new DateFormat('dd-MM-yyyy');
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    abastecimentoRegistroStore.base = Provider.of<BaseStore>(context);
+    abastecimentoRegistroStore.cadastro = Provider.of<Cadastro1Store>(context);
     cadastro1store = Provider.of<Cadastro1Store>(context);
     baseStore = Provider.of<BaseStore>(context);
     data.text = f.format(abastecimentoRegistroStore.data).toString();
+    abastecimentoRegistroStore.odometroOld = baseStore.odometro;
   }
 
   @override
@@ -60,7 +64,7 @@ class _RegistroState extends State<Registro> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child:  Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('  Cavalo',
@@ -87,7 +91,6 @@ class _RegistroState extends State<Registro> {
                 ],
               ),
             ),
-
           ],
         ),
         SizedBox(
@@ -105,10 +108,9 @@ class _RegistroState extends State<Registro> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-
           child: CustomTextField(
-            formatter: new MaskTextInputFormatter(
-                mask: 'XX. XXX. XXX/XXXX-XX', filter: {"X": RegExp(r'[0-9]')}),
+            hint: "",
+            formatter: new MaskTextInputFormatter(mask: 'XX. XXX. XXX/XXXX-XX', filter: {"X": RegExp(r'[0-9]')}),
             color: Color.fromARGB(255, 137, 202, 204),
             onChanged: abastecimentoRegistroStore.setCnpjPosto,
             textInputType: TextInputType.number,
@@ -131,6 +133,7 @@ class _RegistroState extends State<Registro> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: CustomTextField(
+            hint: "",
             controller: abastecimentoRegistroStore.nomePostoController,
             color: Color.fromARGB(255, 137, 202, 204),
             onChanged: abastecimentoRegistroStore.setPosto,
@@ -155,12 +158,13 @@ class _RegistroState extends State<Registro> {
             child: Stack(
               children: [
                 CustomTextField(
+                  hint: "",
                   color: Color.fromARGB(255, 137, 202, 204),
                   controller: data,
                   enabled: false,
                 ),
                 Align(
-                  alignment: AlignmentDirectional.bottomEnd,
+                  alignment: AlignmentDirectional.topEnd,
                   child: (IconButton(
                     icon: Icon(
                       Icons.calendar_today,
@@ -168,15 +172,12 @@ class _RegistroState extends State<Registro> {
                     ),
                     onPressed: () {
                       showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2018),
-                        lastDate: DateTime(2050)
-                      ).then((value){
-                          abastecimentoRegistroStore.setData(value);
-                          setState(() {
-                            data.text = f.format(value).toString();
-                          });
+                              context: context, initialDate: DateTime.now(), firstDate: DateTime(2018), lastDate: DateTime(2050))
+                          .then((value) {
+                        abastecimentoRegistroStore.setData(value);
+                        setState(() {
+                          data.text = f.format(value).toString();
+                        });
                       });
                     },
                   )),
@@ -199,6 +200,7 @@ class _RegistroState extends State<Registro> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: CustomTextField(
+            hint: "",
             color: Color.fromARGB(255, 137, 202, 204),
             onChanged: abastecimentoRegistroStore.setOdometro,
             textInputType: TextInputType.number,
@@ -221,8 +223,8 @@ class _RegistroState extends State<Registro> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: CustomTextField(
+            hint: "",
             color: Color.fromARGB(255, 137, 202, 204),
-            hint: "00.00",
             onChanged: abastecimentoRegistroStore.setLitros,
             textInputType: TextInputType.number,
             enabled: true,
@@ -244,10 +246,39 @@ class _RegistroState extends State<Registro> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: CustomTextField(
+            hint: "",
             color: Color.fromARGB(255, 137, 202, 204),
-            onChanged: abastecimentoRegistroStore.setValor,
+            onChanged: (valor){
+              abastecimentoRegistroStore.setValor(valor);
+              if(abastecimentoRegistroStore.valor!=0&&abastecimentoRegistroStore.litros!=0){
+                  valorLitro.text=(abastecimentoRegistroStore.valor/abastecimentoRegistroStore.litros).toStringAsFixed(2);
+              }
+
+            },
             textInputType: TextInputType.number,
             enabled: true,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+          child: Text(
+            "Valor por litro",
+            style: TextStyle(
+                color: Color.fromARGB(255, 117, 117, 117),
+                fontSize: MediaQuery.of(context).size.width * 0.035,
+                decoration: TextDecoration.none),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: CustomTextField(
+            hint: "",
+            color: Color.fromARGB(255, 137, 202, 204),
+controller: valorLitro,            textInputType: TextInputType.number,
+            enabled: false,
           ),
         ),
         SizedBox(
@@ -266,6 +297,7 @@ class _RegistroState extends State<Registro> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: CustomTextField(
+            hint: "",
             color: Color.fromARGB(255, 137, 202, 204),
             onChanged: abastecimentoRegistroStore.setNf,
             textInputType: TextInputType.number,
@@ -294,7 +326,7 @@ class _RegistroState extends State<Registro> {
                     abastecimentoRegistroStore.setTanqueCheio(true);
                   },
                   child: Container(
-                      margin: EdgeInsets.only(top:18, left: 18, right: 18),
+                      margin: EdgeInsets.only(top: 18, left: 18, right: 18),
                       child: Row(
                         children: [
                           Text(
@@ -324,7 +356,7 @@ class _RegistroState extends State<Registro> {
                     abastecimentoRegistroStore.setTanqueCheio(false);
                   },
                   child: Container(
-                      margin: EdgeInsets.only(top:18, left: 18, right: 18),
+                      margin: EdgeInsets.only(top: 18, left: 18, right: 18),
                       child: Row(
                         children: [
                           Text(
@@ -354,7 +386,7 @@ class _RegistroState extends State<Registro> {
                     abastecimentoRegistroStore.setTanqueCheio(false);
                   },
                   child: Container(
-                      margin: EdgeInsets.only(top:18, left: 18, right: 18),
+                      margin: EdgeInsets.only(top: 18, left: 18, right: 18),
                       child: Row(
                         children: [
                           Text(
@@ -362,26 +394,44 @@ class _RegistroState extends State<Registro> {
                             style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 25, 153, 158)),
                           ),
                           Text(
-                            (abastecimentoRegistroStore.litros != 0
-                                    ? ((abastecimentoRegistroStore.odometro - baseStore.odometro) /
-                                            abastecimentoRegistroStore.litros)
-                                        .toStringAsFixed(2)
-                                    : "0") +
+                            ((abastecimentoRegistroStore.litros != 0
+                                                ? ((abastecimentoRegistroStore.odometro -
+                                                            abastecimentoRegistroStore.odometroOld) /
+                                                        abastecimentoRegistroStore.litros)
+                                                    .toStringAsFixed(1)
+                                                : "0")
+                                            .length >
+                                        3
+                                    ? (abastecimentoRegistroStore.litros != 0
+                                            ? ((abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                                    abastecimentoRegistroStore.litros)
+                                                .toStringAsFixed(1)
+                                            : "0")
+                                        .substring(0, 3)
+                                    : (abastecimentoRegistroStore.litros != 0
+                                        ? ((abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                                abastecimentoRegistroStore.litros)
+                                            .toStringAsFixed(1)
+                                        : "0")) +
                                 "km/L",
-                            style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 25, 153, 158)),
+                            style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.036, color: Color.fromARGB(255, 25, 153, 158)),
                           ),
                         ],
                       )),
                 );
               },
             ),
-
           ],
         ),
         Padding(
-          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.8),
-          child:  IconButton(
-            icon: Icon(Icons.camera_alt, size: MediaQuery.of(context).size.width*0.15,color: Color.fromARGB(255, 164, 164, 164),),
+          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.8),
+          child: IconButton(
+            icon: Icon(
+              Icons.camera_alt,
+              size: MediaQuery.of(context).size.width * 0.15,
+              color: foto != null?Color.fromARGB(255, 137, 202, 204):Color.fromARGB(255, 164, 164, 164),
+            ),
             onPressed: () async {
               await ImagePicker().getImage(source: ImageSource.camera).then((image) {
                 setState(() {
@@ -394,61 +444,116 @@ class _RegistroState extends State<Registro> {
         SizedBox(
           height: 15,
         ),
-
         Center(
           child: RaisedButton(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),),//, side: BorderSide(color: Color.fromARGB(255, 25, 153, 158))),
-            onPressed:abastecimentoRegistroStore.isFormValid? () async {
-              final firestore = FirebaseFirestore.instance;
+              borderRadius: BorderRadius.circular(5),
+            ), //, side: BorderSide(color: Color.fromARGB(255, 25, 153, 158))),
+            onPressed: abastecimentoRegistroStore.isFormValid
+                ? () async {
+                    final firestore = FirebaseFirestore.instance;
+                    await abastecimentoRegistroStore.setData(abastecimentoRegistroStore.data);
 
-              firestore
-                  .collection('Companies')
-                  .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
-                  .collection("Horses")
-                  .doc(cadastro1store.placaCavalo)
-                  .update({'odometer': abastecimentoRegistroStore.odometro});
-              if (foto != null) {
-                StorageReference storageReference = FirebaseStorage.instance.ref().child('invoices/${Path.basename(foto.path)}');
-                StorageUploadTask uploadTask = storageReference.putFile(foto);
-                await uploadTask.onComplete;
-                await storageReference.getDownloadURL().then((fileURL) {
-                  setState(() {
-                    path = fileURL;
-                  });
-                  print(path);
-                });
-              }
-              var id = await firestore
-                  .collection('Companies')
-                  .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
-                  .collection("Supplies")
-                  .add({
-                'licensePlate': cadastro1store.placaCavalo,
-                'gasStationName': abastecimentoRegistroStore.posto,
-                'gasStationCnpj': abastecimentoRegistroStore.cnpjPosto,
-                'odometerOld': baseStore.odometro,
-                'odometerNew': abastecimentoRegistroStore.odometro,
-                'amount': abastecimentoRegistroStore.litros,
-                'totalPrice': abastecimentoRegistroStore.valor,
-                'invoice': abastecimentoRegistroStore.nf,
-                'fullTank': abastecimentoRegistroStore.tanqueCheio,
-                'date': Timestamp.fromMillisecondsSinceEpoch(abastecimentoRegistroStore.data.millisecondsSinceEpoch),
-                'driverCpf': baseStore.cpf,
-                'invoicePhoto': path
-              });
-              if ((abastecimentoRegistroStore.odometro - baseStore.odometro) / abastecimentoRegistroStore.litros <
-                      (baseStore.mediaProposta - 1.0) ||
-                  (abastecimentoRegistroStore.odometro - baseStore.odometro) / abastecimentoRegistroStore.litros >
-                      (baseStore.mediaProposta + 1.0)) {
-                firestore.collection('Drivers').doc(baseStore.cpf).collection("Warnings").add({
-                  'text': "Erro no abastecimento",
-                  'date': Timestamp.fromMillisecondsSinceEpoch(abastecimentoRegistroStore.data.millisecondsSinceEpoch),
-                  'supply': id,
-                });
-              }
-              baseStore.odometro = abastecimentoRegistroStore.odometro;
-            }:(){},
+                    if (abastecimentoRegistroStore.last) {
+                      firestore
+                          .collection('Companies')
+                          .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                          .collection("Horses")
+                          .doc(cadastro1store.placaCavalo)
+                          .update({'odometer': abastecimentoRegistroStore.odometro});
+                    }
+                    if (foto != null) {
+                      StorageReference storageReference =
+                          FirebaseStorage.instance.ref().child('invoices/${Path.basename(foto.path)}');
+                      StorageUploadTask uploadTask = storageReference.putFile(foto);
+                      await uploadTask.onComplete;
+                      await storageReference.getDownloadURL().then((fileURL) {
+                        setState(() {
+                          path = fileURL;
+                        });
+                        print(path);
+                      });
+                    }
+                    var id = await firestore
+                        .collection('Companies')
+                        .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                        .collection("Supplies")
+                        .add({
+                      'licensePlate': cadastro1store.placaCavalo,
+                      'gasStationName': abastecimentoRegistroStore.posto,
+                      'gasStationCnpj': abastecimentoRegistroStore.cnpjPosto,
+                      'odometerOld':
+                          abastecimentoRegistroStore.last ? baseStore.odometro : abastecimentoRegistroStore.odometroOld,
+                      'odometerNew': abastecimentoRegistroStore.odometro,
+                      'amount': abastecimentoRegistroStore.litros,
+                      'totalPrice': abastecimentoRegistroStore.valor,
+                      'invoice': abastecimentoRegistroStore.nf,
+                      'fullTank': abastecimentoRegistroStore.tanqueCheio,
+                      'date': Timestamp.fromMillisecondsSinceEpoch(abastecimentoRegistroStore.data.millisecondsSinceEpoch),
+                      'driverCPF': baseStore.cpf,
+                      'invoicePhoto': path,
+                      'first': abastecimentoRegistroStore.first
+                    });
+                    if ((abastecimentoRegistroStore.odometro - baseStore.odometro) / abastecimentoRegistroStore.litros <
+                            (baseStore.mediaProposta - 1.0) ||
+                        (abastecimentoRegistroStore.odometro - baseStore.odometro) / abastecimentoRegistroStore.litros >
+                            (baseStore.mediaProposta + 1.0)) {
+                      firestore.collection('Drivers').doc(baseStore.cpf).collection("Warnings").add({
+                        'text': "Erro no abastecimento",
+                        'date': Timestamp.fromMillisecondsSinceEpoch(abastecimentoRegistroStore.data.millisecondsSinceEpoch),
+                        'supply': id,
+                      });
+                    }
+                    if (abastecimentoRegistroStore.last) {
+                      baseStore.odometro = abastecimentoRegistroStore.odometro;
+                    } else {
+                      firestore
+                          .collection('Companies')
+                          .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                          .collection("Supplies")
+                          .doc(abastecimentoRegistroStore.idAbsNew)
+                          .update({'odometerOld': abastecimentoRegistroStore.odometro});
+                    }
+                    if (!abastecimentoRegistroStore.first) {
+                      if (abastecimentoRegistroStore.tanqueCheio) {
+                        var averages = await firestore
+                            .collection('Drivers')
+                            .doc(baseStore.cpf)
+                            .collection('Averages')
+                            .doc(cadastro1store.placaCavalo)
+                            .get();
+                        if (averages.exists) {
+                          var data = averages.data();
+                          firestore
+                              .collection('Drivers')
+                              .doc(baseStore.cpf)
+                              .collection("Averages")
+                              .doc(cadastro1store.placaCavalo)
+                              .update({
+                            'distance': data['distance']+abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld,
+                            'liters': abastecimentoRegistroStore.litros+data['liters'],
+                            'average': (data['distance']+abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                (abastecimentoRegistroStore.litros+data['liters'])
+                          });
+                        } else {
+                          firestore
+                              .collection('Drivers')
+                              .doc(baseStore.cpf)
+                              .collection("Averages")
+                              .doc(cadastro1store.placaCavalo)
+                              .set({
+                            'proposedAverage': baseStore.mediaProposta,
+                            'distance': abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld,
+                            'liters': abastecimentoRegistroStore.litros,
+                            'average': (abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                abastecimentoRegistroStore.litros
+                          });
+                        }
+                      }
+                    }
+                    Navigator.of(context).pop();
+                  }
+                : () {},
             child: Container(
                 width: 220,
                 height: 60,
@@ -458,10 +563,10 @@ class _RegistroState extends State<Registro> {
                     style: TextStyle(fontSize: 25, color: Colors.white),
                   ),
                 )),
-            color: abastecimentoRegistroStore.isFormValid?Color.fromARGB(255, 137, 202, 204):Colors.grey,
+            color: abastecimentoRegistroStore.isFormValid ? Color.fromARGB(255, 137, 202, 204) : Colors.grey,
           ),
         ),
-        SizedBox(height:10),
+        SizedBox(height: 10),
       ],
     );
   }

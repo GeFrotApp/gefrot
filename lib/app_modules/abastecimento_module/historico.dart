@@ -50,7 +50,7 @@ class _HistoricoState extends State<Historico> {
                     .collection('Companies')
                     .doc(baseStore.cnpj)
                     .collection('Supplies')
-                    .where("cpf", isEqualTo: baseStore.cpf)
+                    .where("driverCPF", isEqualTo: baseStore.cpf)
                     .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) return new Text('Loading...');
