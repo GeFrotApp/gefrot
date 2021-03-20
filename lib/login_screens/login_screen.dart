@@ -1,19 +1,21 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:crypto/crypto.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todomobx/app_screens/base.dart';
 import 'package:todomobx/login_screens/cadastro_1.dart';
+import 'package:todomobx/login_screens/pass_recover_1.dart';
 import 'package:todomobx/main.dart';
 import 'package:todomobx/stores/base_store.dart';
 import 'package:todomobx/stores/login_store.dart';
 import 'package:todomobx/widgets/custom_background.dart';
-import 'package:todomobx/widgets/custom_icon_button.dart';
+import 'package:todomobx/widgets/custom_pass_text_field.dart';
 import 'package:todomobx/widgets/custom_text_field.dart';
-import 'package:todomobx/main.dart';
 
 import '../main.dart';
 import 'cadastro_2.dart';
@@ -27,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Dialog dialog;
   LoginStore loginStore;
   BaseStore baseStore;
+  List<String> warnings = ["supply"];
 
   var remember = false;
   TextEditingController cpfController = new TextEditingController();
@@ -85,32 +88,54 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       Observer(
         builder: (_) {
-          return CustomTextField(
+          return CustomPassTextField(
             hint: 'Senha',
-            onChanged: loginStore.setPass,
+            onChanged: (value){
+              loginStore.setPass(value);
+            },
             controller: passController,
             enabled: true,
-            obscure: !loginStore.passVisible,
-            suffix: CustomIconButton(
-              radius: 32,
-              iconData: loginStore.passVisible ? Icons.visibility : Icons.visibility_off,
-              onTap: loginStore.turnVisible,
+            obscure: loginStore.passVisible,
+            suffix: IconButton(
+              iconSize: 32,
+              icon: Icon(loginStore.passVisible ? Icons.visibility : Icons.visibility_off),
+              onPressed: loginStore.turnVisible,
             ),
           );
         },
       ),
       Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Switch(
-            activeColor: Color.fromARGB(255, 108, 190, 193),
-            value: loginStore.remember,
-            onChanged: (value) {
-              setState(() {
-                loginStore.remember = value;
-              });
-            },
+          Row(
+            children: [
+              Switch(
+                activeColor: Color.fromARGB(255, 108, 190, 193),
+                value: loginStore.remember,
+                onChanged: (value) {
+                  setState(() {
+                    loginStore.remember = value;
+                  });
+                },
+              ),
+              Text(
+                "Lembrar senha",
+                style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.032),
+              ),
+            ],
           ),
-          Text("Lembrar minha senha")
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return PassRecover1();
+              }));
+            },
+            child: Text(
+              "Recuperar senha",
+              style: TextStyle(
+                  color: Colors.blue, decoration: TextDecoration.underline, fontSize: MediaQuery.of(context).size.width * 0.032),
+            ),
+          ),
         ],
       ),
       const SizedBox(
@@ -120,40 +145,109 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (_) {
           return Container(
             height: MediaQuery.of(context).size.height * 0.065,
+            width: MediaQuery.of(context).size.width * 0.4,
             child: RaisedButton(
-                elevation: 10,
+                elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.min,children: <Widget>[
+                child: Row(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: <Widget>[
                   Text(
                     'Entrar',
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.056),
+                    style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05, fontWeight: FontWeight.w400),
                   ),
                   Icon(Icons.exit_to_app)
                 ]),
                 color: loginStore.isFormValid ? Color.fromARGB(255, 137, 202, 204) : Colors.grey,
                 textColor: Colors.white,
                 onPressed: () async {
+                  UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
                   var document = FirebaseFirestore.instance
                       .collection('Drivers')
                       .doc(cpfController.text.replaceAll('.', '').replaceAll('-', ''));
-                  document.get().then((DocumentSnapshot doc) {
+                  document.get().then((DocumentSnapshot doc) async {
+                    if(doc.exists){
                     print(doc.data());
-                    if (doc['password'] == passController.text) {
+                    if (doc['password'] == sha256.convert(utf8.encode(passController.text)).toString()) {
                       baseStore.nome = capitalize(doc['name'].split(' ')[0] + " " + capitalize(doc['name'].split(' ')[1]));
                       baseStore.cpf = doc.id;
+                      baseStore.telefone = doc['phone'];
+                      baseStore.vencimentoCNH = doc['cnhDueDate'];
+                      baseStore.email = doc['email'];
                       baseStore.cnpj =
                           doc["cnpj"].replaceAll('.', "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", "");
+                      var documentEmpresa = FirebaseFirestore.instance.collection('Companies').doc(baseStore.cnpj);
+                      documentEmpresa.get().then((DocumentSnapshot doc) async {
+                        baseStore.nomeEmpresa = doc['name'];
+                      });
                       if (loginStore.remember) {
                         loginStore.rememberCredentials();
                       }
                       if (doc['companyApproval']) {
+                        var warningCount = await FirebaseFirestore.instance
+                            .collection('Companies')
+                            .doc(baseStore.cnpj.toString())
+                            .collection('Warnings')
+                            .where("type", whereIn: warnings)
+                            .where("checked", isEqualTo: false)
+                            .where("driverCPF", isEqualTo: baseStore.cpf)
+                            .orderBy("date", descending: true)
+                            .get();
+                        baseStore.warnings = warningCount.size;
+
                         Navigator.push(context, MaterialPageRoute(builder: (context) => Cadastro1()));
                       } else {
                         baseStore.showMyDialog(
                             context, "A empresa deve aprovar seu cadastro. Entrar em contato com o seu gestor.");
                       }
+                    }else{
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Erro'),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    Text("Credenciais inválidas"),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    }}else{
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Alerta',textScaleFactor: 1,),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: <Widget>[
+                                  Text("Motorista não cadastrado",textScaleFactor: 1,),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('OK',textScaleFactor: 1,),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                   });
                 }),
@@ -165,13 +259,17 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       Container(
         height: MediaQuery.of(context).size.height * 0.065,
+        width: MediaQuery.of(context).size.width * 0.4,
         child: RaisedButton(
-          elevation: 10,
+          elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
           child: Text('Cadastre-se',
-              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.056, color: Color.fromARGB(255, 25, 153, 158))),
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromARGB(255, 137, 202, 204))),
           color: Color.fromARGB(255, 255, 255, 255),
           disabledColor: Theme.of(context).primaryColor.withAlpha(100),
           textColor: Colors.white,
@@ -179,6 +277,9 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => Cadastro2()));
           },
         ),
+      ),
+      SizedBox(
+        height: MediaQuery.of(context).size.width * 0.05,
       )
     ]);
   }

@@ -1,5 +1,4 @@
 import 'package:mobx/mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'cadastro_1_store.g.dart';
 
@@ -51,25 +50,25 @@ abstract class _Cadastro1Store with Store {
   String placaCavalo = "";
 
   @action
-  void setPlacaCavalo(String value) => placaCavalo = value;
+  void setPlacaCavalo(String value) => placaCavalo = value.toUpperCase();
 
   @observable
   String placaCarreta1 = "";
 
   @action
-  void setPlacaCarreta1(String value) => placaCarreta1 = value;
+  void setPlacaCarreta1(String value) => placaCarreta1 = value.toUpperCase();
 
   @observable
   String placaCarreta2 = "";
 
   @action
-  void setPlacaCarreta2(String value) => placaCarreta2 = value;
+  void setPlacaCarreta2(String value) => placaCarreta2 = value.toUpperCase();
 
   @observable
   String placaCarreta3 = "";
 
   @action
-  void setPlacaCarreta3(String value) => placaCarreta3 = value;
+  void setPlacaCarreta3(String value) => placaCarreta3 = value.toUpperCase();
 
   @computed
   bool get isFormValid => placaCavalo.length == 8&&(placaCarreta1.length==0 || placaCarreta1.length==8)&&(placaCarreta2.length==0 || placaCarreta2.length==8)&&(placaCarreta3.length==0 || placaCarreta3.length==8);

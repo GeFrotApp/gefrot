@@ -3,18 +3,14 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todomobx/app_screens/base.dart';
 import 'package:todomobx/stores/base_store.dart';
 import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/stores/login_store.dart';
 import 'package:todomobx/widgets/custom_background.dart';
 import 'package:todomobx/widgets/custom_text_field.dart';
-
-import 'cadastro_2.dart';
 
 class Cadastro1 extends StatefulWidget {
   @override
@@ -56,7 +52,7 @@ class _Cadastro1State extends State<Cadastro1> {
                   icon: Icon(
                     Icons.arrow_back_ios_outlined,
                     size: MediaQuery.of(context).size.width * 0.05,
-                    color: Color.fromARGB(255, 170, 170, 170),
+                    color: Color.fromARGB(255, 120, 120, 120),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -70,6 +66,7 @@ class _Cadastro1State extends State<Cadastro1> {
             alignment: Alignment.centerLeft,
             child: Text(
               "Veículo da jornada",
+              textScaleFactor: 1,
               style: TextStyle(
                   color: Color.fromARGB(255, 137, 202, 204),
                   fontSize: MediaQuery.of(context).size.width * 0.073,
@@ -82,7 +79,7 @@ class _Cadastro1State extends State<Cadastro1> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Placa do cavalo *",
+              "Placa do veículo *",textScaleFactor: 1,
               style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
             ),
           ),
@@ -102,7 +99,7 @@ class _Cadastro1State extends State<Cadastro1> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Placa da carreta",
+              "Placa do equipamento",textScaleFactor: 1,
               style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
             ),
           ),
@@ -122,7 +119,7 @@ class _Cadastro1State extends State<Cadastro1> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Placa da carreta",
+                        "Placa do equipamento",textScaleFactor: 1,
                         style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
                       ),
                     ),
@@ -145,7 +142,7 @@ class _Cadastro1State extends State<Cadastro1> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Placa da carreta",
+                        "Placa do equipamento",textScaleFactor: 1,
                         style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
                       ),
                     ),
@@ -169,7 +166,7 @@ class _Cadastro1State extends State<Cadastro1> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Adicionar carreta",
+                  "Adicionar equipamento",textScaleFactor: 1,
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Color.fromARGB(255, 25, 153, 158),
@@ -192,7 +189,7 @@ class _Cadastro1State extends State<Cadastro1> {
                 },
               ),
               Text(
-                "Lembrar deste equipamento",
+                "Lembrar deste equipamento",textScaleFactor: 1,
                 style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),
               )
             ],
@@ -202,26 +199,30 @@ class _Cadastro1State extends State<Cadastro1> {
           ),
           Observer(
             builder: (_) {
-              return SizedBox(
-                height: 44,
-                width: MediaQuery.of(context).size.width * 0.35,
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.065,
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: RaisedButton(
-                    elevation: 7,
+                    disabledColor: Color.fromARGB(255, 210, 210, 210),
+                    elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Row(children: <Widget>[
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                       Text(
-                        'Entrar',
-                        style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.061),
+                        'Entrar',textScaleFactor: 1,
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.056,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
                       ),
                       Icon(
                         Icons.exit_to_app,
-                        size: MediaQuery.of(context).size.width * 0.083,
+                        size: MediaQuery.of(context).size.width * 0.056,
+                        color: Colors.white,
                       )
                     ]),
-                    color: cadastro1Store.isFormValid ? Color.fromARGB(255, 137, 202, 204) : Colors.grey,
-                    textColor: Colors.white,
+                    color: Color.fromARGB(255, 137, 202, 204),
                     onPressed: cadastro1Store.isFormValid
                         ? () async {
                             final firestore = FirebaseFirestore.instance;
@@ -282,8 +283,10 @@ class _Cadastro1State extends State<Cadastro1> {
                               baseStore.odometro = document.data()['odometer'].toDouble();
                               baseStore.mediaProposta = document.data()['average'].toDouble();
                               print(baseStore.odometro.toString());
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Base()));
+                              var now = Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
+                              //Navigator.of(context).push(MaterialPageRoute(builder: (context) => Base()));
                               firestore.collection('Drivers').doc(baseStore.cpf.replaceAll('.', "").replaceAll("-", "")).update({
+                                'lastHorseChange': now,
                                 'horse': cadastro1Store.placaCavalo,
                                 'trailers': [
                                   cadastro1Store.placaCarreta1,
@@ -291,10 +294,59 @@ class _Cadastro1State extends State<Cadastro1> {
                                   cadastro1Store.placaCarreta3
                                 ]
                               });
-                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
-                              print(cadastro1Store.placaCarreta2);
+                              var motoristaComCavalo = await FirebaseFirestore.instance
+                                  .collection('Drivers')
+                                  .where("horse", isEqualTo: cadastro1Store.placaCavalo)
+                                  .get();
+                              if (motoristaComCavalo.docs.length > 1){
+                                print(motoristaComCavalo.docs.first.data());
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Alerta',textScaleFactor: 1,),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text("Já existe um motorista com esse equipamento. Deseja prosseguir?",textScaleFactor: 1,),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('Sim',textScaleFactor: 1,),
+                                          onPressed: () {
+                                            motoristaComCavalo.docs.forEach((doc) {
+                                              if(doc.id!=baseStore.cpf){
+                                                doc.reference.update({
+                                                  "horse":"",
+                                                  "trailers":[]
+                                                });
+                                              }
+
+                                            });
+                                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
+                                          },
+                                        ),
+                                        FlatButton(
+                                          child: Text('Não',textScaleFactor: 1,),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }else{
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
+                                print(cadastro1Store.placaCarreta2);
+                              }
+
                             } else if (cavaloExists == null) {
-                              baseStore.showMyDialog(context, "O cavalo não está cadastrado");
+                              baseStore.showMyDialog(context, "O veículo não está cadastrado");
                             } else if (carreta1Exists == null) {
                               baseStore.showMyDialog(context, "A carreta 1 não está cadastrada");
                             } else if (carreta2Exists == null) {

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,11 +41,13 @@ abstract class _LoginStore with Store {
   void setPass(String value) => pass = value;
 
   @observable
-  var passVisible = false;
+  var passVisible = true;
 
   @action
-  void turnVisible() => passVisible = !passVisible;
+  void turnVisible() {
+    passVisible = !passVisible;
+  }
 
   @computed
-  bool get isFormValid => pass.length>7&&cpf.length==14;
+  bool get isFormValid => pass.length>3&&cpf.length==14;
 }

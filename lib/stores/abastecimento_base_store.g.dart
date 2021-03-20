@@ -47,6 +47,21 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
+  final _$placaCavaloAtom = Atom(name: '_AbastecimentoBaseStore.placaCavalo');
+
+  @override
+  String get placaCavalo {
+    _$placaCavaloAtom.reportRead();
+    return super.placaCavalo;
+  }
+
+  @override
+  set placaCavalo(String value) {
+    _$placaCavaloAtom.reportWrite(value, super.placaCavalo, () {
+      super.placaCavalo = value;
+    });
+  }
+
   final _$nomePostoControllerAtom =
       Atom(name: '_AbastecimentoBaseStore.nomePostoController');
 
@@ -213,12 +228,35 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
+  final _$combustivelAtom = Atom(name: '_AbastecimentoBaseStore.combustivel');
+
+  @override
+  String get combustivel {
+    _$combustivelAtom.reportRead();
+    return super.combustivel;
+  }
+
+  @override
+  set combustivel(String value) {
+    _$combustivelAtom.reportWrite(value, super.combustivel, () {
+      super.combustivel = value;
+    });
+  }
+
   final _$setCnpjPostoAsyncAction =
       AsyncAction('_AbastecimentoBaseStore.setCnpjPosto');
 
   @override
   Future<void> setCnpjPosto(dynamic value) {
     return _$setCnpjPostoAsyncAction.run(() => super.setCnpjPosto(value));
+  }
+
+  final _$setIndexAsyncAction = AsyncAction('_AbastecimentoBaseStore.setIndex');
+
+  @override
+  Future<void> setIndex(dynamic value, dynamic context, dynamic checkRegistro) {
+    return _$setIndexAsyncAction
+        .run(() => super.setIndex(value, context, checkRegistro));
   }
 
   final _$_AbastecimentoBaseStoreActionController =
@@ -241,6 +279,17 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
         name: '_AbastecimentoBaseStore.setPosto');
     try {
       return super.setPosto(value);
+    } finally {
+      _$_AbastecimentoBaseStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setPlacaCavalo(dynamic value) {
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
+        name: '_AbastecimentoBaseStore.setPlacaCavalo');
+    try {
+      return super.setPlacaCavalo(value);
     } finally {
       _$_AbastecimentoBaseStoreActionController.endAction(_$actionInfo);
     }
@@ -313,17 +362,6 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
   }
 
   @override
-  void setIndex(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: '_AbastecimentoBaseStore.setIndex');
-    try {
-      return super.setIndex(value);
-    } finally {
-      _$_AbastecimentoBaseStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void turnSelect() {
     final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
         name: '_AbastecimentoBaseStore.turnSelect');
@@ -335,10 +373,22 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
   }
 
   @override
+  dynamic setCombustivel(dynamic value) {
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
+        name: '_AbastecimentoBaseStore.setCombustivel');
+    try {
+      return super.setCombustivel(value);
+    } finally {
+      _$_AbastecimentoBaseStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 posto: ${posto},
 cnpjPosto: ${cnpjPosto},
+placaCavalo: ${placaCavalo},
 nomePostoController: ${nomePostoController},
 data: ${data},
 odometroNew: ${odometroNew},
@@ -350,6 +400,7 @@ tanqueCheio: ${tanqueCheio},
 invoicePhoto: ${invoicePhoto},
 select: ${select},
 index: ${index},
+combustivel: ${combustivel},
 isFormValid: ${isFormValid}
     ''';
   }

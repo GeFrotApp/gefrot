@@ -170,6 +170,22 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
     });
   }
 
+  final _$combustivelAtom =
+      Atom(name: '_AbastecimentoRegistroStore.combustivel');
+
+  @override
+  String get combustivel {
+    _$combustivelAtom.reportRead();
+    return super.combustivel;
+  }
+
+  @override
+  set combustivel(String value) {
+    _$combustivelAtom.reportWrite(value, super.combustivel, () {
+      super.combustivel = value;
+    });
+  }
+
   final _$setDataAsyncAction =
       AsyncAction('_AbastecimentoRegistroStore.setData');
 
@@ -256,6 +272,17 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
   }
 
   @override
+  dynamic setCombustivel(dynamic value) {
+    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController
+        .startAction(name: '_AbastecimentoRegistroStore.setCombustivel');
+    try {
+      return super.setCombustivel(value);
+    } finally {
+      _$_AbastecimentoRegistroStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 posto: ${posto},
@@ -268,6 +295,7 @@ valor: ${valor},
 nf: ${nf},
 tanqueCheio: ${tanqueCheio},
 odometroOld: ${odometroOld},
+combustivel: ${combustivel},
 isFormValid: ${isFormValid}
     ''';
   }

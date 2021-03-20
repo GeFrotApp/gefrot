@@ -47,8 +47,34 @@ mixin _$Cadastro3Store on _Cadastro3Store, Store {
     });
   }
 
+  final _$check1Atom = Atom(name: '_Cadastro3Store.check1');
+
+  @override
+  bool get check1 {
+    _$check1Atom.reportRead();
+    return super.check1;
+  }
+
+  @override
+  set check1(bool value) {
+    _$check1Atom.reportWrite(value, super.check1, () {
+      super.check1 = value;
+    });
+  }
+
   final _$_Cadastro3StoreActionController =
       ActionController(name: '_Cadastro3Store');
+
+  @override
+  void setCheck1(dynamic value) {
+    final _$actionInfo = _$_Cadastro3StoreActionController.startAction(
+        name: '_Cadastro3Store.setCheck1');
+    try {
+      return super.setCheck1(value);
+    } finally {
+      _$_Cadastro3StoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setNomeEmpresa(dynamic value) {
@@ -77,6 +103,7 @@ mixin _$Cadastro3Store on _Cadastro3Store, Store {
     return '''
 cnpj: ${cnpj},
 nomeEmpresa: ${nomeEmpresa},
+check1: ${check1},
 isFormValid: ${isFormValid}
     ''';
   }

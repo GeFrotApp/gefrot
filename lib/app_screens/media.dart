@@ -2,17 +2,9 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart';
-import 'package:todomobx/app_screens/warnings.dart';
-import 'package:todomobx/stores/abastecimento_base_store.dart';
 import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/home_store.dart';
 import 'package:todomobx/widgets/base_top.dart';
-
-import 'home.dart';
 
 class Media extends StatefulWidget {
   @override
@@ -66,7 +58,7 @@ class _MediaState extends State<Media> {
                     child: IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios_outlined,
-                          color: Color.fromARGB(255, 170, 170, 170),
+                          color: Color.fromARGB(255, 120, 120, 120),
                           size: MediaQuery.of(context).size.width * 0.05,
                         ),
                         onPressed: () {
@@ -74,7 +66,7 @@ class _MediaState extends State<Media> {
                         }),
                   ),
                   Text(
-                    "  Médias",
+                    "  Médias",textScaleFactor: 1,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: MediaQuery.of(context).size.height * 0.025,
@@ -112,16 +104,16 @@ class _MediaState extends State<Media> {
                       ),
                       Container(
                         child: Text(
-                          currentAverage.toStringAsFixed(3),
+                          currentAverage.toStringAsFixed(3).replaceAll(".",","),textScaleFactor: 1,
                           style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width * 0.122, color: Color.fromARGB(255, 255, 145, 145)),
+                              fontSize: MediaQuery.of(context).size.width * 0.122,  color: currentAverage<proposedAverage?Color.fromARGB(255, 255, 145, 145):Color.fromARGB(255, 137, 202, 204)),
                         ),
                         margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
                       ),
                       Container(
                         child: Text(
                           "Km/L",
-                          style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
+                          style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),textScaleFactor: 1,
                         ),
                         margin: EdgeInsets.only(bottom: 1, left: MediaQuery.of(context).size.width * 0.36),
                       )
@@ -144,14 +136,14 @@ class _MediaState extends State<Media> {
                       ),
                       Container(
                         child: Text(
-                            proposedAverage.toStringAsFixed(3),
+                            proposedAverage.toStringAsFixed(3).replaceAll(".",","),textScaleFactor: 1,
                           style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width * 0.122, color: currentAverage<proposedAverage?Color.fromARGB(255, 191, 191, 191):Colors.green),
+                              fontSize: MediaQuery.of(context).size.width * 0.122, color:Color.fromARGB(255, 191, 191, 191)),
                         ),
                         margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
                       ),
                       Container(
-                        child: Text("Km/L", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03)),
+                        child: Text("Km/L",textScaleFactor: 1, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03)),
                         margin: EdgeInsets.only(bottom: 1.5, left: MediaQuery.of(context).size.width * 0.36),
                       )
                     ],
@@ -173,7 +165,7 @@ class _MediaState extends State<Media> {
                         Container(
                           padding: EdgeInsets.only(left: 20, top: 10),
                           child: (Text(
-                            "Histórico",
+                            "Histórico",textScaleFactor: 1,
                             style:
                                 TextStyle(fontSize: 20, color: Color.fromARGB(255, 137, 202, 204), fontWeight: FontWeight.bold),
                           )),
@@ -191,7 +183,7 @@ class _MediaState extends State<Media> {
                                 stream: FirebaseFirestore.instance
                                     .collection('Drivers')
                                     .doc(baseStore.cpf)
-                                    .collection('Averages')
+                                    .collection('Averages').orderBy('lastSupply', descending: true)
                                     .snapshots(),
                                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (!snapshot.hasData) return new Text('Loading...');
@@ -218,14 +210,14 @@ class _MediaState extends State<Media> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Placa",
+                                                    "Placa",textScaleFactor: 1,
                                                     style: TextStyle(
                                                       color: Color.fromARGB(255, 84, 84, 84),
                                                       fontSize: MediaQuery.of(context).size.width * 0.04,
                                                     ),
                                                   ),
                                                   Text(
-                                                    document.id,
+                                                    document.id,textScaleFactor: 1,
                                                     style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                                   ),
                                                 ],
@@ -235,14 +227,14 @@ class _MediaState extends State<Media> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Sua média",
+                                                    "Sua média",textScaleFactor: 1,
                                                     style: TextStyle(
                                                       color: Color.fromARGB(255, 84, 84, 84),
                                                       fontSize: MediaQuery.of(context).size.width * 0.04,
                                                     ),
                                                   ),
                                                   Text(
-                                                    document['average'].toStringAsFixed(2),
+                                                    document['average'].toStringAsFixed(2).replaceAll(".",","),textScaleFactor: 1,
                                                     style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                                   ),
                                                 ],
@@ -252,14 +244,14 @@ class _MediaState extends State<Media> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Média proposta",
+                                                    "Média proposta",textScaleFactor: 1,
                                                     style: TextStyle(
                                                       color: Color.fromARGB(255, 84, 84, 84),
                                                       fontSize: MediaQuery.of(context).size.width * 0.04,
                                                     ),
                                                   ),
                                                   Text(
-                                                    document['proposedAverage'].toStringAsFixed(2),
+                                                    document['proposedAverage'].toStringAsFixed(2).replaceAll(".",","),textScaleFactor: 1,
                                                     style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                                   ),
                                                 ],

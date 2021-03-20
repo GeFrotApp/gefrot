@@ -1,15 +1,16 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:todomobx/app_screens/warnings.dart';
-import 'package:todomobx/login_screens/cadastro_1.dart';
 import 'package:todomobx/stores/base_store.dart';
 import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/stores/home_store.dart';
+import 'package:todomobx/widgets/base_top.dart';
 
 import 'caminhao.dart';
+import 'config.dart';
 import 'home.dart';
 
 class Base extends StatefulWidget {
@@ -19,12 +20,7 @@ class Base extends StatefulWidget {
 
 class _BaseState extends State<Base> {
   int selectedIndex = 0;
-  final widgetOptions = [
-    Home(),
-    Warnings(),
-    Caminhao()
-
-  ];
+  final widgetOptions = [Home(), Warnings(), Caminhao(), Config()];
   var hora = new DateTime.now().hour;
   BaseStore baseStore;
   Cadastro1Store cadastro1Store;
@@ -39,350 +35,74 @@ class _BaseState extends State<Base> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color.fromARGB(255, 230, 230, 230),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
-          fixedColor: Color.fromARGB(255, 25, 153, 158),
+          fixedColor: Color.fromARGB(255, 137, 202, 204),
           onTap: onItemTapped,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home,),
-              title: Text('Home'),
+              icon: Icon(
+                Icons.home,
+                size: 25,
+              ),
+              title: Text('Home', textScaleFactor: 1,style: TextStyle(fontSize: 20)),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.warning),
-              title: Text('Avisos'),
+              icon: Observer(
+                builder: (context){
+                  return baseStore.warnings > 0
+                      ? Badge(
+                    badgeColor: Color.fromARGB(255, 255, 165, 165),
+                    badgeContent: Text(
+                      baseStore.warnings.toString(),textScaleFactor: 1,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    child: Icon(
+                      Icons.warning_rounded,
+                      size: 25,
+                    ),
+                  )
+                      : Icon(
+                    Icons.warning_rounded,
+                    size: 25,
+                  );
+                },
+              ),
+              title: Text(
+                'Avisos',textScaleFactor: 1,
+                style: TextStyle(fontSize: 20),
+              ),
             ),
             BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.truckMoving),
-              title: Text('Caminhão'),
+              icon: FaIcon(
+                FontAwesomeIcons.truckMoving,
+                size: 25,
+              ),
+              title: Text('Caminhão',textScaleFactor: 1, style: TextStyle(fontSize: 20)),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Config'),
+              icon: Icon(
+                Icons.settings,
+                size: 25,
+              ),
+              title: Text(
+                'Config',textScaleFactor: 1,
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ],
         ),
         body: SafeArea(
-            child: Column(
-              children: [
-                Container(
-                  height: 35,
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 87, 181, 184)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(" |", style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width*0.053, color: Colors.white),),
-                          Text("GetFrot", style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.049,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),),
-                          Text("|", style: TextStyle(
-                              fontSize: 23, color: Colors.white),),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          hora > 12
-                              ? hora > 18
-                              ? Text(
-                            "Boa noite, " + baseStore.nome,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width*0.049,
-                            ),
-                          )
-                              : Text(
-                            "Boa tarde, " + baseStore.nome,
-                            style: TextStyle(
-                                color: Colors.white, fontSize: MediaQuery.of(context).size.width*0.049,),
-                          )
-                              : Text(
-                            "Bom dia, " + baseStore.nome,
-                            style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).size.width*0.049,),
-                          ),
-                          Icon(Icons.account_circle, color: Colors.white,)
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 60,
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width*0.9,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Observer(
-                            builder: (_){
-                              return Row(
-                                children: [
-                                  Container(
-                                    height: 60,
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.42,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Cavalo',
-                                          style: TextStyle(color: Color.fromARGB(
-                                              255, 170, 170, 170), fontSize:
-                                          MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width *
-                                              0.05),
-                                        ),
-                                        Container(
-                                            height: 30,
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width * 0.28,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(color: Color.fromARGB(
-                                                    255, 110, 110, 110)),
-                                                borderRadius: BorderRadius.circular(10)),
-                                            child: Center(
-                                              child: Observer(
-                                                builder: (_) {
-                                                  return Text(cadastro1Store.placaCavalo,
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255, 170, 170, 170),
-                                                          fontSize:
-                                                          MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
-                                                              0.05));
-                                                },
-                                              ),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  Text("|", style: TextStyle(fontSize: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
-                                      0.07,
-                                      color: Color.fromARGB(255, 170, 170, 170),
-                                      fontWeight: FontWeight.w100),),
-                                  Container(
-                                    height: 60,
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.42,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Carreta',
-                                          style: TextStyle(color: Color.fromARGB(
-                                              255, 170, 170, 170), fontSize:
-                                          MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width *
-                                              0.05),
-                                        ),
-                                        Container(
-                                            height: 30,
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width * 0.28,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(color: Color.fromARGB(
-                                                    255, 110, 110, 110)),
-                                                borderRadius: BorderRadius.circular(10)),
-                                            child: Center(
-                                              child: Observer(
-                                                builder: (_) {
-                                                  return Text(cadastro1Store.placaCarreta1,
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255, 170, 170, 170),
-                                                          fontSize:
-                                                          MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
-                                                              0.05));
-                                                },
-                                              ),
-                                            )),
-
-                                      ],
-                                    ),
-                                  ),
-                                  Text("|", style: TextStyle(fontSize: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
-                                      0.07,
-                                      color: Color.fromARGB(255, 170, 170, 170),
-                                      fontWeight: FontWeight.w100),),
-                                  cadastro1Store.numCarretas>1?Container(
-                                    height: 60,
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.42,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Carreta',
-                                          style: TextStyle(color: Color.fromARGB(
-                                              255, 170, 170, 170), fontSize:
-                                          MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width *
-                                              0.05),
-                                        ),
-                                        Container(
-                                            height: 30,
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width * 0.28,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(color: Color.fromARGB(
-                                                    255, 110, 110, 110)),
-                                                borderRadius: BorderRadius.circular(10)),
-                                            child: Center(
-                                              child: Observer(
-                                                builder: (_) {
-                                                  return Text(cadastro1Store.placaCarreta2,
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255, 170, 170, 170),
-                                                          fontSize:
-                                                          MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
-                                                              0.05));
-                                                },
-                                              ),
-                                            )),
-
-                                      ],
-                                    ),
-                                  ):Container(),
-                                  cadastro1Store.numCarretas>1?Text("|", style: TextStyle(fontSize: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
-                                      0.07,
-                                      color: Color.fromARGB(255, 170, 170, 170),
-                                      fontWeight: FontWeight.w100),):Container(),
-                                  cadastro1Store.numCarretas>2?Container(
-                                    height: 60,
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.42,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Carreta',
-                                          style: TextStyle(color: Color.fromARGB(
-                                              255, 170, 170, 170), fontSize:
-                                          MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width *
-                                              0.05),
-                                        ),
-                                        Container(
-                                            height: 30,
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width * 0.28,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(color: Color.fromARGB(
-                                                    255, 110, 110, 110)),
-                                                borderRadius: BorderRadius.circular(10)),
-                                            child: Center(
-                                              child: Observer(
-                                                builder: (_) {
-                                                  return Text(cadastro1Store.placaCarreta3,
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255, 170, 170, 170),
-                                                          fontSize:
-                                                          MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
-                                                              0.05));
-                                                },
-                                              ),
-                                            )),
-
-                                      ],
-                                    ),
-                                  ):Container(),
-                                  cadastro1Store.numCarretas>2?Text("|", style: TextStyle(fontSize: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
-                                      0.07,
-                                      color: Color.fromARGB(255, 170, 170, 170),
-                                      fontWeight: FontWeight.w100),):Container(),
-                                ],
-                              );
-                            },
-                          )
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.1,
-                        child: IconButton(
-                          icon: Icon(Icons.edit, size: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.06,),
-                          onPressed: (){
-                            setState(() {
-                              selectedIndex = 2;
-                            });
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 10,
-                  decoration: BoxDecoration(color: Color.fromARGB(255,230,230,230)),
-                ),
-                Container(
-                ),
-                widgetOptions.elementAt(selectedIndex),
-
-              ],
-            )));
+            child:  Column(
+                  children: [
+                    BaseTop(),
+                    widgetOptions.elementAt(selectedIndex),
+                  ],
+                )
+            ));
   }
 
   void onItemTapped(int index) {
@@ -390,7 +110,4 @@ class _BaseState extends State<Base> {
       selectedIndex = index;
     });
   }
-
-
-
 }

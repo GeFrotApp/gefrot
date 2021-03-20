@@ -1,8 +1,20 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
 import 'package:provider/provider.dart';
+import 'package:todomobx/stores/base_store.dart';
+import 'package:todomobx/stores/cadastro_1_store.dart';
 import 'package:todomobx/stores/checklist_base_store.dart';
 import 'package:todomobx/stores/checklist_item_store.dart';
+import 'package:todomobx/widgets/aviso.dart';
 
 class ChecklistItem extends StatefulWidget {
   @override
@@ -12,108 +24,628 @@ class ChecklistItem extends StatefulWidget {
 class _ChecklistItemState extends State<ChecklistItem> {
   ChecklistItemStore checklistItemStore;
   ChecklistBaseStore checklistBaseStore;
+  Cadastro1Store cadastro1Store;
+  BaseStore baseStore;
+  var loading = false;
+  TextEditingController observation = new TextEditingController();
+  var charCounter = 0;
+
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     checklistItemStore = Provider.of<ChecklistItemStore>(context);
     checklistBaseStore = Provider.of<ChecklistBaseStore>(context);
+    cadastro1Store = Provider.of<Cadastro1Store>(context);
+    baseStore = Provider.of<BaseStore>(context);
+    checklistItemStore.online = baseStore.online;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color.fromARGB(255, 230, 230, 230),
-      child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: checklistItemStore.itemArray.length,
-          itemBuilder: (context, index) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.20,
-              child: Card(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "   " + checklistItemStore.itemArray[index],
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height * 0.035,
-                        color: Color.fromARGB(255, 170, 170, 170)),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.035,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Observer(
-                        builder: (_){
-                          return GestureDetector(
-                            onTap: () {
-                              checklistItemStore.setSelection(
-                                  checklistItemStore.itemArray[index], 1);
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.27,
-                              height: MediaQuery.of(context).size.height * 0.065,
-                              decoration: BoxDecoration(
-                                  color: checklistItemStore.selectionArray[
-                                  checklistItemStore
-                                      .itemArray[index]] ==
-                                      1
-                                      ? Color.fromARGB(255, 146, 245, 105)
-                                      : Color.fromARGB(255, 204, 204, 204),
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                          );
-                        },
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          checklistItemStore.setSelection(
-                              checklistItemStore.itemArray[index], 2);
-                          print("oi");
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.27,
-                          height: MediaQuery.of(context).size.height * 0.065,
-                          decoration: BoxDecoration(
-                              color: checklistItemStore.selectionArray[
-                                          checklistItemStore
-                                              .itemArray[index]] ==
-                                      2
-                                  ? Color.fromARGB(255, 244, 98, 98)
-                                  : Color.fromARGB(255, 204, 204, 204),
-                              borderRadius: BorderRadius.circular(5)),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          checklistItemStore.setSelection(
-                              checklistItemStore.itemArray[index], 3);
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.27,
-                          height: MediaQuery.of(context).size.height * 0.065,
-                          decoration: BoxDecoration(
-                              color: checklistItemStore.selectionArray[
-                                          checklistItemStore
-                                              .itemArray[index]] ==
-                                      3
-                                  ? Color.fromARGB(255, 246, 178, 60)
-                                  : Color.fromARGB(255, 204, 204, 204),
-                              borderRadius: BorderRadius.circular(5)),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              )),
-            );
-          }),
+    return loading ? Center(child: Container(height: MediaQuery
+        .of(context)
+        .size
+        .width * 0.2,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width * 0.2,
+      child: CircularProgressIndicator(strokeWidth: 10,
+          valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+          backgroundColor: Color.fromARGB(255, 137, 202, 204)),)) : Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: Container(
+              color: Color.fromARGB(255, 230, 230, 230),
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: checklistItemStore.itemArray.length,
+                  itemBuilder: (context, index) {
+                    var buttonSize;
+                    var buttonQty = checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                        index)]['activeButtons'].length;
+                    switch (buttonQty) {
+                      case 2:
+                        {
+                          buttonSize = 0.48;
+                        }
+                        break;
+
+                      case 3:
+                        {
+                          buttonSize = 0.29;
+                        }
+                        break;
+
+                      case 4:
+                        {
+                          buttonSize = 0.21;
+                        }
+                        break;
+                    }
+                    return Observer(builder: (_) {
+                      return Container(
+                        child: Card(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.015),
+                                  child: Text(
+                                    checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                        index)]['description'], textScaleFactor: 1,
+                                    style: TextStyle(
+                                        fontSize:
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width * 0.05,
+                                        color: Color.fromARGB(255, 117, 117, 117)),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height * 0.025,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Observer(
+                                      builder: (_) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            //define a cor escolhida
+                                            checklistItemStore.setSelection(
+                                                checklistItemStore.itemArray.keys.elementAt(index), "green");
+                                            //seta as ações desse botão
+                                            //primeiro, o nome da seleção (ex combustível), segundo as ações desse botão
+                                            checklistItemStore.setAction(checklistItemStore.itemArray.keys.elementAt(index),
+                                                checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                                    index)]['buttons'][checklistItemStore.selectionArray[checklistItemStore
+                                                    .itemArray.keys.elementAt(index)]]['extern_actions']);
+                                            checklistItemStore.setFormValid();
+                                          },
+                                          child: Container(
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width * buttonSize,
+                                            height: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .height * 0.065,
+                                            decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey.withOpacity(0.5),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 3,
+                                                    offset: Offset(0, 3), // changes position of shadow
+                                                  ),
+                                                ],
+                                                color: checklistItemStore
+                                                    .selectionArray[checklistItemStore.itemArray.keys.elementAt(index)] ==
+                                                    "green"
+                                                    ? Color.fromARGB(255, 120, 210, 80)
+                                                    : Color.fromARGB(255, 204, 204, 204),
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: Center(
+                                                child: Text(
+                                                    checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                                        index)]
+                                                    ['buttons']['green']['text']
+                                                        .toUpperCase(), textScaleFactor: 1,
+                                                    style: TextStyle(color: Colors.white))),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        checklistItemStore.setSelection(
+                                            checklistItemStore.itemArray.keys.elementAt(index), "red");
+                                        checklistItemStore.setAction(checklistItemStore.itemArray.keys.elementAt(index),
+                                            checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                                index)]['buttons'][checklistItemStore.selectionArray[checklistItemStore.itemArray
+                                                .keys.elementAt(index)]]['extern_actions']);
+                                        checklistItemStore.setFormValid();
+                                      },
+                                      child: Container(
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width * buttonSize,
+                                        height: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height * 0.065,
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.5),
+                                                spreadRadius: 2,
+                                                blurRadius: 3,
+                                                offset: Offset(0, 3), // changes position of shadow
+                                              ),
+                                            ],
+                                            color: checklistItemStore
+                                                .selectionArray[checklistItemStore.itemArray.keys.elementAt(index)] ==
+                                                "red"
+                                                ? Color.fromARGB(255, 244, 98, 98)
+                                                : Color.fromARGB(255, 204, 204, 204),
+                                            borderRadius: BorderRadius.circular(10)),
+                                        child: Center(
+                                            child: Text(
+                                                checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(index)]
+                                                ['buttons']['red']['text']
+                                                    .toUpperCase(), textScaleFactor: 1,
+                                                style: TextStyle(color: Colors.white))),
+                                      ),
+                                    ),
+                                    buttonQty > 2 ? GestureDetector(
+                                      onTap: () {
+                                        checklistItemStore.setSelection(
+                                            checklistItemStore.itemArray.keys.elementAt(index), "orange");
+                                        checklistItemStore.setAction(checklistItemStore.itemArray.keys.elementAt(index),
+                                            checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                                index)]['buttons'][checklistItemStore.selectionArray[checklistItemStore.itemArray
+                                                .keys.elementAt(index)]]['extern_actions']);
+                                        checklistItemStore.setFormValid();
+                                      },
+                                      child: Container(
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width * buttonSize,
+                                        height: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height * 0.065,
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.5),
+                                                spreadRadius: 2,
+                                                blurRadius: 3,
+                                                offset: Offset(0, 3), // changes position of shadow
+                                              ),
+                                            ],
+                                            color: checklistItemStore
+                                                .selectionArray[checklistItemStore.itemArray.keys.elementAt(index)] ==
+                                                "orange"
+                                                ? Color.fromARGB(255, 246, 178, 60)
+                                                : Color.fromARGB(255, 204, 204, 204),
+                                            borderRadius: BorderRadius.circular(10)),
+                                        child: Center(
+                                            child: Text(
+                                                checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(index)]
+                                                ['buttons']['orange']['text']
+                                                    .toUpperCase(), textScaleFactor: 1,
+                                                style: TextStyle(color: Colors.white))),
+                                      ),
+                                    ) : Container(),
+                                    buttonQty > 3
+                                        ? GestureDetector(
+                                      onTap: () {
+                                        checklistItemStore.setSelection(
+                                            checklistItemStore.itemArray.keys.elementAt(index), "blue");
+                                        checklistItemStore.setAction(checklistItemStore.itemArray.keys.elementAt(index),
+                                            checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                                index)]['buttons'][checklistItemStore.selectionArray[checklistItemStore.itemArray
+                                                .keys.elementAt(index)]]['extern_actions']);
+                                        checklistItemStore.setFormValid();
+                                      },
+                                      child: Container(
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width * buttonSize,
+                                        height: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height * 0.065,
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.5),
+                                                spreadRadius: 2,
+                                                blurRadius: 3,
+                                                offset: Offset(0, 3), // changes position of shadow
+                                              ),
+                                            ],
+                                            color: checklistItemStore
+                                                .selectionArray[checklistItemStore.itemArray.keys.elementAt(index)] ==
+                                                "blue"
+                                                ? Color.fromARGB(255, 137, 202, 204)
+                                                : Color.fromARGB(255, 204, 204, 204),
+                                            borderRadius: BorderRadius.circular(10)),
+                                        child: Center(
+                                            child: Text(
+                                              checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(index)]
+                                              ['buttons']['blue']['text']
+                                                  .toUpperCase(), textScaleFactor: 1,
+                                              style: TextStyle(color: Colors.white),
+                                            )),
+                                      ),
+                                    )
+                                        : Container(),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(5),
+                                  height: 1,
+                                  color: Color.fromARGB(255, 220, 220, 220),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.015),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          StateSetter _setState;
+                                          charCounter = 0;
+                                          observation.text = "";
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                    title: Text(
+                                                      checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                                          index)]['description'],
+
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                    content: StatefulBuilder(
+                                                      builder: (BuildContext context, StateSetter setState) {
+                                                        _setState = setState;
+
+                                                        return Material(
+                                                          type: MaterialType.card,
+                                                          child: Container(
+                                                            height: MediaQuery
+                                                                .of(context)
+                                                                .size
+                                                                .height * 0.5,
+                                                            width: MediaQuery
+                                                                .of(context)
+                                                                .size
+                                                                .width * 0.9,
+
+
+                                                            child: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                TextField(
+                                                                  keyboardType: TextInputType.multiline,
+                                                                  maxLines: null,
+                                                                  controller: observation,
+                                                                  onChanged: (value) {
+                                                                    _setState(() {
+                                                                      charCounter = value.length;
+                                                                    });
+                                                                  },
+                                                                ),
+                                                                Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Text(charCounter.toString() + "/300"),
+                                                                    GestureDetector(
+                                                                        onTap: () {
+                                                                          checklistItemStore.setInput(
+                                                                              checklistItemStore.itemArray.keys.elementAt(
+                                                                                  index), observation.text, "note");
+                                                                          Navigator.of(context).pop();
+                                                                        },
+                                                                        child: Container(
+                                                                          height: MediaQuery
+                                                                              .of(context)
+                                                                              .size
+                                                                              .width * 0.06,
+                                                                          width: MediaQuery
+                                                                              .of(context)
+                                                                              .size
+                                                                              .width * 0.3,
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(5),
+                                                                              color: Color.fromARGB(255, 137, 202, 204)
+                                                                          ),
+                                                                          child: Center(
+                                                                            child: Text("Inserir observação", textScaleFactor: 1,
+                                                                              style: TextStyle(fontSize: MediaQuery
+                                                                                  .of(context)
+                                                                                  .size
+                                                                                  .width * 0.03, color: Colors.white),
+
+                                                                            ),
+                                                                          ),))
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ));
+                                              });
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.comment,
+                                              color: Color.fromARGB(255, 207, 207, 207),
+                                            ),
+                                            Text(
+                                              "  Inserir observação  ", textScaleFactor: 1,
+                                              //TODO melhorar esta palhaçada, reorganizar operador ternário
+                                              style: TextStyle(
+                                                  color: checklistItemStore.actionArray[checklistItemStore.itemArray.keys
+                                                      .elementAt(index)] is List &&
+                                                      checklistItemStore.actionArray[checklistItemStore.itemArray.keys.elementAt(
+                                                          index)].contains("note") ? checklistItemStore
+                                                      .inputArray[checklistItemStore.itemArray.keys.elementAt(
+                                                      index)] != null &&
+                                                      checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(
+                                                          index)]['note'] != null ? Color.fromARGB(255, 137, 202, 204) : Color
+                                                      .fromARGB(255, 244, 98, 98) : checklistItemStore
+                                                      .inputArray[checklistItemStore.itemArray.keys.elementAt(
+                                                      index)] != null &&
+                                                      checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(
+                                                          index)]['note'] != null ? Color.fromARGB(255, 137, 202, 204) : Color
+                                                      .fromARGB(255, 117, 117, 117)
+                                                  , fontSize: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width * 0.04),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      baseStore.online ? GestureDetector(
+                                        onTap: () async {
+                                          await ImagePicker()
+                                              .getImage(
+                                              source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75)
+                                              .then((image) {
+                                            checklistItemStore.setInput(checklistItemStore.itemArray.keys.elementAt(
+                                                index), File(image.path), "picture");
+                                          });
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.camera_alt,
+                                              color: Color.fromARGB(255, 207, 207, 207),
+                                            ),
+                                            Text(
+                                              " Inserir midia  ", textScaleFactor: 1,
+                                              style: TextStyle(
+                                                  color: checklistItemStore.actionArray[checklistItemStore.itemArray.keys
+                                                      .elementAt(index)] is List &&
+                                                      checklistItemStore.actionArray[checklistItemStore.itemArray.keys.elementAt(
+                                                          index)].contains("picture") ? checklistItemStore
+                                                      .inputArray[checklistItemStore.itemArray.keys.elementAt(
+                                                      index)] != null &&
+                                                      checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(
+                                                          index)]['picture'] != null ? Color.fromARGB(255, 137, 202, 204) : Color
+                                                      .fromARGB(255, 244, 98, 98) : checklistItemStore
+                                                      .inputArray[checklistItemStore.itemArray.keys.elementAt(
+                                                      index)] != null &&
+                                                      checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(
+                                                          index)]['picture'] != null ? Color.fromARGB(255, 137, 202, 204) : Color
+                                                      .fromARGB(255, 117, 117, 117),
+                                                  fontSize: MediaQuery
+                                                      .of(context)
+                                                      .size
+                                                      .width * 0.04),
+                                            ),
+                                          ],
+                                        ),
+                                      ) : Container()
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )),
+                      );
+                    });
+                  }),
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.01,
+          ),
+          ButtonTheme(
+              minWidth: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.6,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.07,
+              child: Observer(
+                builder: (_) {
+                  return RaisedButton(
+                    onPressed: checklistItemStore.isFormValid ? () async {
+                      setState(() {
+                        loading = !loading;
+                      });
+                      var form = Map();
+                      var position = (await baseStore.determinePosition());
+                      UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                      var arrayPhotoFutures = {};
+                      var arrayUrlFutures = {};
+                      for (var k in checklistItemStore.itemArray.keys) {
+                        if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                          var path;
+                          var foto = checklistItemStore.inputArray[k]["picture"];
+                          var storageReference =
+                          FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
+                          var uploadTask = storageReference.putFile(foto);
+                          arrayPhotoFutures[k] = uploadTask;
+                        }
+                      }
+                      for (var k in checklistItemStore.itemArray.keys) {
+                        if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                          var path;
+                          var foto = checklistItemStore.inputArray[k]["picture"];
+                          var storageReference =
+                          FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
+                          await arrayPhotoFutures[k];
+                          arrayUrlFutures[k] =  storageReference.getDownloadURL();
+                        }
+                      }
+                      for (var k in checklistItemStore.itemArray.keys) {
+                        if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                          var path = await arrayUrlFutures[k];
+                          checklistItemStore.inputArray[k]["picture"] = path;
+                        }
+                        form.putIfAbsent(k, () =>
+                        {
+                          "actions": checklistItemStore.inputArray[k],
+                          "selectedButton": checklistItemStore.selectionArray[k]
+                        });
+                      }
+
+
+                      final firestore = FirebaseFirestore.instance;
+                      if (checklistItemStore.documentId == null) {
+                        firestore
+                            .collection('Companies')
+                            .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                            .collection("CheckLists")
+                            .add({
+                          'driverCPF': baseStore.cpf,
+                          'driverName': baseStore.nome,
+                          'date': Timestamp.fromMillisecondsSinceEpoch(DateTime
+                              .now()
+                              .millisecondsSinceEpoch),
+                          "selection": form,
+                          "model": checklistItemStore.model,
+                          'horse': cadastro1Store.placaCavalo,
+                          'latitude': position.latitude,
+                          'longitude': position.longitude,
+                          'note': checklistItemStore.note,
+                          'trailers': [
+                            cadastro1Store.placaCarreta1,
+                            cadastro1Store.placaCarreta2,
+                            cadastro1Store.placaCarreta3
+                          ]
+                        });
+                      } else {
+                        firestore
+                            .collection('Companies')
+                            .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                            .collection("CheckLists").doc(checklistItemStore.documentId)
+                            .update({
+                          'date': Timestamp.fromMillisecondsSinceEpoch(DateTime
+                              .now()
+                              .millisecondsSinceEpoch),
+                          "selection": form,
+                        });
+                      }
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) {
+                                return Aviso(
+                                    checklistItemStore.documentId != null ? "Checklist atualizado!" : "Checklist registrado!");
+                              }
+                          )
+                      );
+                      await Future.delayed(const Duration(seconds: 2), () => "2");
+                      Navigator.of(context).pop();
+                      setState(() {
+                        loading = !loading;
+                      });
+                      checklistBaseStore.setIndex(3);
+                    } : () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                                title: Text(
+                                  "Atenção",
+                                  textAlign: TextAlign.center,
+                                ),
+                                content: Material(
+                                    type: MaterialType.card,
+                                    child: Container(
+                                      height: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height * 0.2,
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * 0.9,
+                                      child: Text("Inserir as informações solicitadas (texto em vermelho)", textScaleFactor: 1,
+                                        style: TextStyle(fontSize: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width * 0.05),),
+
+                                    ))
+                            );
+                          });
+                    },
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                    color: checklistItemStore.isFormValid ? Color.fromARGB(255, 50, 153, 158) : Color.fromARGB(
+                        255, 210, 210, 210),
+                    child: Text(checklistItemStore.documentId == null ? "Finalizar Check-list" : "Atualizar Check-list",
+                        textScaleFactor: 1,
+                        style: TextStyle(color: Colors.white, fontSize: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.05)),
+                  );
+                },
+              )
+          )
+        ],
+      ),
     );
   }
 }

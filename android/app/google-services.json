@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": 1"96406912022-9gql1ml0sfrsmh53f1j6d8nn2i6ua023.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.gefrot",
+            "certificate_hash": "0117f8da8ab0028831a0b9fecf06c5ee3ac62b4a"
+          }
+        },
+        {
           "client_id": "96406912022-s343ng5el8q1vv11m2q9oaatrkrk6f2f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

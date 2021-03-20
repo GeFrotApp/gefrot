@@ -62,7 +62,7 @@ abstract class _Cadastro2Store with Store {
 
   @computed
   bool get isFormValid =>
-      pass.length > 5 &&
+      pass.length > 3 &&
       pass == confirmPass &&
       telefone.length == 15 &&
       cpf.length == 14 &&

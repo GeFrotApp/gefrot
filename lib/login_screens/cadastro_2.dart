@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:todomobx/stores/cadastro_2_store.dart';
 import 'package:todomobx/widgets/custom_background.dart';
 import 'package:todomobx/widgets/custom_icon_button.dart';
+import 'package:todomobx/widgets/custom_pass_text_field.dart';
 import 'package:todomobx/widgets/custom_text_field.dart';
 
 import 'cadastro_3.dart';
@@ -27,7 +28,7 @@ class _Cadastro2State extends State<Cadastro2> {
   @override
   Widget build(BuildContext context) {
     return CustomBackground(
-        header: "Cadastro de motorista",
+        header: "Cadastro do motorista",
         image: "img5.jpeg",
         children: [
           Align(
@@ -43,7 +44,7 @@ class _Cadastro2State extends State<Cadastro2> {
                   icon: Icon(
                     Icons.arrow_back_ios_outlined,
                     size: MediaQuery.of(context).size.width*0.05,
-                    color: Color.fromARGB(255, 170, 170, 170),
+                    color: Color.fromARGB(255, 120, 120, 120),
                   ),
                   onPressed: () {
 
@@ -54,12 +55,21 @@ class _Cadastro2State extends State<Cadastro2> {
           SizedBox(height: 20,),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("Suas informações",style: TextStyle(color: Color.fromARGB(255, 137, 202, 204), fontSize: MediaQuery.of(context).size.width*0.073, fontWeight: FontWeight.bold),),
+            child: Text("Suas informações",textScaleFactor: 1,style: TextStyle(color: Color.fromARGB(255, 137, 202, 204), fontSize: MediaQuery.of(context).size.width*0.073, fontWeight: FontWeight.bold),),
           ),
           SizedBox(height: 40,),
 
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Nome completo *",textScaleFactor: 1,
+              style: TextStyle(
+                  fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
+            ),
+          ),
           CustomTextField(
-            hint: 'Digite seu nome ',
+            formatter: new MaskTextInputFormatter(mask: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', filter: {"X": RegExp(r'[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]')}),
+            hint: 'Seu nome completo',
             textInputType: TextInputType.emailAddress,
             onChanged: cadastro2Store.setNome,
             enabled: true,
@@ -70,7 +80,7 @@ class _Cadastro2State extends State<Cadastro2> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "CPF *",
+              "CPF *",textScaleFactor: 1,
               style: TextStyle(
                   fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
             ),
@@ -89,7 +99,7 @@ class _Cadastro2State extends State<Cadastro2> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Telefone *",
+              "Telefone *",textScaleFactor: 1,
               style: TextStyle(
                   fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
             ),
@@ -98,7 +108,7 @@ class _Cadastro2State extends State<Cadastro2> {
             textInputType: TextInputType.number,
             formatter: new MaskTextInputFormatter(
                 mask: '(##) #####-####', filter: {"#": RegExp(r'[0-9]')}),
-            hint: '(##)#####.####',
+            hint: '(__)-_____-____',
             onChanged: cadastro2Store.setTelefone,
             enabled: true,
           ),
@@ -108,7 +118,7 @@ class _Cadastro2State extends State<Cadastro2> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Email",
+              "Email",textScaleFactor: 1,
               style: TextStyle(
                   fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
             ),
@@ -124,7 +134,7 @@ class _Cadastro2State extends State<Cadastro2> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Vencimento CNH",
+              "Vencimento CNH",textScaleFactor: 1,
               style: TextStyle(
                   fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
             ),
@@ -133,7 +143,7 @@ class _Cadastro2State extends State<Cadastro2> {
             textInputType: TextInputType.number,
             formatter: new MaskTextInputFormatter(
                 mask: '##/##/####', filter: {"#": RegExp(r'[0-9]')}),
-            hint: '##/##/####',
+            hint: 'dd/mm/aaaa',
             onChanged: cadastro2Store.setDataCNH,
             enabled: true,
           ),
@@ -143,13 +153,13 @@ class _Cadastro2State extends State<Cadastro2> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Escolha uma senha",
+              "Escolha uma senha *",textScaleFactor: 1,
               style: TextStyle(
                   fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
             ),
           ),
           Observer(builder: (_) {
-            return CustomTextField(
+            return CustomPassTextField(
               formatter: new MaskTextInputFormatter(
                   mask: '################',
                   filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
@@ -169,7 +179,7 @@ class _Cadastro2State extends State<Cadastro2> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Entre 8 e 16 caracteres, números e letras",
+              "Entre 4 e 16 caracteres, números e letras",textScaleFactor: 1,
               style: TextStyle(
                   fontSize: 10, color: Color.fromARGB(255, 11, 78, 78)),
             ),
@@ -180,18 +190,18 @@ class _Cadastro2State extends State<Cadastro2> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Repita a senha *",
+              "Confirme sua senha *",textScaleFactor: 1,
               style: TextStyle(
                   fontSize: 20, color: Color.fromARGB(255, 11, 78, 78)),
             ),
           ),
           Observer(
             builder: (_) {
-              return CustomTextField(
+              return CustomPassTextField(
                 formatter: new MaskTextInputFormatter(
                     mask: '################',
                     filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
-                hint: 'Senha',
+                hint: 'Confirmação da senha',
                 onChanged: cadastro2Store.setConfirmPass,
                 enabled: true,
                 obscure: !cadastro2Store.passVisible,
@@ -212,24 +222,26 @@ class _Cadastro2State extends State<Cadastro2> {
             builder: (_) {
               return SizedBox(
                 height: 44,
-                width: 180,
+                width: MediaQuery.of(context).size.width*0.42,
                 child: RaisedButton(
+                  elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Row(children: <Widget>[
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
+
                     Text(
-                      'Continuar',
-                      style: TextStyle(fontSize: 25),
+                      'Continuar',textScaleFactor: 1,
+                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                     ),
                     Icon(
-                      Icons.arrow_forward,
-                      size: 34,
+                      Icons.arrow_forward_ios,
+                      size: 25,
                     )
                   ]),
                   color: cadastro2Store.isFormValid
                       ? Color.fromARGB(255, 25, 153, 158)
-                      : Colors.grey,
+                      : Color.fromARGB(255, 210, 210, 210),
                   textColor: Colors.white,
                   onPressed: () {
                     cadastro2Store.isFormValid
