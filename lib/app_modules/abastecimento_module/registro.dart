@@ -587,7 +587,7 @@ class _RegistroState extends State<Registro> {
                                                                                                         (abastecimentoRegistroStore.litros +
                                                                                                             abastecimentoRegistroStore
                                                                                                                 .litrosIntermediarios))
-                                                                                                    .toStringAsFixed(1)
+                                                                                                    .toStringAsFixed(2)
                                                                                                 : "0")
                                                                                             .length >
                                                                                         3
@@ -598,7 +598,7 @@ class _RegistroState extends State<Registro> {
                                                                                                     (abastecimentoRegistroStore.litros +
                                                                                                         abastecimentoRegistroStore
                                                                                                             .litrosIntermediarios))
-                                                                                                .toStringAsFixed(1)
+                                                                                                .toStringAsFixed(2)
                                                                                             : "0")
                                                                                         .substring(0, 3)
                                                                                     : (abastecimentoRegistroStore.litros != 0
@@ -606,7 +606,7 @@ class _RegistroState extends State<Registro> {
                                                                                                 (abastecimentoRegistroStore.litros +
                                                                                                     abastecimentoRegistroStore
                                                                                                         .litrosIntermediarios))
-                                                                                            .toStringAsFixed(1)
+                                                                                            .toStringAsFixed(2)
                                                                                         : "0")) +
                                                                                 "km/L",
                                                                             textScaleFactor: 1,

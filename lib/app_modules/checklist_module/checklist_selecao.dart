@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -83,13 +85,16 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
 
                             checklistItemStore.setItemCode(document.id);
                             checklistItemStore.noteText = document['noteText'];
-                            print(document.id);
-                            print(document.data());
-                            checklistItemStore.itemArray = document['items'];
+                            var temp = document['items'];
+                            checklistItemStore.itemArray = {};
+                            for(var i =1; i<=temp.length;i++){
+                               checklistItemStore.itemArray["Item "+i.toString()]= temp["Item "+i.toString()];
+                            }
                             checklistItemStore.selectionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.model = document.data();
+
                             checklistItemStore.documentId = null;
                             if (checklistItemStore.noteText != "") {
                               await showDialog(

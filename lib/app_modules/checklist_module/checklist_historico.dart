@@ -75,7 +75,11 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                             checklistItemStore.setItemCode(document.id);
                             print(document.id);
                             print(document.data());
-                            checklistItemStore.itemArray = document['model']['items'];
+                            var temp = document['model']['items'];
+                            checklistItemStore.itemArray = {};
+                            for(var i =1; i<=temp.length;i++){
+                              checklistItemStore.itemArray["Item "+i.toString()]= temp["Item "+i.toString()];
+                            }
                             checklistItemStore.selection = document['selection'];
                             checklistItemStore.selectionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
