@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
@@ -15,6 +17,8 @@ import 'package:todomobx/stores/cadastro_1_store.dart';
 import 'package:todomobx/stores/checklist_base_store.dart';
 import 'package:todomobx/stores/checklist_item_store.dart';
 import 'package:todomobx/widgets/aviso.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class ChecklistItem extends StatefulWidget {
   @override
@@ -25,6 +29,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
   ChecklistItemStore checklistItemStore;
   ChecklistBaseStore checklistBaseStore;
   Cadastro1Store cadastro1Store;
+  var image;
+  final _sign = GlobalKey<SignatureState>();
   BaseStore baseStore;
   var loading = false;
   TextEditingController observation = new TextEditingController();
@@ -510,12 +516,72 @@ class _ChecklistItemState extends State<ChecklistItem> {
                 builder: (_) {
                   return RaisedButton(
                     onPressed: checklistItemStore.isFormValid ? () async {
+                      if(!checklistItemStore.isEdit){
+                        await showDialog<void>(
+                          context: context,
+                          barrierDismissible: false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return RotatedBox(
+                                quarterTurns: 1,
+                                child: AlertDialog(
+                                  title: Text('Assine, por gentileza',textScaleFactor: 1,),
+                                  content: SingleChildScrollView(
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.width*0.5,
+                                      width: MediaQuery.of(context).size.height,
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        border: Border.all(color:Colors.grey)
+                                      ),
+                                      child: Signature(
+                                        color: Colors.black,// Color of the drawing path
+                                        strokeWidth: 5.0, // with
+                                        backgroundPainter: null, // Additional custom painter to draw stuff like watermark
+                                        onSign: (){ final sign = _sign.currentState;}, // Callback called on user pan drawing
+                                        key: _sign, // key that allow you to provide a GlobalKey that'll let you retrieve the image once user has signed
+                                      ),
+                                    )
+                                    ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('Limpar',textScaleFactor: 1,),
+                                      onPressed: () {
+                                        final sign = _sign.currentState;
+                                        sign.clear();
+                                      },
+                                    ),
+                                    FlatButton(
+                                      child: Text('Pronto',textScaleFactor: 1,),
+                                      onPressed: () async{
+                                        final sign = _sign.currentState;
+                                        image = await sign.getData();
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                ));
+                          },
+                        );
+                      }
                       setState(() {
                         loading = !loading;
                       });
+
                       var form = Map();
                       var position = (await baseStore.determinePosition());
                       UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                      var signature;
+                      if(!checklistItemStore.isEdit){
+                        var data = await image.toByteData(format: ImageByteFormat.png);
+                        final file = File('${(await getTemporaryDirectory()).path}/'+Uuid().v4().toString()+'.png');
+                        await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+                        var storageReference =
+                        FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                        var uploadTask = storageReference.putFile(file);
+                        await uploadTask;
+                        signature = await storageReference.getDownloadURL();
+                      }
+
                       var arrayPhotoFutures = {};
                       var arrayUrlFutures = {};
                       for (var k in checklistItemStore.itemArray.keys) {
@@ -573,7 +639,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             cadastro1Store.placaCarreta1,
                             cadastro1Store.placaCarreta2,
                             cadastro1Store.placaCarreta3
-                          ]
+                          ],
+                          'signature':signature
                         });
                       } else {
                         firestore

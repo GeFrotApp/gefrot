@@ -47,6 +47,9 @@ dependencies:
   intl: ^0.17.0
   http_parser: ^4.0.0
   in_app_update: ^1.1.15
+  flutter_signature_pad: ^3.0.0
+  path_provider: ^2.0.1
+  uuid: ^3.0.3
 dev_dependencies:
   flutter_launcher_icons: 0.9.0
   flutter_test:

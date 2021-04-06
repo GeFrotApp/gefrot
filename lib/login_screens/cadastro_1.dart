@@ -20,6 +20,7 @@ class Cadastro1 extends StatefulWidget {
 class _Cadastro1State extends State<Cadastro1> {
   Cadastro1Store cadastro1Store;
   BaseStore baseStore;
+  var loading = false;
   TextEditingController cavalo = new TextEditingController();
   TextEditingController carreta1 = new TextEditingController();
   TextEditingController carreta2 = new TextEditingController();
@@ -40,7 +41,23 @@ class _Cadastro1State extends State<Cadastro1> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return CustomBackground(header: "Equipamentos", image: "img4.jpeg", children: [
+        return CustomBackground(header: "Equipamentos", image: "img4.jpeg", children: loading
+            ? [
+          Center(
+              child: Container(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: MediaQuery.of(context).size.width * 0.2,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 10,
+                          valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                          backgroundColor: Color.fromARGB(255, 137, 202, 204)),
+                    ),
+                  )))
+        ]
+            :[
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
@@ -225,6 +242,9 @@ class _Cadastro1State extends State<Cadastro1> {
                     color: Color.fromARGB(255, 137, 202, 204),
                     onPressed: cadastro1Store.isFormValid
                         ? () async {
+                            setState((){
+                              loading = true;
+                            });
                             final firestore = FirebaseFirestore.instance;
                             var document = await firestore
                                 .collection("Companies")
@@ -352,6 +372,9 @@ class _Cadastro1State extends State<Cadastro1> {
                             } else if (carreta2Exists == null) {
                               baseStore.showMyDialog(context, "A carreta 2 não está cadastrada");
                             }
+                            setState((){
+                              loading = false;
+                            });
                           }
                         : null),
               );

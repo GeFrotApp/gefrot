@@ -84,6 +84,7 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                             print("oi");
 
                             checklistItemStore.setItemCode(document.id);
+                            checklistItemStore.isEdit = false;
                             checklistItemStore.noteText = document['noteText'];
                             var temp = document['items'];
                             checklistItemStore.itemArray = {};

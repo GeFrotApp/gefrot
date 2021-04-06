@@ -8,6 +8,7 @@ abstract class _ChecklistItemStore with Store {
 
 
   var model;
+  var isEdit;
   var documentId;
   var selection;
   @observable
