@@ -35,6 +35,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
   var loading = false;
   TextEditingController observation = new TextEditingController();
   var charCounter = 0;
+  var signature = {};
 
 
   @override
@@ -73,6 +74,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                     var buttonSize;
                     var buttonQty = checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
                         index)]['activeButtons'].length;
+                    var buttons = checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                        index)]['activeButtons'];
                     switch (buttonQty) {
                       case 2:
                         {
@@ -129,7 +132,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                   children: [
                                     Observer(
                                       builder: (_) {
-                                        return GestureDetector(
+                                        return buttons.contains("green") ? GestureDetector(
                                           onTap: () {
                                             //define a cor escolhida
                                             checklistItemStore.setSelection(
@@ -174,10 +177,10 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                         .toUpperCase(), textScaleFactor: 1,
                                                     style: TextStyle(color: Colors.white))),
                                           ),
-                                        );
+                                        ) : Container();
                                       },
                                     ),
-                                    GestureDetector(
+                                    buttons.contains("red") ? GestureDetector(
                                       onTap: () {
                                         checklistItemStore.setSelection(
                                             checklistItemStore.itemArray.keys.elementAt(index), "red");
@@ -218,8 +221,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                     .toUpperCase(), textScaleFactor: 1,
                                                 style: TextStyle(color: Colors.white))),
                                       ),
-                                    ),
-                                    buttonQty > 2 ? GestureDetector(
+                                    ) : Container(),
+                                    buttons.contains("orange") ? GestureDetector(
                                       onTap: () {
                                         checklistItemStore.setSelection(
                                             checklistItemStore.itemArray.keys.elementAt(index), "orange");
@@ -261,7 +264,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                 style: TextStyle(color: Colors.white))),
                                       ),
                                     ) : Container(),
-                                    buttonQty > 3
+                                    buttons.contains("blue")
                                         ? GestureDetector(
                                       onTap: () {
                                         checklistItemStore.setSelection(
@@ -516,52 +519,77 @@ class _ChecklistItemState extends State<ChecklistItem> {
                 builder: (_) {
                   return RaisedButton(
                     onPressed: checklistItemStore.isFormValid ? () async {
-                      if(!checklistItemStore.isEdit){
-                        await showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return RotatedBox(
-                                quarterTurns: 1,
-                                child: AlertDialog(
-                                  title: Text('Assine, por gentileza',textScaleFactor: 1,),
-                                  content: SingleChildScrollView(
-                                    child: Container(
-                                      height: MediaQuery.of(context).size.width*0.5,
-                                      width: MediaQuery.of(context).size.height,
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(color:Colors.grey)
+                      UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                      if (!checklistItemStore.isEdit) {
+                        for (var question in checklistItemStore.noteText.values) {
+                          if (question.values.elementAt(0) == true) {
+                            await showDialog<void>(
+                              context: context,
+                              barrierDismissible: false, // user must tap button!
+                              builder: (BuildContext context) {
+                                return RotatedBox(
+                                    quarterTurns: 1,
+                                    child: AlertDialog(
+                                      title: Text(question.keys.elementAt(0), textScaleFactor: 1,),
+                                      content: SingleChildScrollView(
+                                          child: Container(
+                                            height: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width * 0.5,
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .height,
+                                            decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                border: Border.all(color: Colors.grey)
+                                            ),
+                                            child: Signature(
+                                              color: Colors.black,
+                                              // Color of the drawing path
+                                              strokeWidth: 5.0,
+                                              // with
+                                              backgroundPainter: null,
+                                              // Additional custom painter to draw stuff like watermark
+                                              onSign: () {
+                                                final sign = _sign.currentState;
+                                              },
+                                              // Callback called on user pan drawing
+                                              key: _sign, // key that allow you to provide a GlobalKey that'll let you retrieve the image once user has signed
+                                            ),
+                                          )
                                       ),
-                                      child: Signature(
-                                        color: Colors.black,// Color of the drawing path
-                                        strokeWidth: 5.0, // with
-                                        backgroundPainter: null, // Additional custom painter to draw stuff like watermark
-                                        onSign: (){ final sign = _sign.currentState;}, // Callback called on user pan drawing
-                                        key: _sign, // key that allow you to provide a GlobalKey that'll let you retrieve the image once user has signed
-                                      ),
-                                    )
-                                    ),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Text('Limpar',textScaleFactor: 1,),
-                                      onPressed: () {
-                                        final sign = _sign.currentState;
-                                        sign.clear();
-                                      },
-                                    ),
-                                    FlatButton(
-                                      child: Text('Pronto',textScaleFactor: 1,),
-                                      onPressed: () async{
-                                        final sign = _sign.currentState;
-                                        image = await sign.getData();
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                ));
-                          },
-                        );
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('Limpar', textScaleFactor: 1,),
+                                          onPressed: () {
+                                            final sign = _sign.currentState;
+                                            sign.clear();
+                                          },
+                                        ),
+                                        FlatButton(
+                                          child: Text('Pronto', textScaleFactor: 1,),
+                                          onPressed: () async {
+                                            final sign = _sign.currentState;
+                                            image = await sign.getData();
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    ));
+                              },
+                            );
+                            var data = await image.toByteData(format: ImageByteFormat.png);
+                            final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
+                            await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+                            var storageReference =
+                            FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                            var uploadTask = storageReference.putFile(file);
+                            await uploadTask;
+                            signature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
+                          }
+                        }
                       }
                       setState(() {
                         loading = !loading;
@@ -569,18 +597,6 @@ class _ChecklistItemState extends State<ChecklistItem> {
 
                       var form = Map();
                       var position = (await baseStore.determinePosition());
-                      UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
-                      var signature;
-                      if(!checklistItemStore.isEdit){
-                        var data = await image.toByteData(format: ImageByteFormat.png);
-                        final file = File('${(await getTemporaryDirectory()).path}/'+Uuid().v4().toString()+'.png');
-                        await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                        var storageReference =
-                        FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
-                        var uploadTask = storageReference.putFile(file);
-                        await uploadTask;
-                        signature = await storageReference.getDownloadURL();
-                      }
 
                       var arrayPhotoFutures = {};
                       var arrayUrlFutures = {};
@@ -601,7 +617,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           var storageReference =
                           FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
                           await arrayPhotoFutures[k];
-                          arrayUrlFutures[k] =  storageReference.getDownloadURL();
+                          arrayUrlFutures[k] = storageReference.getDownloadURL();
                         }
                       }
                       for (var k in checklistItemStore.itemArray.keys) {
@@ -616,6 +632,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         });
                       }
 
+                      for (var question in checklistItemStore.noteText.values) {
+
+                      }
 
                       final firestore = FirebaseFirestore.instance;
                       if (checklistItemStore.documentId == null) {
@@ -640,7 +659,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             cadastro1Store.placaCarreta2,
                             cadastro1Store.placaCarreta3
                           ],
-                          'signature':signature
+                          'signature': signature
                         });
                       } else {
                         firestore

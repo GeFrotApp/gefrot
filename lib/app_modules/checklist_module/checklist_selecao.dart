@@ -85,7 +85,6 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
 
                             checklistItemStore.setItemCode(document.id);
                             checklistItemStore.isEdit = false;
-                            checklistItemStore.noteText = document['noteText'];
                             var temp = document['items'];
                             checklistItemStore.itemArray = {};
                             for(var i =1; i<=temp.length;i++){
@@ -95,42 +94,43 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.model = document.data();
+                            checklistItemStore.noteText = document['asksDict'];
+                            checklistItemStore.note = {};
 
                             checklistItemStore.documentId = null;
-                            if (checklistItemStore.noteText != "") {
-                              await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text('Aviso'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text(checklistItemStore.noteText),
-                                            TextField(
-                                              onChanged: (value) {
-                                                checklistItemStore.note = value;
-                                              },
-                                            )
-                                          ],
+                            for(var question in checklistItemStore.noteText.values)  {
+                                await showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('Pergunta'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text(question.keys.elementAt(0)),
+                                              TextField(
+                                                onChanged: (value) {
+                                                  checklistItemStore.note[question.keys.elementAt(0)] = value;
+                                                },
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Text('OK'),
-                                          onPressed: () {
-                                            ok = true;
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  });
-                            }
-                            else{
-                              ok=true;
-                            }
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            child: Text('OK'),
+                                            onPressed: () {
+                                              ok = true;
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              }
 
+
+                            print(checklistItemStore.note);
                             if(ok==true){
                             checklistBaseStore.setIndex(2);
                             }

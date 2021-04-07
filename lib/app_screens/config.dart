@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todomobx/app_screens/configScreens/seguranca.dart';
+import 'package:todomobx/main.dart';
 import 'package:todomobx/stores/base_store.dart';
 
 import 'configScreens/ajuda.dart';
@@ -133,6 +134,35 @@ class _ConfigState extends State<Config> {
                   ],
                 ),
               ),
+
+            ),
+            GestureDetector(
+              onTap: (){
+                RestartWidget.restartApp(context);
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.15,
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Color.fromARGB(255, 210, 210, 210)))),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Logout",
+                      textScaleFactor: 1,
+                      style:
+                      TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
+                    ),
+                    Text("Desloga do aplicativo",
+                        textScaleFactor: 1,
+                        style: TextStyle(
+                            color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
+                  ],
+                ),
+              ),
+
             )
           ],
         ),

@@ -44,7 +44,7 @@ void main() async{
     rememberEquip = false;
   }
   await Firebase.initializeApp();
-  runApp(MyApp(cpf, senha, remember, cavalo, carreta1, carreta2, carreta3, rememberEquip));
+  runApp(RestartWidget(child:MyApp(cpf, senha, remember, cavalo, carreta1, carreta2, carreta3, rememberEquip)));
   //runApp(DevicePreview(builder: (context)=>MyApp(cpf, senha, remember, cavalo, carreta1, carreta2, carreta3, rememberEquip)));
 
 
@@ -129,5 +129,37 @@ Widget _introScreen() {
       ),
     ],
   );
+}
+
+//Classe utilizada para reiniciar o app (logout)
+class RestartWidget extends StatefulWidget {
+  RestartWidget({this.child});
+
+  final Widget child;
+
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<_RestartWidgetState>().restartApp();
+  }
+
+  @override
+  _RestartWidgetState createState() => _RestartWidgetState();
+}
+
+class _RestartWidgetState extends State<RestartWidget> {
+  Key key = UniqueKey();
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: key,
+      child: widget.child,
+    );
+  }
 }
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
