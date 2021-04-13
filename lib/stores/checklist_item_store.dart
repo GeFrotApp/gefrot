@@ -11,12 +11,16 @@ abstract class _ChecklistItemStore with Store {
   var isEdit;
   var documentId;
   var selection;
+  var signatureIsRequired;
   @observable
   var online;
   @observable
   var itemCode;
   var note;
   var noteText;
+  var equipmentPlateIsRequired;
+  var locationIsRequired;
+  var isEditable;
 
   @observable
   var buttonQty;

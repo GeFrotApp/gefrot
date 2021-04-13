@@ -94,11 +94,16 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.model = document.data();
-                            checklistItemStore.noteText = document['asksDict'];
+                            checklistItemStore.noteText = document.data().containsKey('asksDict')?document['asksDict']:{};
+                            checklistItemStore.signatureIsRequired = document.data().containsKey('signatureIsRequired')?document['signatureIsRequired']:false;
+                            checklistItemStore.equipmentPlateIsRequired = document.data().containsKey('equipmentPlateIsRequired')?document['equipmentPlateIsRequired']:false;
+                            checklistItemStore.locationIsRequired = document.data().containsKey('locationIsRequired')?document['locationIsRequired']:false;
                             checklistItemStore.note = {};
+                            checklistItemStore.isEditable = true;
 
                             checklistItemStore.documentId = null;
-                            for(var question in checklistItemStore.noteText.values)  {
+                            if(checklistItemStore.noteText.values.length>0){
+                              for(var question in checklistItemStore.noteText.values)  {
                                 await showDialog(
                                     context: context,
                                     builder: (context) {
@@ -128,6 +133,10 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                       );
                                     });
                               }
+                            }else{
+                              ok=true;
+                            }
+
 
 
                             print(checklistItemStore.note);
@@ -168,16 +177,7 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                           fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
                                         textAlign: TextAlign.start,),
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.only(left: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * 0.04),
-                                      child: Text(document['frequencyText'], textScaleFactor: 1,
-                                        style: TextStyle(
-                                            fontSize: 18, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 120, 120, 120)),
-                                        textAlign: TextAlign.start,),
-                                    ),
+
 
                                   ],
                                 ),

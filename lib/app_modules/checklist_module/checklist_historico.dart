@@ -86,6 +86,7 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.documentId = document.id;
+                            checklistItemStore.isEditable= document.data()['model'].containsKey("isEditable")?document['model']['isEditable']:false;
                             for (var key in document['selection'].keys) {
                               print(document['selection'][key]['selectedButton']);
                               checklistItemStore.setSelection(key, document['selection'][key]['selectedButton']);

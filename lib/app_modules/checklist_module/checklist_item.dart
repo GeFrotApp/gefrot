@@ -35,7 +35,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
   var loading = false;
   TextEditingController observation = new TextEditingController();
   var charCounter = 0;
-  var signature = {};
+  var noteSignature = {};
+  var requiredSignature="";
 
 
   @override
@@ -77,6 +78,11 @@ class _ChecklistItemState extends State<ChecklistItem> {
                     var buttons = checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
                         index)]['activeButtons'];
                     switch (buttonQty) {
+                      case 1:
+                        {
+                          buttonSize = 0.96;
+                        }
+                        break;
                       case 2:
                         {
                           buttonSize = 0.48;
@@ -518,8 +524,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
               child: Observer(
                 builder: (_) {
                   return RaisedButton(
-                    onPressed: checklistItemStore.isFormValid ? () async {
+                    onPressed: checklistItemStore.isFormValid&&checklistItemStore.isEditable ? () async {
                       UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                      //Se for uma edição (isEdit) impede que a assinatura seja modificada
                       if (!checklistItemStore.isEdit) {
                         for (var question in checklistItemStore.noteText.values) {
                           if (question.values.elementAt(0) == true) {
@@ -530,7 +537,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                 return RotatedBox(
                                     quarterTurns: 1,
                                     child: AlertDialog(
-                                      title: Text(question.keys.elementAt(0), textScaleFactor: 1,),
+                                      title: Text(checklistItemStore.note[question.keys.elementAt(0)], textScaleFactor: 1,),
                                       content: SingleChildScrollView(
                                           child: Container(
                                             height: MediaQuery
@@ -587,16 +594,84 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
                             var uploadTask = storageReference.putFile(file);
                             await uploadTask;
-                            signature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
+                            noteSignature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
                           }
                         }
+                        if (checklistItemStore.signatureIsRequired == true||checklistItemStore.signatureIsRequired ==null) {
+                          await showDialog<void>(
+                            context: context,
+                            barrierDismissible: false, // user must tap button!
+                            builder: (BuildContext context) {
+                              return RotatedBox(
+                                  quarterTurns: 1,
+                                  child: AlertDialog(
+                                    title: Text("Assine, por favor", textScaleFactor: 1,),
+                                    content: SingleChildScrollView(
+                                        child: Container(
+                                          height: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width * 0.5,
+                                          width: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height,
+                                          decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              border: Border.all(color: Colors.grey)
+                                          ),
+                                          child: Signature(
+                                            color: Colors.black,
+                                            // Color of the drawing path
+                                            strokeWidth: 5.0,
+                                            // with
+                                            backgroundPainter: null,
+                                            // Additional custom painter to draw stuff like watermark
+                                            onSign: () {
+                                              final sign = _sign.currentState;
+                                            },
+                                            // Callback called on user pan drawing
+                                            key: _sign, // key that allow you to provide a GlobalKey that'll let you retrieve the image once user has signed
+                                          ),
+                                        )
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text('Limpar', textScaleFactor: 1,),
+                                        onPressed: () {
+                                          final sign = _sign.currentState;
+                                          sign.clear();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text('Pronto', textScaleFactor: 1,),
+                                        onPressed: () async {
+                                          final sign = _sign.currentState;
+                                          image = await sign.getData();
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ));
+                            },
+                          );
+                          var data = await image.toByteData(format: ImageByteFormat.png);
+                          final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
+                          await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+                          var storageReference =
+                          FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                          var uploadTask = storageReference.putFile(file);
+                          await uploadTask;
+                          requiredSignature = await storageReference.getDownloadURL();
+                        }
                       }
+
                       setState(() {
                         loading = !loading;
                       });
 
                       var form = Map();
-                      var position = (await baseStore.determinePosition());
+                      var position = checklistItemStore.locationIsRequired?(await baseStore.determinePosition()):null;
 
                       var arrayPhotoFutures = {};
                       var arrayUrlFutures = {};
@@ -651,15 +726,16 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           "selection": form,
                           "model": checklistItemStore.model,
                           'horse': cadastro1Store.placaCavalo,
-                          'latitude': position.latitude,
-                          'longitude': position.longitude,
+                          'latitude': checklistItemStore.locationIsRequired?position.latitude:null,
+                          'longitude': checklistItemStore.locationIsRequired?position.longitude:null,
                           'note': checklistItemStore.note,
-                          'trailers': [
+                          'trailers': checklistItemStore.equipmentPlateIsRequired?[
                             cadastro1Store.placaCarreta1,
                             cadastro1Store.placaCarreta2,
                             cadastro1Store.placaCarreta3
-                          ],
-                          'signature': signature
+                          ]:null,
+                          'noteSignature': noteSignature,
+                          'requiredSignature': requiredSignature
                         });
                       } else {
                         firestore
@@ -707,7 +783,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                           .of(context)
                                           .size
                                           .width * 0.9,
-                                      child: Text("Inserir as informações solicitadas (texto em vermelho)", textScaleFactor: 1,
+                                      child: Text(checklistItemStore.isEditable?"Inserir as informações solicitadas (texto em vermelho)":"Não é permitida a edição", textScaleFactor: 1,
                                         style: TextStyle(fontSize: MediaQuery
                                             .of(context)
                                             .size
@@ -718,7 +794,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           });
                     },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    color: checklistItemStore.isFormValid ? Color.fromARGB(255, 50, 153, 158) : Color.fromARGB(
+                    color: checklistItemStore.isFormValid&&checklistItemStore.isEditable ? Color.fromARGB(255, 50, 153, 158) : Color.fromARGB(
                         255, 210, 210, 210),
                     child: Text(checklistItemStore.documentId == null ? "Finalizar Check-list" : "Atualizar Check-list",
                         textScaleFactor: 1,
