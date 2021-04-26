@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -36,7 +37,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
   TextEditingController observation = new TextEditingController();
   var charCounter = 0;
   var noteSignature = {};
-  var requiredSignature="";
+  var requiredSignature = "";
 
 
   @override
@@ -65,6 +66,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+
           Expanded(
             child: Container(
               color: Color.fromARGB(255, 230, 230, 230),
@@ -104,19 +106,49 @@ class _ChecklistItemState extends State<ChecklistItem> {
                     return Observer(builder: (_) {
                       return Container(
                         child: Card(
+                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.01, right: MediaQuery.of(context).size.width*0.01,
+                          bottom: checklistItemStore.arrTail.contains(
+                              checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                  index)]['number']) ?15:0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: checklistItemStore.arrHead.contains(
+                                    checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                        index)]['number']) ? Radius.circular(15) : Radius.circular(0),
+                                    bottom: checklistItemStore.arrTail.contains(
+                                        checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                            index)]['number']) ? Radius.circular(15) : Radius.circular(0))
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
                                   height: 10,
                                 ),
+                                checklistItemStore.arrHead.contains(
+                                    checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                        index)]['number']) ? Container(
+                                  margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.width*0.02),
+                                  decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(color: Color.fromARGB(255, 137, 202, 204)))
+                                  ),
+                                  width: MediaQuery.of(context).size.width*0.98,
+                                  child: Text(
+                                    " Grupo: " + checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                        index)]['group'], style: TextStyle(
+                                      fontSize:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * 0.05,
+                                      color: Color.fromARGB(255, 137, 202, 204)),),
+                                ) : Container(),
                                 Container(
                                   margin: EdgeInsets.symmetric(horizontal: MediaQuery
                                       .of(context)
                                       .size
                                       .width * 0.015),
                                   child: Text(
-                                    checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                    "  "+checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
                                         index)]['description'], textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize:
@@ -455,7 +487,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                           ],
                                         ),
                                       ),
-                                      baseStore.online ? GestureDetector(
+                                       GestureDetector(
                                         onTap: () async {
                                           await ImagePicker()
                                               .getImage(
@@ -495,10 +527,17 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             ),
                                           ],
                                         ),
-                                      ) : Container()
+                                       ),
+
                                     ],
                                   ),
-                                )
+                                ),
+                                !checklistItemStore.arrTail.contains(
+                                    checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                        index)]['number']) ?Container(
+                                  height: 1,
+                                  color: Colors.black,
+                                ):Container(),
                               ],
                             )),
                       );
@@ -524,7 +563,16 @@ class _ChecklistItemState extends State<ChecklistItem> {
               child: Observer(
                 builder: (_) {
                   return RaisedButton(
-                    onPressed: checklistItemStore.isFormValid&&checklistItemStore.isEditable ? () async {
+                    onPressed: checklistItemStore.isFormValid && checklistItemStore.isEditable ? () async {
+                      var isOnline;
+                      try {
+                        final result = await InternetAddress.lookup('example.com');
+                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                          isOnline = true;
+                        }
+                      } on SocketException catch (_) {
+                        isOnline = false;
+                      }
                       UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
                       //Se for uma edição (isEdit) impede que a assinatura seja modificada
                       if (!checklistItemStore.isEdit) {
@@ -580,6 +628,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                           onPressed: () async {
                                             final sign = _sign.currentState;
                                             image = await sign.getData();
+                                            sign.clear();
                                             Navigator.of(context).pop();
                                           },
                                         ),
@@ -590,14 +639,25 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             var data = await image.toByteData(format: ImageByteFormat.png);
                             final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
                             await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                            var storageReference =
-                            FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
-                            var uploadTask = storageReference.putFile(file);
-                            await uploadTask;
-                            noteSignature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
+                            if(isOnline){
+                              setState(() {
+                                loading = !loading;
+                              });
+                              var storageReference =
+                              FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                              var uploadTask = storageReference.putFile(file);
+                              await uploadTask;
+                              noteSignature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
+                              setState(() {
+                                loading = !loading;
+                              });
+                            }else{
+                              noteSignature[question.keys.elementAt(0)] = file.path;
+                            }
+
                           }
                         }
-                        if (checklistItemStore.signatureIsRequired == true||checklistItemStore.signatureIsRequired ==null) {
+                        if (checklistItemStore.signatureIsRequired == true || checklistItemStore.signatureIsRequired == null) {
                           await showDialog<void>(
                             context: context,
                             barrierDismissible: false, // user must tap button!
@@ -605,7 +665,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                               return RotatedBox(
                                   quarterTurns: 1,
                                   child: AlertDialog(
-                                    title: Text("Assine, por favor", textScaleFactor: 1,),
+                                    title: Text(baseStore.nome, textScaleFactor: 1,),
                                     content: SingleChildScrollView(
                                         child: Container(
                                           height: MediaQuery
@@ -658,11 +718,21 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           var data = await image.toByteData(format: ImageByteFormat.png);
                           final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
                           await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                          var storageReference =
-                          FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
-                          var uploadTask = storageReference.putFile(file);
-                          await uploadTask;
-                          requiredSignature = await storageReference.getDownloadURL();
+                          if(isOnline){
+                            setState(() {
+                              loading = !loading;
+                            });
+                            var storageReference =
+                            FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                            var uploadTask = storageReference.putFile(file);
+                            await uploadTask;
+                            requiredSignature = await storageReference.getDownloadURL();
+                          }else{
+                            requiredSignature = file.path;
+                          }
+                          setState(() {
+                            loading = !loading;
+                          });
                         }
                       }
 
@@ -671,83 +741,129 @@ class _ChecklistItemState extends State<ChecklistItem> {
                       });
 
                       var form = Map();
-                      var position = checklistItemStore.locationIsRequired?(await baseStore.determinePosition()):null;
+                      var position = checklistItemStore.locationIsRequired ? (await baseStore.determinePosition()) : null;
 
                       var arrayPhotoFutures = {};
                       var arrayUrlFutures = {};
-                      for (var k in checklistItemStore.itemArray.keys) {
-                        if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                          var path;
-                          var foto = checklistItemStore.inputArray[k]["picture"];
-                          var storageReference =
-                          FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
-                          var uploadTask = storageReference.putFile(foto);
-                          arrayPhotoFutures[k] = uploadTask;
+                      // Caso esteja online, salva os arquivos no banco de dados. Caso não, salva no JSON o caminho do arquivo.
+                      if (isOnline){
+                        for (var k in checklistItemStore.itemArray.keys) {
+                          arrayPhotoFutures[k]=[];
+                          if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                            for(var picture in checklistItemStore.inputArray[k]["picture"]){
+                              var path;
+                              var foto = picture;
+                              var storageReference =
+                              FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
+                              var uploadTask = storageReference.putFile(foto);
+                              arrayPhotoFutures[k].add(uploadTask);
+                            }
+                          }
                         }
-                      }
-                      for (var k in checklistItemStore.itemArray.keys) {
-                        if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                          var path;
-                          var foto = checklistItemStore.inputArray[k]["picture"];
-                          var storageReference =
-                          FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
-                          await arrayPhotoFutures[k];
-                          arrayUrlFutures[k] = storageReference.getDownloadURL();
+                        print(arrayPhotoFutures);
+                        for (var k in checklistItemStore.itemArray.keys) {
+                          arrayUrlFutures[k]=[];
+                          if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                            var c = 0;
+                            for(var picture in checklistItemStore.inputArray[k]["picture"]){
+                              var path;
+                              var foto = picture;
+                              var storageReference =
+                              FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
+                              await arrayPhotoFutures[k][c];
+                              arrayUrlFutures[k].add(storageReference.getDownloadURL());
+                              c++;
+                            }
+                          }
                         }
-                      }
-                      for (var k in checklistItemStore.itemArray.keys) {
-                        if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                          var path = await arrayUrlFutures[k];
-                          checklistItemStore.inputArray[k]["picture"] = path;
+                        print(arrayUrlFutures);
+                        for (var k in checklistItemStore.itemArray.keys) {
+                          if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                            checklistItemStore.inputArray[k]["picture"] = [];
+                            for(var urlFuture in arrayUrlFutures[k] ){
+                              var path = await urlFuture;
+                              checklistItemStore.inputArray[k]["picture"].add(path);
+                            }
+                          }
+                          form.putIfAbsent(k, () =>
+                          {
+                            "actions": checklistItemStore.inputArray[k],
+                            "selectedButton": checklistItemStore.selectionArray[k]
+                          });
                         }
-                        form.putIfAbsent(k, () =>
-                        {
-                          "actions": checklistItemStore.inputArray[k],
-                          "selectedButton": checklistItemStore.selectionArray[k]
-                        });
+                      }else{
+                        //Aqui os caminhos das imagens já estão salvos nas variáveis. Basta montar o array.
+                        for (var k in checklistItemStore.itemArray.keys) {
+                          if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                            var arrPicturePaths = [];
+                            for(var picture in checklistItemStore.inputArray[k]["picture"]){
+                              arrPicturePaths.add(picture.path);
+                            }
+                            checklistItemStore.inputArray[k]["picture"] = arrPicturePaths;
+                          }
+                          form.putIfAbsent(k, () =>
+                          {
+                            "actions": checklistItemStore.inputArray[k],
+                            "selectedButton": checklistItemStore.selectionArray[k]
+                          });
+                        }
                       }
 
-                      for (var question in checklistItemStore.noteText.values) {
 
-                      }
 
                       final firestore = FirebaseFirestore.instance;
-                      if (checklistItemStore.documentId == null) {
-                        firestore
-                            .collection('Companies')
-                            .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
-                            .collection("CheckLists")
-                            .add({
-                          'driverCPF': baseStore.cpf,
-                          'driverName': baseStore.nome,
-                          'date': Timestamp.fromMillisecondsSinceEpoch(DateTime
-                              .now()
-                              .millisecondsSinceEpoch),
-                          "selection": form,
-                          "model": checklistItemStore.model,
-                          'horse': cadastro1Store.placaCavalo,
-                          'latitude': checklistItemStore.locationIsRequired?position.latitude:null,
-                          'longitude': checklistItemStore.locationIsRequired?position.longitude:null,
-                          'note': checklistItemStore.note,
-                          'trailers': checklistItemStore.equipmentPlateIsRequired?[
-                            cadastro1Store.placaCarreta1,
-                            cadastro1Store.placaCarreta2,
-                            cadastro1Store.placaCarreta3
-                          ]:null,
-                          'noteSignature': noteSignature,
-                          'requiredSignature': requiredSignature
-                        });
-                      } else {
-                        firestore
-                            .collection('Companies')
-                            .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
-                            .collection("CheckLists").doc(checklistItemStore.documentId)
-                            .update({
-                          'date': Timestamp.fromMillisecondsSinceEpoch(DateTime
-                              .now()
-                              .millisecondsSinceEpoch),
-                          "selection": form,
-                        });
+                      var formToSave = {
+                        'driverCPF': baseStore.cpf,
+                        'driverName': baseStore.nome,
+                        "selection": form,
+                        "model": checklistItemStore.model,
+                        'horse': cadastro1Store.placaCavalo,
+                        'latitude': checklistItemStore.locationIsRequired ? position.latitude : null,
+                        'longitude': checklistItemStore.locationIsRequired ? position.longitude : null,
+                        'note': checklistItemStore.note,
+                        'trailers': checklistItemStore.equipmentPlateIsRequired ? [
+                          cadastro1Store.placaCarreta1,
+                          cadastro1Store.placaCarreta2,
+                          cadastro1Store.placaCarreta3
+                        ] : null,
+                        'noteSignature': noteSignature,
+                        'requiredSignature': requiredSignature
+                      };
+                      if(isOnline){
+                        formToSave['date'] = Timestamp.fromMillisecondsSinceEpoch(DateTime
+                            .now()
+                            .millisecondsSinceEpoch);
+                        if (checklistItemStore.documentId == null) {
+                          firestore
+                              .collection('Companies')
+                              .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                              .collection("CheckLists")
+                              .add(formToSave);
+                        } else {
+                          firestore
+                              .collection('Companies')
+                              .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                              .collection("CheckLists").doc(checklistItemStore.documentId)
+                              .update({
+                            'date': Timestamp.fromMillisecondsSinceEpoch(DateTime
+                                .now()
+                                .millisecondsSinceEpoch),
+                            "selection": form,
+                          });
+                        }
+                      }else{
+                        formToSave['date'] =  DateTime.now().millisecondsSinceEpoch;
+                        formToSave['model']['createDate'] = "";
+                        Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+
+                        String appDocumentsPath = appDocumentsDirectory.path+'/docs';
+
+                       String filePath = '$appDocumentsPath/checklists/'+DateTime.now().toString()+'.txt';
+                        File file = new File(filePath); // 1
+                        file.createSync(recursive: true);
+                        file.writeAsString(jsonEncode(formToSave));
+                        String fileContent = await file.readAsString(); // 2
+                        print('File Content: $fileContent');
                       }
                       Navigator.of(context).push(
                           MaterialPageRoute(
@@ -783,7 +899,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                           .of(context)
                                           .size
                                           .width * 0.9,
-                                      child: Text(checklistItemStore.isEditable?"Inserir as informações solicitadas (texto em vermelho)":"Não é permitida a edição", textScaleFactor: 1,
+                                      child: Text(checklistItemStore.isEditable
+                                          ? "Inserir as informações solicitadas (texto em vermelho)"
+                                          : "Não é permitida a edição", textScaleFactor: 1,
                                         style: TextStyle(fontSize: MediaQuery
                                             .of(context)
                                             .size
@@ -794,7 +912,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           });
                     },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    color: checklistItemStore.isFormValid&&checklistItemStore.isEditable ? Color.fromARGB(255, 50, 153, 158) : Color.fromARGB(
+                    color: checklistItemStore.isFormValid && checklistItemStore.isEditable
+                        ? Color.fromARGB(255, 50, 153, 158)
+                        : Color.fromARGB(
                         255, 210, 210, 210),
                     child: Text(checklistItemStore.documentId == null ? "Finalizar Check-list" : "Atualizar Check-list",
                         textScaleFactor: 1,

@@ -82,14 +82,57 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                           onTap: () async {
                             var ok = false;
                             print("oi");
-
+                            checklistItemStore.arrHead = [];
+                            checklistItemStore.arrTail = [];
+                            var currentHead;
+                            var currentTail;
+                            var lastItem;
                             checklistItemStore.setItemCode(document.id);
                             checklistItemStore.isEdit = false;
-                            var temp = document['items'];
-                            checklistItemStore.itemArray = {};
-                            for(var i =1; i<=temp.length;i++){
-                               checklistItemStore.itemArray["Item "+i.toString()]= temp["Item "+i.toString()];
-                            }
+
+                            var temp = Map<String, dynamic>.from(document['items']);
+                            checklistItemStore.itemArray = Map.fromEntries(temp.entries.toList()..sort((e1, e2) =>
+                                int.parse(e1.value["number"].toString()).compareTo(int.parse(e2.value["number"].toString()))));
+                            checklistItemStore.itemArray.forEach((key, value) {
+
+                              if(currentHead!=value['group']){
+                                  currentHead=value['group'];
+                                    if(lastItem!=null){
+                                      checklistItemStore.arrTail.add(lastItem);
+                                    }
+
+                                  checklistItemStore.arrHead.add(value['number']);
+                              }
+                              print(value['group']);
+                              lastItem=value['number'];
+                              //checklistItemStore.arrTail.add(checklistItemStore.itemArray.last);
+                              //print(key);
+                            });
+                            checklistItemStore.arrTail.add(lastItem);
+                            print(checklistItemStore.arrHead);
+                            print(checklistItemStore.arrTail);
+
+                            // if(document.data().containsKey('groups')){
+                            //   temp = checklistItemStore.itemArray;
+                            //   checklistItemStore.itemArray = {};
+                            //   print(document['groups']);is
+                            //   var k=1;
+                            //   for(var i=0;i<document['groups'].length;i++){
+                            //     //print(document['groups'][i]);
+                            //     for(var j =1; j<=temp.length;j++){
+                            //       if(document['groups'][i]==temp["Item "+j.toString()]['group']){
+                            //         print(document['groups'][i]);
+                            //         checklistItemStore.itemArray["Item "+k.toString()]= temp["Item "+j.toString()];
+                            //         k++;
+                            //       }
+                            //     }
+                            //   }
+                            // }
+                            // //print(checklistItemStore.itemArray);
+                            // print("------");
+                            // for(var i =0; i<temp.length;i++){
+                            //   print(checklistItemStore.itemArray.keys.elementAt(i));
+                            // }
                             checklistItemStore.selectionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();

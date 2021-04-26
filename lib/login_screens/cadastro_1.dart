@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todomobx/app_screens/base.dart';
 import 'package:todomobx/stores/base_store.dart';
 import 'package:todomobx/stores/cadastro_1_store.dart';
+import 'package:todomobx/stores/checklist_item_store.dart';
 import 'package:todomobx/widgets/custom_background.dart';
 import 'package:todomobx/widgets/custom_text_field.dart';
 
@@ -245,6 +247,19 @@ class _Cadastro1State extends State<Cadastro1> {
                             setState((){
                               loading = true;
                             });
+                            var isOnline;
+                            try {
+                              final result = await InternetAddress.lookup('example.com');
+                              if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                isOnline = true;
+                              }
+                            } on SocketException catch (_) {
+                              isOnline = false;
+                            }
+                            if(isOnline){
+                              var checklistItemStore = new ChecklistItemStore();
+                              await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
+                            }
                             final firestore = FirebaseFirestore.instance;
                             var document = await firestore
                                 .collection("Companies")
