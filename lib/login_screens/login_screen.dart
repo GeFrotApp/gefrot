@@ -187,7 +187,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               loading = true;
                             });
-                            UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
                             var document = FirebaseFirestore.instance
                                 .collection('Drivers')
                                 .doc(cpfController.text.replaceAll('.', '').replaceAll('-', ''));

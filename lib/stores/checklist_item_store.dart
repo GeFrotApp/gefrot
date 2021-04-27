@@ -119,82 +119,85 @@ abstract class _ChecklistItemStore with Store {
   Future <void> uploadOfflineChecklists(cnpj) async{
     Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
     Directory checklitsDir = new Directory(appDocumentsDirectory.path+'/docs/checklists');
-    var checklists = checklitsDir.listSync();
-    for(var checklistEntity in checklists){
-      var checklistPath = checklistEntity.path;
-      File checklist = File(checklistPath);
-      var fileContent = await checklist.readAsString();
-      var checklistContent = jsonDecode(fileContent);
-      checklistContent['date']= Timestamp.fromMillisecondsSinceEpoch(checklistContent['date']);
-      for(var v in checklistContent['noteSignature'].entries){
-        var foto = File(v.value);
+    if(checklitsDir.existsSync()){
+      var checklists = checklitsDir.listSync();
+      for(var checklistEntity in checklists){
+        var checklistPath = checklistEntity.path;
+        File checklist = File(checklistPath);
+        var fileContent = await checklist.readAsString();
+        var checklistContent = jsonDecode(fileContent);
+        checklistContent['date']= Timestamp.fromMillisecondsSinceEpoch(checklistContent['date']);
+        for(var v in checklistContent['noteSignature'].entries){
+          var foto = File(v.value);
+          var storageReference =
+          FirebaseStorage.instance.ref().child('signatures/${Path.basename(foto.path)}');
+          var uploadTask = await storageReference.putFile(foto);
+          checklistContent['noteSignature'][v.key] = await storageReference.getDownloadURL();
+        }
+        print(checklistContent['requiredSignature']);
+
+        var foto = File(checklistContent['requiredSignature']);
         var storageReference =
         FirebaseStorage.instance.ref().child('signatures/${Path.basename(foto.path)}');
         var uploadTask = await storageReference.putFile(foto);
-        checklistContent['noteSignature'][v.key] = await storageReference.getDownloadURL();
-      }
-      print(checklistContent['requiredSignature']);
-
-      var foto = File(checklistContent['requiredSignature']);
-      var storageReference =
-      FirebaseStorage.instance.ref().child('signatures/${Path.basename(foto.path)}');
-      var uploadTask = await storageReference.putFile(foto);
-      checklistContent['requiredSignature'] = await storageReference.getDownloadURL();
+        checklistContent['requiredSignature'] = await storageReference.getDownloadURL();
 
 
 
-      for(var v in checklistContent['selection'].entries){
-        print(v.value['actions']['picture']);
-        var arrayPhotoFutures = [];
-        var arrayUrlFutures = [];
-        // Caso esteja online, salva os arquivos no banco de dados. Caso não, salva no JSON o caminho do arquivo.
-            if (v.value['actions'] != null && v.value['actions']["picture"] != null) {
-              for(var picture in v.value['actions']["picture"]){
-                var path;
-                var foto = File(picture);
-                var storageReference =
-                FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
-                var uploadTask = storageReference.putFile(foto);
-                arrayPhotoFutures.add(uploadTask);
-              }
+        for(var v in checklistContent['selection'].entries){
+          print(v.value['actions']['picture']);
+          var arrayPhotoFutures = [];
+          var arrayUrlFutures = [];
+          // Caso esteja online, salva os arquivos no banco de dados. Caso não, salva no JSON o caminho do arquivo.
+          if (v.value['actions'] != null && v.value['actions']["picture"] != null) {
+            for(var picture in v.value['actions']["picture"]){
+              var path;
+              var foto = File(picture);
+              var storageReference =
+              FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
+              var uploadTask = storageReference.putFile(foto);
+              arrayPhotoFutures.add(uploadTask);
             }
+          }
 
 
-            arrayUrlFutures=[];
-            if (v.value['actions'] != null && v.value['actions']["picture"] != null) {
-              var c = 0;
-              for(var picture in v.value['actions']["picture"]){
-                var path;
-                var foto = File(picture);
+          arrayUrlFutures=[];
+          if (v.value['actions'] != null && v.value['actions']["picture"] != null) {
+            var c = 0;
+            for(var picture in v.value['actions']["picture"]){
+              var path;
+              var foto = File(picture);
 
-                var storageReference =
-                FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
-                await arrayPhotoFutures[c];
-                arrayUrlFutures.add(await storageReference.getDownloadURL());
-                c++;
-              }
+              var storageReference =
+              FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
+              await arrayPhotoFutures[c];
+              arrayUrlFutures.add(await storageReference.getDownloadURL());
+              c++;
             }
-            var pictureArray = [];
-            if (v.value['actions'] != null && v.value['actions']["picture"] != null) {
-              v.value['actions']["picture"] = [];
-              for(var urlFuture in arrayUrlFutures ){
-                var path = await urlFuture;
-                pictureArray.add(path);
-              }
+          }
+          var pictureArray = [];
+          if (v.value['actions'] != null && v.value['actions']["picture"] != null) {
+            v.value['actions']["picture"] = [];
+            for(var urlFuture in arrayUrlFutures ){
+              var path = await urlFuture;
+              pictureArray.add(path);
+            }
 
             checklistContent['selection'][v.key]['actions']['picture']=pictureArray;
           }
+        }
+
+        final firestore = FirebaseFirestore.instance;
+
+        firestore
+            .collection('Companies')
+            .doc(cnpj)
+            .collection("CheckLists")
+            .add(checklistContent);
+        await checklistEntity.delete();
       }
-
-      final firestore = FirebaseFirestore.instance;
-
-      firestore
-          .collection('Companies')
-          .doc(cnpj)
-          .collection("CheckLists")
-          .add(checklistContent);
-      await checklistEntity.delete();
     }
+
   }
 }
 

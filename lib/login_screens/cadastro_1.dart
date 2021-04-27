@@ -258,7 +258,12 @@ class _Cadastro1State extends State<Cadastro1> {
                             }
                             if(isOnline){
                               var checklistItemStore = new ChecklistItemStore();
-                              await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
+                              try {
+                                await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
+                              } on SocketException catch (_) {
+                                isOnline = false;
+                              }
+
                             }
                             final firestore = FirebaseFirestore.instance;
                             var document = await firestore
