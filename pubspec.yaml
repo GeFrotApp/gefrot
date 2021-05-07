@@ -50,6 +50,7 @@ dependencies:
   flutter_signature_pad: ^3.0.0
   path_provider: ^2.0.1
   uuid: ^3.0.3
+  firebase_ml_vision: ^0.12.0+1
 dev_dependencies:
   flutter_launcher_icons: 0.9.0
   flutter_test:
