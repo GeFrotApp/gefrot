@@ -760,7 +760,6 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             }
                           }
                         }
-                        print(arrayPhotoFutures);
                         for (var k in checklistItemStore.itemArray.keys) {
                           arrayUrlFutures[k]=[];
                           if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
@@ -776,7 +775,6 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             }
                           }
                         }
-                        print(arrayUrlFutures);
                         for (var k in checklistItemStore.itemArray.keys) {
                           if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
                             checklistItemStore.inputArray[k]["picture"] = [];
@@ -863,7 +861,6 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         file.createSync(recursive: true);
                         file.writeAsString(jsonEncode(formToSave));
                         String fileContent = await file.readAsString(); // 2
-                        print('File Content: $fileContent');
                       }
                       Navigator.of(context).push(
                           MaterialPageRoute(

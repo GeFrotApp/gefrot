@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart';
 import 'package:todomobx/app_modules/checklist_module/checklist_base.dart';
-import 'package:todomobx/app_modules/diario_de_bordo_module/jornada_base.dart';
 import 'package:todomobx/app_modules/ocr_module/ocr.dart';
 import 'package:todomobx/stores/base_store.dart';
 import 'package:todomobx/stores/cadastro_1_store.dart';
@@ -336,42 +335,42 @@ class _HomeState extends State<Home> {
                               Container(
                                   width: MediaQuery.of(context).size.width * 0.4,
                                   height: MediaQuery.of(context).size.width * 0.4,
-                                  child: RaisedButton(
-                                    onPressed: () async {
-
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                                        return Ocr();
-                                      }));
-                                    },
-                                    elevation: 10,
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
-                                    child: Stack(
-                                      children: [
-                                        Center(
-                                          child: Text(
-                                            'OCR',textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: MediaQuery.of(context).size.width * 0.04,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color.fromARGB(255, 117, 117, 117)),
-                                          ),
-                                        ),
-                                        Container(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Icon(
-                                            Icons.remove_red_eye_outlined,
-                                            size: MediaQuery.of(context).size.width * 0.085,
-                                            color: Color.fromARGB(255, 40, 95, 140),
-                                          ),
-                                          margin: EdgeInsets.all(15),
-                                        )
-                                      ],
-                                    ),
-                                  )),
-                            ],
+                                  // child: RaisedButton(
+                                  //   onPressed: () async {
+                                  //
+                                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                                  //       return Ocr();
+                                  //     }));
+                                  //   },
+                                  //   elevation: 10,
+                                  //   color: Colors.white,
+                                  //   shape: RoundedRectangleBorder(
+                                  //       borderRadius: BorderRadius.circular(15),
+                                  //       side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
+                                  //   child: Stack(
+                                  //     children: [
+                                  //       Center(
+                                  //         child: Text(
+                                  //           'OCR',textScaleFactor: 1,
+                                  //           style: TextStyle(
+                                  //               fontSize: MediaQuery.of(context).size.width * 0.04,
+                                  //               fontWeight: FontWeight.w400,
+                                  //               color: Color.fromARGB(255, 117, 117, 117)),
+                                  //         ),
+                                  //       ),
+                                  //       Container(
+                                  //         alignment: Alignment.bottomCenter,
+                                  //         child: Icon(
+                                  //           Icons.remove_red_eye_outlined,
+                                  //           size: MediaQuery.of(context).size.width * 0.085,
+                                  //           color: Color.fromARGB(255, 40, 95, 140),
+                                  //         ),
+                                  //         margin: EdgeInsets.all(15),
+                                  //       )
+                                  //     ],
+                                  //   ),
+                                  // )),
+                              )],
                           )
                         ],
                       ),

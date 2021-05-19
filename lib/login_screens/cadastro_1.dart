@@ -321,7 +321,8 @@ class _Cadastro1State extends State<Cadastro1> {
                                 prefs.setString("carreta3", "");
                               }
                               baseStore.odometro = document.data()['odometer'].toDouble();
-                              baseStore.mediaProposta = document.data()['average'].toDouble();
+                              document.data();
+                              baseStore.mediaProposta = document.data().containsKey('average')?document.data()['average'].toDouble():2.5;
                               print(baseStore.odometro.toString());
                               var now = Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
                               //Navigator.of(context).push(MaterialPageRoute(builder: (context) => Base()));

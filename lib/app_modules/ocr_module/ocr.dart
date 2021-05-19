@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:todomobx/stores/base_store.dart';
 import 'package:todomobx/widgets/base_top.dart';
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
 class Ocr extends StatefulWidget {
   @override
@@ -75,25 +74,25 @@ class _OcrState extends State<Ocr> {
                 ),
                 Text(ocrText, style: TextStyle(fontSize: 20),),
                 TextButton(onPressed: ()async{
-                  File file = new File((await ImagePicker().getImage(source: ImageSource.camera)).path);
-                  final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(file);
-                  final TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
-                  final VisionText visionText = await textRecognizer.processImage(visionImage);
-                  String text = visionText.text;
-
-                  for (TextBlock block in visionText.blocks) {
-                    final Rect boundingBox = block.boundingBox;
-                    final List<Offset> cornerPoints = block.cornerPoints;
-                    final String text = block.text;
-                    final List<RecognizedLanguage> languages = block.recognizedLanguages;
-
-                    for (TextLine line in block.lines) {
-                      // Same getters as TextBlock
-                      for (TextElement element in line.elements) {
-                        print(element.text);
-                      }
-                    }
-                  }
+                  // File file = new File((await ImagePicker().getImage(source: ImageSource.camera)).path);
+                  // final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(file);
+                  // final TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
+                  // final VisionText visionText = await textRecognizer.processImage(visionImage);
+                  // String text = visionText.text;
+                  //
+                  // for (TextBlock block in visionText.blocks) {
+                  //   final Rect boundingBox = block.boundingBox;
+                  //   final List<Offset> cornerPoints = block.cornerPoints;
+                  //   final String text = block.text;
+                  //   final List<RecognizedLanguage> languages = block.recognizedLanguages;
+                  //
+                  //   for (TextLine line in block.lines) {
+                  //     // Same getters as TextBlock
+                  //     for (TextElement element in line.elements) {
+                  //       print(element.text);
+                  //     }
+                  //   }
+                  // }
                 }, child: Text("Ler"))
 
               ],

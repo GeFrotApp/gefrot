@@ -81,7 +81,6 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                         return GestureDetector(
                           onTap: () async {
                             var ok = false;
-                            print("oi");
                             checklistItemStore.arrHead = [];
                             checklistItemStore.arrTail = [];
                             var currentHead;
@@ -103,14 +102,10 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
 
                                   checklistItemStore.arrHead.add(value['number']);
                               }
-                              print(value['group']);
                               lastItem=value['number'];
                               //checklistItemStore.arrTail.add(checklistItemStore.itemArray.last);
-                              //print(key);
                             });
                             checklistItemStore.arrTail.add(lastItem);
-                            print(checklistItemStore.arrHead);
-                            print(checklistItemStore.arrTail);
 
                             // if(document.data().containsKey('groups')){
                             //   temp = checklistItemStore.itemArray;
@@ -182,7 +177,6 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
 
 
 
-                            print(checklistItemStore.note);
                             if(ok==true){
                             checklistBaseStore.setIndex(2);
                             }

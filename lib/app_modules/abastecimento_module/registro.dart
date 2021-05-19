@@ -656,7 +656,6 @@ class _RegistroState extends State<Registro> {
                                 setState(() {
                                   loading = !loading;
                                 });
-                                print("1");
                                 var firestore;
                                 try {
                                   final result = await InternetAddress.lookup('example.com');
@@ -679,7 +678,6 @@ class _RegistroState extends State<Registro> {
                                         (baseStore.mediaProposta - 1.5))) {
                                   abastecimentoRegistroStore.first = true;
                                 }
-                                print("2");
                                 if (abastecimentoRegistroStore.last) {
                                   firestore
                                       .collection('Companies')
@@ -697,10 +695,8 @@ class _RegistroState extends State<Registro> {
                                     setState(() {
                                       path = fileURL;
                                     });
-                                    print(path);
                                   });
                                 }
-                                print("3");
                                 var id = baseStore.getRandomString(20) + baseStore.cpf + DateTime.now().toString();
                                 firestore
                                     .collection('Companies')
@@ -735,7 +731,6 @@ class _RegistroState extends State<Registro> {
                                     .doc(baseStore.cnpj)
                                     .update({"numberOfSupplies": FieldValue.increment(1)});
 
-                                print("4");
                                 if ((abastecimentoRegistroStore.odometro - baseStore.odometro) /
                                             (abastecimentoRegistroStore.litros +
                                                 abastecimentoRegistroStore.litrosIntermediarios) <
@@ -768,7 +763,6 @@ class _RegistroState extends State<Registro> {
                                           .get();
                                       if (averages.exists) {
                                         var data = averages.data();
-                                        print(abastecimentoRegistroStore.litrosIntermediarios);
                                         firestore
                                             .collection('Drivers')
                                             .doc(baseStore.cpf)
@@ -813,7 +807,6 @@ class _RegistroState extends State<Registro> {
                                     }
                                   }
                                 }
-                                print("5");
                                 if (abastecimentoRegistroStore.last) {
                                   baseStore.odometro = abastecimentoRegistroStore.odometro;
                                 } else {
@@ -825,7 +818,6 @@ class _RegistroState extends State<Registro> {
                                       .update({'odometerOld': abastecimentoRegistroStore.odometro});
                                 }
 
-                                print("6");
                                 setState(() {
                                   loading = !loading;
                                 });
