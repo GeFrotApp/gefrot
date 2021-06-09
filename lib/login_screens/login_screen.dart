@@ -198,8 +198,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       capitalize(doc['name'].split(' ')[0] + " " + capitalize(doc['name'].split(' ')[1]));
                                   baseStore.cpf = doc.id;
                                   baseStore.telefone = doc['phone'];
-                                  baseStore.vencimentoCNH = doc['cnhDueDate'];
-                                  baseStore.email = doc['email'];
+                                  baseStore.vencimentoCNH = doc.data().containsKey('cnhDueDate')?doc['cnhDueDate']:"";
+                                  baseStore.email = doc.data().containsKey('email')? doc['email']:"";
                                   baseStore.cnpj =
                                       doc["cnpj"].replaceAll('.', "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", "");
                                   var documentEmpresa = FirebaseFirestore.instance.collection('Companies').doc(baseStore.cnpj);

@@ -220,6 +220,21 @@ class _Cadastro3State extends State<Cadastro3> {
                                   'companyApproval': false,
                                   'ingressDate': Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
                                 });
+                                firestore.collection('Companies').doc(cadastro3Store.cnpj
+                                    .replaceAll('.', "")
+                                    .replaceAll(" ", "")
+                                    .replaceAll("/", "")
+                                    .replaceAll("-", "")).collection("Warnings").add({
+                                  "checked": false,
+                                  "date": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
+                                  "driverCPF": cadastro2Store.cpf.replaceAll('.', "").replaceAll("-", ""),
+                                  "driverReference": "/Drivers/"+cadastro2Store.cpf.replaceAll('.', "").replaceAll("-", ""),
+                                  "text": "O motorista, "+cadastro2Store.nome.toLowerCase()+" solicitou acesso.",
+                                  "type": "newDriver"
+                                });
+
+
+
                                 setState(() {
                                   loading = !loading;
                                 });

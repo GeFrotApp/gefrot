@@ -80,5 +80,4 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.firebase:firebase-analytics:19.0.0'
-    api 'com.google.firebase:firebase-ml-vision-image-label-model:20.0.2'
 }

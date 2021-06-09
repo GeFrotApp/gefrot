@@ -38,40 +38,31 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(top: 15),
-
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.white,
         ),
-        child:
-        Column(
+        child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.05,
-              decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey, width: 0.7))),
-              child: Text("  Meus Check-Lists", textScaleFactor: 1,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.05,
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey, width: 0.7))),
+              child: Text("  Meus Check-Lists",
+                  textScaleFactor: 1,
                   style: TextStyle(
                     color: Color.fromARGB(255, 137, 202, 204),
-                    fontSize: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.05,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
                   )),
             ),
             Expanded(
               child: Container(
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection('Companies').doc(baseStore.cnpj)
+                  stream: FirebaseFirestore.instance
+                      .collection('Companies')
+                      .doc(baseStore.cnpj)
                       .collection('CheckListModels')
                       .snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -90,19 +81,19 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                             checklistItemStore.isEdit = false;
 
                             var temp = Map<String, dynamic>.from(document['items']);
-                            checklistItemStore.itemArray = Map.fromEntries(temp.entries.toList()..sort((e1, e2) =>
-                                int.parse(e1.value["number"].toString()).compareTo(int.parse(e2.value["number"].toString()))));
+                            checklistItemStore.itemArray = Map.fromEntries(temp.entries.toList()
+                              ..sort((e1, e2) =>
+                                  int.parse(e1.value["number"].toString()).compareTo(int.parse(e2.value["number"].toString()))));
                             checklistItemStore.itemArray.forEach((key, value) {
+                              if (currentHead != value['group']) {
+                                currentHead = value['group'];
+                                if (lastItem != null) {
+                                  checklistItemStore.arrTail.add(lastItem);
+                                }
 
-                              if(currentHead!=value['group']){
-                                  currentHead=value['group'];
-                                    if(lastItem!=null){
-                                      checklistItemStore.arrTail.add(lastItem);
-                                    }
-
-                                  checklistItemStore.arrHead.add(value['number']);
+                                checklistItemStore.arrHead.add(value['number']);
                               }
-                              lastItem=value['number'];
+                              lastItem = value['number'];
                               //checklistItemStore.arrTail.add(checklistItemStore.itemArray.last);
                             });
                             checklistItemStore.arrTail.add(lastItem);
@@ -132,16 +123,20 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.model = document.data();
-                            checklistItemStore.noteText = document.data().containsKey('asksDict')?document['asksDict']:{};
-                            checklistItemStore.signatureIsRequired = document.data().containsKey('signatureIsRequired')?document['signatureIsRequired']:false;
-                            checklistItemStore.equipmentPlateIsRequired = document.data().containsKey('equipmentPlateIsRequired')?document['equipmentPlateIsRequired']:false;
-                            checklistItemStore.locationIsRequired = document.data().containsKey('locationIsRequired')?document['locationIsRequired']:false;
+                            checklistItemStore.noteText = document.data().containsKey('asksDict') ? document['asksDict'] : {};
+                            checklistItemStore.signatureIsRequired =
+                                document.data().containsKey('signatureIsRequired') ? document['signatureIsRequired'] : false;
+                            checklistItemStore.equipmentPlateIsRequired = document.data().containsKey('equipmentPlateIsRequired')
+                                ? document['equipmentPlateIsRequired']
+                                : false;
+                            checklistItemStore.locationIsRequired =
+                                document.data().containsKey('locationIsRequired') ? document['locationIsRequired'] : false;
                             checklistItemStore.note = {};
                             checklistItemStore.isEditable = true;
 
                             checklistItemStore.documentId = null;
-                            if(checklistItemStore.noteText.values.length>0){
-                              for(var question in checklistItemStore.noteText.values)  {
+                            if (checklistItemStore.noteText.values.length > 0) {
+                              for (var question in checklistItemStore.noteText.values) {
                                 await showDialog(
                                     context: context,
                                     builder: (context) {
@@ -160,38 +155,38 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                           ),
                                         ),
                                         actions: <Widget>[
-                                          FlatButton(
-                                            child: Text('OK'),
-                                            onPressed: () {
-                                              ok = true;
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
+                                          Container(
+                                            child:
+                                            FlatButton(
+                                              child: Text('OK'),
+                                              onPressed: () {
+                                                ok = true;
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          )
                                         ],
                                       );
                                     });
                               }
-                            }else{
-                              ok=true;
+                            } else {
+                              ok = true;
                             }
 
-
-
-                            if(ok==true){
-                            checklistBaseStore.setIndex(2);
+                            // última verificação, para garantir que os valores preenchidos na pergunta sejam verdadeiros
+                            for (var question in checklistItemStore.noteText.values) {
+                              if(checklistItemStore.note[question.keys.elementAt(0)]==""||checklistItemStore.note[question.keys.elementAt(0)]==null )
+                                ok = false;
+                            }
+                            if (ok == true) {
+                              checklistBaseStore.setIndex(2);
+                            }else{
+                              await baseStore.showMyDialog(context, "Preencha todas as informações solicitadas!!");
                             }
                           },
                           child: Container(
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.15,
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.7,
-
-
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.7,
                             decoration: BoxDecoration(
                               border: Border(bottom: BorderSide(color: Color.fromARGB(255, 210, 210, 210))),
                               color: Colors.white,
@@ -203,24 +198,20 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.only(left: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * 0.04, right: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * 0.04),
-                                      child: Text(document['name'], textScaleFactor: 1, style: TextStyle(
-                                          fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
-                                        textAlign: TextAlign.start,),
+                                      padding: EdgeInsets.only(
+                                          left: MediaQuery.of(context).size.width * 0.04,
+                                          right: MediaQuery.of(context).size.width * 0.04),
+                                      child: Text(
+                                        document['name'],
+                                        textScaleFactor: 1,
+                                        style: TextStyle(
+                                            fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
+                                        textAlign: TextAlign.start,
+                                      ),
                                     ),
-
-
                                   ],
                                 ),
                               ],
-
-
                             ),
                           ),
                         );
@@ -231,9 +222,6 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
               ),
             )
           ],
-        )
-
-
-    );
+        ));
   }
 }

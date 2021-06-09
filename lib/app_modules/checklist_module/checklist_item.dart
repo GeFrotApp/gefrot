@@ -106,10 +106,16 @@ class _ChecklistItemState extends State<ChecklistItem> {
                     return Observer(builder: (_) {
                       return Container(
                         child: Card(
-                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.01, right: MediaQuery.of(context).size.width*0.01,
-                          bottom: checklistItemStore.arrTail.contains(
-                              checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                  index)]['number']) ?15:0),
+                            margin: EdgeInsets.only(left: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.01, right: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.01,
+                                bottom: checklistItemStore.arrTail.contains(
+                                    checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                        index)]['number']) ? 15 : 0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(top: checklistItemStore.arrHead.contains(
                                     checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
@@ -127,11 +133,17 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                 checklistItemStore.arrHead.contains(
                                     checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
                                         index)]['number']) ? Container(
-                                  margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.width*0.02),
+                                  margin: EdgeInsets.only(bottom: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.02),
                                   decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Color.fromARGB(255, 137, 202, 204)))
+                                      border: Border(bottom: BorderSide(color: Color.fromARGB(255, 137, 202, 204)))
                                   ),
-                                  width: MediaQuery.of(context).size.width*0.98,
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.98,
                                   child: Text(
                                     " Grupo: " + checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
                                         index)]['group'], style: TextStyle(
@@ -148,7 +160,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                       .size
                                       .width * 0.015),
                                   child: Text(
-                                    "  "+checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
+                                    "  " + checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
                                         index)]['description'], textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize:
@@ -487,7 +499,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                           ],
                                         ),
                                       ),
-                                       GestureDetector(
+                                      GestureDetector(
                                         onTap: () async {
                                           await ImagePicker()
                                               .getImage(
@@ -527,17 +539,17 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             ),
                                           ],
                                         ),
-                                       ),
+                                      ),
 
                                     ],
                                   ),
                                 ),
                                 !checklistItemStore.arrTail.contains(
                                     checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                        index)]['number']) ?Container(
+                                        index)]['number']) ? Container(
                                   height: 1,
                                   color: Colors.black,
-                                ):Container(),
+                                ) : Container(),
                               ],
                             )),
                       );
@@ -572,6 +584,17 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         }
                       } on SocketException catch (_) {
                         isOnline = false;
+                      }
+                      var position;
+                      var latitude;
+                      var longitude;
+                      try {
+                        position = checklistItemStore.locationIsRequired ? await baseStore.determinePosition() : null;
+                        latitude =  checklistItemStore.locationIsRequired ? position.latitude : null;
+                        longitude = checklistItemStore.locationIsRequired ? position.longitude : null;
+                      } catch (error) {
+                        await baseStore.showMyDialog(context, "Nesse checklist é obrigatório que a localização esteja ligada!!");
+                        return;
                       }
                       UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
                       //Se for uma edição (isEdit) impede que a assinatura seja modificada
@@ -639,7 +662,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             var data = await image.toByteData(format: ImageByteFormat.png);
                             final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
                             await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                            if(isOnline){
+                            if (isOnline) {
                               setState(() {
                                 loading = !loading;
                               });
@@ -651,10 +674,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                               setState(() {
                                 loading = !loading;
                               });
-                            }else{
+                            } else {
                               noteSignature[question.keys.elementAt(0)] = file.path;
                             }
-
                           }
                         }
                         if (checklistItemStore.signatureIsRequired == true || checklistItemStore.signatureIsRequired == null) {
@@ -718,7 +740,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           var data = await image.toByteData(format: ImageByteFormat.png);
                           final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
                           await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                          if(isOnline){
+                          if (isOnline) {
                             setState(() {
                               loading = !loading;
                             });
@@ -727,7 +749,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             var uploadTask = storageReference.putFile(file);
                             await uploadTask;
                             requiredSignature = await storageReference.getDownloadURL();
-                          }else{
+                          } else {
                             requiredSignature = file.path;
                           }
                           setState(() {
@@ -741,16 +763,18 @@ class _ChecklistItemState extends State<ChecklistItem> {
                       });
 
                       var form = Map();
-                      var position = checklistItemStore.locationIsRequired ? (await baseStore.determinePosition()) : null;
+
+
 
                       var arrayPhotoFutures = {};
                       var arrayUrlFutures = {};
                       // Caso esteja online, salva os arquivos no banco de dados. Caso não, salva no JSON o caminho do arquivo.
-                      if (isOnline){
+                      print(checklistItemStore.itemArray);
+                      if (isOnline) {
                         for (var k in checklistItemStore.itemArray.keys) {
-                          arrayPhotoFutures[k]=[];
+                          arrayPhotoFutures[k] = [];
                           if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                            for(var picture in checklistItemStore.inputArray[k]["picture"]){
+                            for (var picture in checklistItemStore.inputArray[k]["picture"]) {
                               var path;
                               var foto = picture;
                               var storageReference =
@@ -761,10 +785,10 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           }
                         }
                         for (var k in checklistItemStore.itemArray.keys) {
-                          arrayUrlFutures[k]=[];
+                          arrayUrlFutures[k] = [];
                           if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
                             var c = 0;
-                            for(var picture in checklistItemStore.inputArray[k]["picture"]){
+                            for (var picture in checklistItemStore.inputArray[k]["picture"]) {
                               var path;
                               var foto = picture;
                               var storageReference =
@@ -778,7 +802,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         for (var k in checklistItemStore.itemArray.keys) {
                           if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
                             checklistItemStore.inputArray[k]["picture"] = [];
-                            for(var urlFuture in arrayUrlFutures[k] ){
+                            for (var urlFuture in arrayUrlFutures[k]) {
                               var path = await urlFuture;
                               checklistItemStore.inputArray[k]["picture"].add(path);
                             }
@@ -789,12 +813,12 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             "selectedButton": checklistItemStore.selectionArray[k]
                           });
                         }
-                      }else{
+                      } else {
                         //Aqui os caminhos das imagens já estão salvos nas variáveis. Basta montar o array.
                         for (var k in checklistItemStore.itemArray.keys) {
                           if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
                             var arrPicturePaths = [];
-                            for(var picture in checklistItemStore.inputArray[k]["picture"]){
+                            for (var picture in checklistItemStore.inputArray[k]["picture"]) {
                               arrPicturePaths.add(picture.path);
                             }
                             checklistItemStore.inputArray[k]["picture"] = arrPicturePaths;
@@ -808,16 +832,16 @@ class _ChecklistItemState extends State<ChecklistItem> {
                       }
 
 
-
                       final firestore = FirebaseFirestore.instance;
                       var formToSave = {
                         'driverCPF': baseStore.cpf,
                         'driverName': baseStore.nome,
                         "selection": form,
                         "model": checklistItemStore.model,
+                        "modelName": checklistItemStore.model['name'],
                         'horse': cadastro1Store.placaCavalo,
-                        'latitude': checklistItemStore.locationIsRequired ? position.latitude : null,
-                        'longitude': checklistItemStore.locationIsRequired ? position.longitude : null,
+                        'latitude': latitude,
+                        'longitude': longitude,
                         'note': checklistItemStore.note,
                         'trailers': checklistItemStore.equipmentPlateIsRequired ? [
                           cadastro1Store.placaCarreta1,
@@ -827,7 +851,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         'noteSignature': noteSignature,
                         'requiredSignature': requiredSignature
                       };
-                      if(isOnline){
+                      if (isOnline) {
                         formToSave['date'] = Timestamp.fromMillisecondsSinceEpoch(DateTime
                             .now()
                             .millisecondsSinceEpoch);
@@ -849,14 +873,16 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             "selection": form,
                           });
                         }
-                      }else{
-                        formToSave['date'] =  DateTime.now().millisecondsSinceEpoch;
+                      } else {
+                        formToSave['date'] = DateTime
+                            .now()
+                            .millisecondsSinceEpoch;
                         formToSave['model']['createDate'] = "";
                         Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
 
-                        String appDocumentsPath = appDocumentsDirectory.path+'/docs';
+                        String appDocumentsPath = appDocumentsDirectory.path + '/docs';
 
-                       String filePath = '$appDocumentsPath/checklists/'+DateTime.now().toString()+'.txt';
+                        String filePath = '$appDocumentsPath/checklists/' + DateTime.now().toString() + '.txt';
                         File file = new File(filePath); // 1
                         file.createSync(recursive: true);
                         file.writeAsString(jsonEncode(formToSave));
