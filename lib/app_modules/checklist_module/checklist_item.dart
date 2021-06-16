@@ -504,9 +504,17 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                           await ImagePicker()
                                               .getImage(
                                               source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75)
-                                              .then((image) {
-                                            checklistItemStore.setInput(checklistItemStore.itemArray.keys.elementAt(
-                                                index), File(image.path), "picture");
+                                              .then((image) async {
+                                            File file = new File(image.path);
+                                            try {
+                                              var path = await getApplicationDocumentsDirectory();
+                                              await file.rename(path.path + '/' + Path.basename(file.path));
+                                              checklistItemStore.setInput(checklistItemStore.itemArray.keys.elementAt(
+                                                  index), File(path.path + '/' + Path.basename(file.path)), "picture");
+                                            }
+                                            catch (e) {
+                                              baseStore.showMyDialog(context, "Não foi possível armazenar a foto");
+                                            }
                                           });
                                         },
                                         child: Row(
@@ -582,7 +590,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                           isOnline = true;
                         }
-                      } on SocketException catch (_) {
+                      } catch (e) {
                         isOnline = false;
                       }
                       var position;
@@ -590,13 +598,13 @@ class _ChecklistItemState extends State<ChecklistItem> {
                       var longitude;
                       try {
                         position = checklistItemStore.locationIsRequired ? await baseStore.determinePosition() : null;
-                        latitude =  checklistItemStore.locationIsRequired ? position.latitude : null;
+                        latitude = checklistItemStore.locationIsRequired ? position.latitude : null;
                         longitude = checklistItemStore.locationIsRequired ? position.longitude : null;
                       } catch (error) {
                         await baseStore.showMyDialog(context, "Nesse checklist é obrigatório que a localização esteja ligada!!");
                         return;
                       }
-                      UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                      //UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
                       //Se for uma edição (isEdit) impede que a assinatura seja modificada
                       if (!checklistItemStore.isEdit) {
                         for (var question in checklistItemStore.noteText.values) {
@@ -662,21 +670,29 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             var data = await image.toByteData(format: ImageByteFormat.png);
                             final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
                             await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                            if (isOnline) {
-                              setState(() {
-                                loading = !loading;
-                              });
-                              var storageReference =
-                              FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
-                              var uploadTask = storageReference.putFile(file);
-                              await uploadTask;
-                              noteSignature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
-                              setState(() {
-                                loading = !loading;
-                              });
-                            } else {
-                              noteSignature[question.keys.elementAt(0)] = file.path;
+                            // if (isOnline) {
+                            //   setState(() {
+                            //     loading = !loading;
+                            //   });
+                            //   var storageReference =
+                            //   FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                            //   var uploadTask = storageReference.putFile(file);
+                            //   await uploadTask;
+                            //   noteSignature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
+                            //   setState(() {
+                            //     loading = !loading;
+                            //   });
+                            // } else {
+                            try {
+                              var path = await getApplicationDocumentsDirectory();
+                              await file.rename(path.path + '/' + Path.basename(file.path));
+                              noteSignature[question.keys.elementAt(0)] = path.path + '/' + Path.basename(file.path);
                             }
+                            catch (e) {
+                              baseStore.showMyDialog(context, "Não foi possível armazenar a assinatura");
+                            }
+
+                            // }
                           }
                         }
                         if (checklistItemStore.signatureIsRequired == true || checklistItemStore.signatureIsRequired == null) {
@@ -740,96 +756,102 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           var data = await image.toByteData(format: ImageByteFormat.png);
                           final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
                           await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                          if (isOnline) {
-                            setState(() {
-                              loading = !loading;
-                            });
-                            var storageReference =
-                            FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
-                            var uploadTask = storageReference.putFile(file);
-                            await uploadTask;
-                            requiredSignature = await storageReference.getDownloadURL();
-                          } else {
-                            requiredSignature = file.path;
+                          // if (isOnline) {
+                          //   setState(() {
+                          //     loading = !loading;
+                          //   });
+                          //   var storageReference =
+                          //   FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                          //   var uploadTask = storageReference.putFile(file);
+                          //   await uploadTask;
+                          //   requiredSignature = await storageReference.getDownloadURL();
+                          // } else {
+                          try{
+                            var path = await getApplicationDocumentsDirectory();
+                            await file.rename(path.path + '/' + Path.basename(file.path));
+                            requiredSignature = path.path + '/' + Path.basename(file.path);
+                          }catch(e){
+                            await baseStore.showMyDialog(context, "Erro ao coletar assinatura");
                           }
-                          setState(() {
-                            loading = !loading;
-                          });
+
+                          // }
+                          // setState(() {
+                          //   loading = !loading;
+                          // });
                         }
                       }
 
-                      setState(() {
-                        loading = !loading;
-                      });
+                      // setState(() {
+                      //   loading = !loading;
+                      // });
 
                       var form = Map();
-
 
 
                       var arrayPhotoFutures = {};
                       var arrayUrlFutures = {};
                       // Caso esteja online, salva os arquivos no banco de dados. Caso não, salva no JSON o caminho do arquivo.
                       print(checklistItemStore.itemArray);
-                      if (isOnline) {
-                        for (var k in checklistItemStore.itemArray.keys) {
-                          arrayPhotoFutures[k] = [];
-                          if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                            for (var picture in checklistItemStore.inputArray[k]["picture"]) {
-                              var path;
-                              var foto = picture;
-                              var storageReference =
-                              FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
-                              var uploadTask = storageReference.putFile(foto);
-                              arrayPhotoFutures[k].add(uploadTask);
-                            }
+                      // if (isOnline) {
+                      //   for (var k in checklistItemStore.itemArray.keys) {
+                      //     arrayPhotoFutures[k] = [];
+                      //     if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                      //       for (var picture in checklistItemStore.inputArray[k]["picture"]) {
+                      //         var path;
+                      //         var foto = picture;
+                      //         var storageReference =
+                      //         FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
+                      //         var uploadTask = storageReference.putFile(foto);
+                      //         arrayPhotoFutures[k].add(uploadTask);
+                      //       }
+                      //     }
+                      //   }
+                      //   for (var k in checklistItemStore.itemArray.keys) {
+                      //     arrayUrlFutures[k] = [];
+                      //     if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                      //       var c = 0;
+                      //       for (var picture in checklistItemStore.inputArray[k]["picture"]) {
+                      //         var path;
+                      //         var foto = picture;
+                      //         var storageReference =
+                      //         FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
+                      //         await arrayPhotoFutures[k][c];
+                      //         arrayUrlFutures[k].add(storageReference.getDownloadURL());
+                      //         c++;
+                      //       }
+                      //     }
+                      //   }
+                      //   for (var k in checklistItemStore.itemArray.keys) {
+                      //     if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                      //       checklistItemStore.inputArray[k]["picture"] = [];
+                      //       for (var urlFuture in arrayUrlFutures[k]) {
+                      //         var path = await urlFuture;
+                      //         checklistItemStore.inputArray[k]["picture"].add(path);
+                      //       }
+                      //     }
+                      //     form.putIfAbsent(k, () =>
+                      //     {
+                      //       "actions": checklistItemStore.inputArray[k],
+                      //       "selectedButton": checklistItemStore.selectionArray[k]
+                      //     });
+                      //   }
+                      // } else {
+                      //Aqui os caminhos das imagens já estão salvos nas variáveis. Basta montar o array.
+                      for (var k in checklistItemStore.itemArray.keys) {
+                        if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
+                          var arrPicturePaths = [];
+                          for (var picture in checklistItemStore.inputArray[k]["picture"]) {
+                            arrPicturePaths.add(picture.path);
                           }
+                          checklistItemStore.inputArray[k]["picture"] = arrPicturePaths;
                         }
-                        for (var k in checklistItemStore.itemArray.keys) {
-                          arrayUrlFutures[k] = [];
-                          if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                            var c = 0;
-                            for (var picture in checklistItemStore.inputArray[k]["picture"]) {
-                              var path;
-                              var foto = picture;
-                              var storageReference =
-                              FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
-                              await arrayPhotoFutures[k][c];
-                              arrayUrlFutures[k].add(storageReference.getDownloadURL());
-                              c++;
-                            }
-                          }
-                        }
-                        for (var k in checklistItemStore.itemArray.keys) {
-                          if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                            checklistItemStore.inputArray[k]["picture"] = [];
-                            for (var urlFuture in arrayUrlFutures[k]) {
-                              var path = await urlFuture;
-                              checklistItemStore.inputArray[k]["picture"].add(path);
-                            }
-                          }
-                          form.putIfAbsent(k, () =>
-                          {
-                            "actions": checklistItemStore.inputArray[k],
-                            "selectedButton": checklistItemStore.selectionArray[k]
-                          });
-                        }
-                      } else {
-                        //Aqui os caminhos das imagens já estão salvos nas variáveis. Basta montar o array.
-                        for (var k in checklistItemStore.itemArray.keys) {
-                          if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                            var arrPicturePaths = [];
-                            for (var picture in checklistItemStore.inputArray[k]["picture"]) {
-                              arrPicturePaths.add(picture.path);
-                            }
-                            checklistItemStore.inputArray[k]["picture"] = arrPicturePaths;
-                          }
-                          form.putIfAbsent(k, () =>
-                          {
-                            "actions": checklistItemStore.inputArray[k],
-                            "selectedButton": checklistItemStore.selectionArray[k]
-                          });
-                        }
+                        form.putIfAbsent(k, () =>
+                        {
+                          "actions": checklistItemStore.inputArray[k],
+                          "selectedButton": checklistItemStore.selectionArray[k]
+                        });
                       }
+                      // }
 
 
                       final firestore = FirebaseFirestore.instance;
@@ -837,7 +859,6 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         'driverCPF': baseStore.cpf,
                         'driverName': baseStore.nome,
                         "selection": form,
-                        "model": checklistItemStore.model,
                         "modelName": checklistItemStore.model['name'],
                         'horse': cadastro1Store.placaCavalo,
                         'latitude': latitude,
@@ -849,59 +870,77 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           cadastro1Store.placaCarreta3
                         ] : null,
                         'noteSignature': noteSignature,
-                        'requiredSignature': requiredSignature
+                        'requiredSignature': requiredSignature,
+                        "model": checklistItemStore.model,
                       };
+                      // if (isOnline) {
+                      //   formToSave['date'] = Timestamp.fromMillisecondsSinceEpoch(DateTime
+                      //       .now()
+                      //       .millisecondsSinceEpoch);
+                      //   if (checklistItemStore.documentId == null) {
+                      //     firestore
+                      //         .collection('Companies')
+                      //         .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                      //         .collection("CheckLists")
+                      //         .add(formToSave);
+                      //   } else {
+                      //     firestore
+                      //         .collection('Companies')
+                      //         .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                      //         .collection("CheckLists").doc(checklistItemStore.documentId)
+                      //         .update({
+                      //       'date': Timestamp.fromMillisecondsSinceEpoch(DateTime
+                      //           .now()
+                      //           .millisecondsSinceEpoch),
+                      //       "selection": form,
+                      //     });
+                      //   }
+                      // } else {
+                      formToSave['date'] = DateTime
+                          .now()
+                          .millisecondsSinceEpoch;
+                      formToSave['model']['createDate'] = "";
+                      Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+
+                      String appDocumentsPath = appDocumentsDirectory.path + '/docs';
+
+                      String filePath = '$appDocumentsPath/checklists/' + DateTime.now().toString() + '.txt';
+                      File file = new File(filePath); // 1
+                      file.createSync(recursive: true);
+                      print(formToSave);
+                      file.writeAsString(jsonEncode(formToSave));
+                      String fileContent = await file.readAsString(); // 2
+                      // }
                       if (isOnline) {
-                        formToSave['date'] = Timestamp.fromMillisecondsSinceEpoch(DateTime
-                            .now()
-                            .millisecondsSinceEpoch);
-                        if (checklistItemStore.documentId == null) {
-                          firestore
-                              .collection('Companies')
-                              .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
-                              .collection("CheckLists")
-                              .add(formToSave);
-                        } else {
-                          firestore
-                              .collection('Companies')
-                              .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
-                              .collection("CheckLists").doc(checklistItemStore.documentId)
-                              .update({
-                            'date': Timestamp.fromMillisecondsSinceEpoch(DateTime
-                                .now()
-                                .millisecondsSinceEpoch),
-                            "selection": form,
+                        try {
+                          setState(() {
+                            loading = !loading;
                           });
+                          await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (_) {
+                                    return Aviso(
+                                        checklistItemStore.documentId != null
+                                            ? "Checklist atualizado!"
+                                            : "Checklist registrado!");
+                                  }
+                              )
+                          );
+                          await Future.delayed(const Duration(seconds: 2), () => "2");
+                          Navigator.of(context).pop();
+                          setState(() {
+                            loading = !loading;
+                          });
+                          checklistBaseStore.setIndex(3);
                         }
-                      } else {
-                        formToSave['date'] = DateTime
-                            .now()
-                            .millisecondsSinceEpoch;
-                        formToSave['model']['createDate'] = "";
-                        Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
 
-                        String appDocumentsPath = appDocumentsDirectory.path + '/docs';
-
-                        String filePath = '$appDocumentsPath/checklists/' + DateTime.now().toString() + '.txt';
-                        File file = new File(filePath); // 1
-                        file.createSync(recursive: true);
-                        file.writeAsString(jsonEncode(formToSave));
-                        String fileContent = await file.readAsString(); // 2
+                        catch (e) {
+                          loading = false;
+                          await baseStore.showMyDialog(context, "Erro de rede. Os checklists serão salvos na próxima vez em que logar");
+                          checklistBaseStore.setIndex(3);
+                        }
                       }
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (_) {
-                                return Aviso(
-                                    checklistItemStore.documentId != null ? "Checklist atualizado!" : "Checklist registrado!");
-                              }
-                          )
-                      );
-                      await Future.delayed(const Duration(seconds: 2), () => "2");
-                      Navigator.of(context).pop();
-                      setState(() {
-                        loading = !loading;
-                      });
-                      checklistBaseStore.setIndex(3);
                     } : () async {
                       showDialog(
                           context: context,

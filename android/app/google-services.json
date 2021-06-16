@@ -1,34 +1,50 @@
 {
   "project_info": {
-    "project_number": "665549225838",
-    "firebase_url": "https://gefrot-pro.firebaseio.com",
-    "project_id": "gefrot-pro",
-    "storage_bucket": "gefrot-pro.appspot.com"
+    "project_number": "96406912022",
+    "firebase_url": "https://getfrottest.firebaseio.com",
+    "project_id": "getfrottest",
+    "storage_bucket": "getfrottest.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:665549225838:android:5853db19d183773453cb7f",
+        "mobilesdk_app_id": "1:96406912022:android:9aa1a2c32a76b8be558937",
         "android_client_info": {
           "package_name": "br.com.gefrot"
         }
       },
       "oauth_client": [
         {
-          "client_id": "665549225838-j1fm5b7nm9eoqfj7n7uupbt2pm9c9tsg.apps.googleusercontent.com",
+          "client_id": 1"96406912022-9gql1ml0sfrsmh53f1j6d8nn2i6ua023.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.gefrot",
+            "certificate_hash": "0117f8da8ab0028831a0b9fecf06c5ee3ac62b4a"
+          }
+        },
+        {
+          "client_id": "96406912022-s343ng5el8q1vv11m2q9oaatrkrk6f2f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.gefrot",
+            "certificate_hash": "ac55f97bd9d8e3dc0c6bf6c5c2e20d52dfb2de42"
+          }
+        },
+        {
+          "client_id": "96406912022-vibbo0prc570eqkvees0va1a4po8blkd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDjVfXt7yoJ34KG-MEsBKWCIZK9sJ9jQJ4"
+          "current_key": "AIzaSyC0jP5S7BZVd8OoTZwNH2vtbvhB-McFZwk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "665549225838-j1fm5b7nm9eoqfj7n7uupbt2pm9c9tsg.apps.googleusercontent.com",
+              "client_id": "96406912022-vibbo0prc570eqkvees0va1a4po8blkd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

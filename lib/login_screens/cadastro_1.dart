@@ -253,15 +253,17 @@ class _Cadastro1State extends State<Cadastro1> {
                               if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                 isOnline = true;
                               }
-                            } on SocketException catch (_) {
+                            }catch (e) {
                               isOnline = false;
                             }
                             if(isOnline){
                               var checklistItemStore = new ChecklistItemStore();
                               try {
                                 await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
-                              } on SocketException catch (_) {
+                                //await baseStore.showMyDialog(context, "Checklists sincronizados!");
+                              }catch (e) {
                                 isOnline = false;
+                                await baseStore.showMyDialog(context, "Não foi possível sincronizar os checklists");
                               }
 
                             }
@@ -303,7 +305,6 @@ class _Cadastro1State extends State<Cadastro1> {
                                   .get();
                               carreta3Exists = x.data()?.isNotEmpty;
                             }
-                            print(cavaloExists);
                             if (cavaloExists != null &&
                                 carreta1Exists != null &&
                                 carreta2Exists != null &&
@@ -323,7 +324,6 @@ class _Cadastro1State extends State<Cadastro1> {
                               baseStore.odometro = document.data()['odometer'].toDouble();
                               document.data();
                               baseStore.mediaProposta = document.data().containsKey('average')?document.data()['average'].toDouble():2.5;
-                              print(baseStore.odometro.toString());
                               var now = Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
                               //Navigator.of(context).push(MaterialPageRoute(builder: (context) => Base()));
                               firestore.collection('Drivers').doc(baseStore.cpf.replaceAll('.', "").replaceAll("-", "")).update({
@@ -340,7 +340,6 @@ class _Cadastro1State extends State<Cadastro1> {
                                   .where("horse", isEqualTo: cadastro1Store.placaCavalo)
                                   .get();
                               if (motoristaComCavalo.docs.length > 1){
-                                print(motoristaComCavalo.docs.first.data());
                                 showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -383,7 +382,6 @@ class _Cadastro1State extends State<Cadastro1> {
                               }else{
                                 Navigator.of(context).pop();
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
-                                print(cadastro1Store.placaCarreta2);
                               }
 
                             } else if (cavaloExists == null) {

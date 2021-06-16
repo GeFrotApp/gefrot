@@ -129,6 +129,7 @@ abstract class _ChecklistItemStore with Store {
         checklistContent['date']= Timestamp.fromMillisecondsSinceEpoch(checklistContent['date']);
         for(var v in checklistContent['noteSignature'].entries){
           var foto = File(v.value);
+          print(foto.path);
           var storageReference =
           FirebaseStorage.instance.ref().child('signatures/${Path.basename(foto.path)}');
           var uploadTask = await storageReference.putFile(foto);
