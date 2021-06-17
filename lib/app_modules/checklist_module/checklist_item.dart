@@ -911,6 +911,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                       file.writeAsString(jsonEncode(formToSave));
                       String fileContent = await file.readAsString(); // 2
                       // }
+
                       if (isOnline) {
                         try {
                           setState(() {

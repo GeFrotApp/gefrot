@@ -69,7 +69,6 @@ abstract class _ChecklistItemStore with Store {
       inputArray[index].putIfAbsent(type, () => [value]);
     }
     this.setFormValid();
-    print(inputArray);
   }
 
   @action
@@ -129,29 +128,27 @@ abstract class _ChecklistItemStore with Store {
         checklistContent['date']= Timestamp.fromMillisecondsSinceEpoch(checklistContent['date']);
         for(var v in checklistContent['noteSignature'].entries){
           var foto = File(v.value);
-          print(foto.path);
           var storageReference =
           FirebaseStorage.instance.ref().child('signatures/${Path.basename(foto.path)}');
           var uploadTask = await storageReference.putFile(foto);
           checklistContent['noteSignature'][v.key] = await storageReference.getDownloadURL();
         }
-        print(checklistContent['requiredSignature']);
 
-        var foto = File(checklistContent['requiredSignature']);
-        var storageReference =
-        FirebaseStorage.instance.ref().child('signatures/${Path.basename(foto.path)}');
-        var uploadTask = await storageReference.putFile(foto);
-        checklistContent['requiredSignature'] = await storageReference.getDownloadURL();
-
-
-
+        if(checklistContent['requiredSignature']!="" && checklistContent['requiredSignature']!=null){
+          var foto = File(checklistContent['requiredSignature']);
+          var storageReference =
+          FirebaseStorage.instance.ref().child('signatures/${Path.basename(foto.path)}');
+          var uploadTask = await storageReference.putFile(foto);
+          checklistContent['requiredSignature'] = await storageReference.getDownloadURL();
+        }
         for(var v in checklistContent['selection'].entries){
-          print(v.value['actions']['picture']);
+
           var arrayPhotoFutures = [];
           var arrayUrlFutures = [];
           // Caso esteja online, salva os arquivos no banco de dados. Caso não, salva no JSON o caminho do arquivo.
-          if (v.value['actions'] != null && v.value['actions']["picture"] != null) {
+          if (v.value['actions'] != "" &&v.value['actions'] != null  && v.value['actions']["picture"] != ""&& v.value['actions']["picture"] != null) {
             for(var picture in v.value['actions']["picture"]){
+
               var path;
               var foto = File(picture);
               var storageReference =
@@ -160,7 +157,6 @@ abstract class _ChecklistItemStore with Store {
               arrayPhotoFutures.add(uploadTask);
             }
           }
-
 
           arrayUrlFutures=[];
           if (v.value['actions'] != null && v.value['actions']["picture"] != null) {
@@ -197,8 +193,14 @@ abstract class _ChecklistItemStore with Store {
             .add(checklistContent);
         await checklistEntity.delete();
       }
+
+      var path = await getApplicationDocumentsDirectory();
+      var toDeleteCache = path.listSync();
+      for(var delete in toDeleteCache){
+        delete.deleteSync(recursive: true);
+      }
+
     }
 
   }
 }
-
