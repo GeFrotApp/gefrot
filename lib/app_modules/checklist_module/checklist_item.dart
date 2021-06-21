@@ -584,6 +584,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                 builder: (_) {
                   return RaisedButton(
                     onPressed: checklistItemStore.isFormValid && checklistItemStore.isEditable ? () async {
+                      setState(() {
+                        loading = true;
+                      });
                       var isOnline;
                       try {
                         final result = await InternetAddress.lookup('example.com');
