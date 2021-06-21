@@ -59,9 +59,11 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                   Container(
                     child: Expanded(
                       child: TextField(
-                        style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.05, color: Colors.grey, height: MediaQuery.of(context).size.height*0.0017),
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            color: Colors.grey,
+                            height: MediaQuery.of(context).size.height * 0.0017),
                         decoration: InputDecoration(
-
                           prefixIcon: Icon(
                             Icons.search,
                             size: MediaQuery.of(context).size.height * 0.02,
@@ -112,16 +114,15 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                                   checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                                   checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                                   checklistItemStore.documentId = document.id;
-                                  checklistItemStore.isEditable = document.data()['model'].containsKey("isEditable")
-                                      ? document['model']['isEditable']
-                                      : false;
+                                  checklistItemStore.isEditable =
+                                      document.data()['model'].containsKey("isEditable") ? document['model']['isEditable'] : false;
                                   for (var key in document['selection'].keys) {
-                                    print(document['selection'][key]['selectedButton']);
+                                    print("oi");
+                                    print(document['selection'][key]);
                                     checklistItemStore.setSelection(key, document['selection'][key]['selectedButton']);
+                                    print([key]);
                                     checklistItemStore.setAction(
-                                        key,
-                                        checklistItemStore.itemArray[key]['buttons'][checklistItemStore.selectionArray[key]]
-                                            ['extern_actions']);
+                                        key, checklistItemStore.itemArray[key]['buttons'][checklistItemStore.selectionArray[key]]['extern_actions']);
                                   }
                                   checklistBaseStore.setIndex(4);
                                 },
@@ -149,17 +150,15 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                                                           ? document['model']['name'].substring(0, 28) + "..."
                                                           : document['model']['name']),
                                                       style: TextStyle(
-                                                          fontSize: 25,
-                                                          fontWeight: FontWeight.bold,
-                                                          color: Color.fromARGB(255, 120, 120, 120)),
+                                                          fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
                                                       textAlign: TextAlign.start,
                                                     ),
                                                   ),
                                                   Container(
                                                       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.04),
                                                       child: Text(
-                                                        formatter.format(DateTime.fromMicrosecondsSinceEpoch(
-                                                            document['date'].microsecondsSinceEpoch)),
+                                                        formatter
+                                                            .format(DateTime.fromMicrosecondsSinceEpoch(document['date'].microsecondsSinceEpoch)),
                                                         style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                                       )),
                                                 ],
