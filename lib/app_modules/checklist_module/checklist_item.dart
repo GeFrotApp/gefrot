@@ -941,6 +941,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           await baseStore.showMyDialog(context, "Erro de rede. Os checklists serão salvos na próxima vez em que logar");
                           checklistBaseStore.setIndex(3);
                         }
+                      }else{
+                        await baseStore.showMyDialog(context, "Erro de rede. Os checklists serão salvos na próxima vez em que logar");
+                        checklistBaseStore.setIndex(3);
                       }
                     } : () async {
                       showDialog(
