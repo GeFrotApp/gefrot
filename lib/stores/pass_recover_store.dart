@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mobx/mobx.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:mobx/mobx.dart";
 
-part 'pass_recover_store.g.dart';
+part "pass_recover_store.g.dart";
 
 class PassRecoverStore = _PassRecoverStore with _$PassRecoverStore;
 
@@ -38,12 +38,11 @@ abstract class _PassRecoverStore with Store {
     this.cpf = cpf;
     if(cpf.length ==14){
       var document = FirebaseFirestore.instance
-          .collection('Drivers')
-          .doc(cpf.replaceAll('.', '').replaceAll('-', ''));
+          .collection("Drivers")
+          .doc(cpf.replaceAll(".", "").replaceAll("-", ""));
       document.get().then((DocumentSnapshot doc) {
 
         if (doc.exists) {
-          print(doc.data());
           cpfExist = true;
 
         }else{

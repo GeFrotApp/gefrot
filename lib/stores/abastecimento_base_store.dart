@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
+import "package:dio/dio.dart";
+import "package:flutter/material.dart";
+import "package:mobx/mobx.dart";
 
-part 'abastecimento_base_store.g.dart';
+part "abastecimento_base_store.g.dart";
 
 class AbastecimentoBaseStore = _AbastecimentoBaseStore with _$AbastecimentoBaseStore;
 
@@ -39,15 +39,14 @@ abstract class _AbastecimentoBaseStore with Store{
 
   @action
   Future<void> setCnpjPosto(value)async{
-    cnpjPosto = value.replaceAll('.', "")
+    cnpjPosto = value.replaceAll(".", "")
         .replaceAll(" ", "")
         .replaceAll("/", "")
         .replaceAll("-", "");
     if(cnpjPosto.length==14){
       Response response = await Dio().get("https://www.receitaws.com.br/v1/cnpj/"+cnpjPosto);
-      if(response.data['status']=="OK"){
-        print(response.data['nome']);
-        nomePostoController.text = response.data['nome'];
+      if(response.data["status"]=="OK"){
+        nomePostoController.text = response.data["nome"];
       }
     }
   }
@@ -105,7 +104,7 @@ abstract class _AbastecimentoBaseStore with Store{
           context: context,
           builder: (context) {
         return AlertDialog(
-          title: Text('Alerta'),
+          title: Text("Alerta"),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[

@@ -1,12 +1,12 @@
-import 'dart:ui';
+import "dart:ui";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/abastecimento_base_store.dart';
-import 'package:todomobx/stores/base_store.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:intl/date_symbol_data_local.dart";
+import "package:intl/intl.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/abastecimento_base_store.dart";
+import "package:todomobx/stores/base_store.dart";
 
 class Historico extends StatefulWidget {
   @override
@@ -15,8 +15,8 @@ class Historico extends StatefulWidget {
 
 class _HistoricoState extends State<Historico> {
   BaseStore baseStore;
-  var enDatesFuture = initializeDateFormatting('pt_BR', null);
-  var formatter = DateFormat.yMMMMd('pt_BR');
+  var enDatesFuture = initializeDateFormatting("pt_BR", null);
+  var formatter = DateFormat.yMMMMd("pt_BR");
   var hora = new DateTime.now().hour;
   AbastecimentoBaseStore abastecimentoBaseStore;
 
@@ -47,30 +47,30 @@ class _HistoricoState extends State<Historico> {
               color: Colors.white,
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('Companies')
+                    .collection("Companies")
                     .doc(baseStore.cnpj)
-                    .collection('Supplies')
+                    .collection("Supplies")
                     .where("driverCPF", isEqualTo: baseStore.cpf).orderBy("date", descending: true)
                     .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (!snapshot.hasData){print(snapshot.data); return new Text('Loading...');}
+                  if (!snapshot.hasData){return new Text("Loading...");}
                   return new ListView(
                     children: snapshot.data.docs.map((DocumentSnapshot document) {
                       return new GestureDetector(
                         onTap: () {
                           abastecimentoBaseStore.documento = document.id;
                           abastecimentoBaseStore.data = document.data()["date"];
-                          abastecimentoBaseStore.setPosto(document.data()['gasStationName']);
-                          abastecimentoBaseStore.setCnpjPosto(document.data()['gasStationCnpj']);
-                          abastecimentoBaseStore.setLitros(document.data()['amount']);
-                          abastecimentoBaseStore.setNewOdometro(document.data()['odometerNew']);
-                          abastecimentoBaseStore.setOldOdometro(document.data()['odometerOld']);
-                          abastecimentoBaseStore.setNf(document.data()['invoice']);
-                          abastecimentoBaseStore.setValor(document.data()['totalPrice']);
-                          abastecimentoBaseStore.invoicePhoto=(document.data()['invoicePhoto']);
-                          abastecimentoBaseStore.setTanqueCheio(document.data()['fullTank']);
-                          abastecimentoBaseStore.setPlacaCavalo(document.data()['licensePlate']);
-                          abastecimentoBaseStore.setCombustivel(document.data()['fuel']);
+                          abastecimentoBaseStore.setPosto(document.data()["gasStationName"]);
+                          abastecimentoBaseStore.setCnpjPosto(document.data()["gasStationCnpj"]);
+                          abastecimentoBaseStore.setLitros(document.data()["amount"]);
+                          abastecimentoBaseStore.setNewOdometro(document.data()["odometerNew"]);
+                          abastecimentoBaseStore.setOldOdometro(document.data()["odometerOld"]);
+                          abastecimentoBaseStore.setNf(document.data()["invoice"]);
+                          abastecimentoBaseStore.setValor(document.data()["totalPrice"]);
+                          abastecimentoBaseStore.invoicePhoto=(document.data()["invoicePhoto"]);
+                          abastecimentoBaseStore.setTanqueCheio(document.data()["fullTank"]);
+                          abastecimentoBaseStore.setPlacaCavalo(document.data()["licensePlate"]);
+                          abastecimentoBaseStore.setCombustivel(document.data()["fuel"]);
 
                           abastecimentoBaseStore.setIndex(3, context, true);
                         },
@@ -93,7 +93,7 @@ class _HistoricoState extends State<Historico> {
                                  crossAxisAlignment: CrossAxisAlignment.start,
                                  children: [
                                    Text(
-                                     "  " + (document['gasStationName'].length>10?document['gasStationName'].substring(0,10)+"...":document['gasStationName']),
+                                     "  " + (document["gasStationName"].length>10?document["gasStationName"].substring(0,10)+"...":document["gasStationName"]),
                                      style: TextStyle(
                                        color: Color.fromARGB(255, 84, 84, 84),
                                        fontSize: MediaQuery.of(context).size.width * 0.05,
@@ -102,7 +102,7 @@ class _HistoricoState extends State<Historico> {
                                    Text(
                                      "   " +
                                          formatter.format(DateTime.fromMicrosecondsSinceEpoch(
-                                             document['date'].microsecondsSinceEpoch)),
+                                             document["date"].microsecondsSinceEpoch)),
                                      style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                    ),
                                  ],
@@ -122,7 +122,7 @@ class _HistoricoState extends State<Historico> {
                                       ),
                                     ),
                                     Text(
-                                          "R\$"+document['totalPrice'].toStringAsFixed(2).replaceAll(".",","),
+                                          "R\$"+document["totalPrice"].toStringAsFixed(2).replaceAll(".",","),
                                       style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                     ),
                                   ],
@@ -141,8 +141,8 @@ class _HistoricoState extends State<Historico> {
                                       ),
                                     ),
                                     Text(
-                                      document['first']?"N/A":document['average'].toStringAsFixed(2).replaceAll(".",",")+"Km/l",
-                                      style: TextStyle(color:document['first']?Color.fromARGB(255, 120, 120, 120): document['average']>=baseStore.mediaProposta?Color.fromARGB(255, 163, 247, 127):Color.fromARGB(255, 255, 155, 155)),
+                                      document["first"]?"N/A":document["average"].toStringAsFixed(2).replaceAll(".",",")+"Km/l",
+                                      style: TextStyle(color:document["first"]?Color.fromARGB(255, 120, 120, 120): document["average"]>=baseStore.mediaProposta?Color.fromARGB(255, 163, 247, 127):Color.fromARGB(255, 255, 155, 155)),
                                     ),
                                   ],
                                 ),

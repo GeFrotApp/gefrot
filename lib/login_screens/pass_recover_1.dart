@@ -1,19 +1,19 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/login_screens/login_screen.dart';
-import 'package:todomobx/stores/login_store.dart';
-import 'package:todomobx/stores/pass_recover_store.dart';
-import 'package:todomobx/widgets/aviso.dart';
-import 'package:todomobx/widgets/custom_background.dart';
-import 'package:todomobx/widgets/custom_icon_button.dart';
-import 'package:todomobx/widgets/custom_pass_text_field.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:crypto/crypto.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/login_screens/login_screen.dart";
+import "package:todomobx/stores/login_store.dart";
+import "package:todomobx/stores/pass_recover_store.dart";
+import "package:todomobx/widgets/aviso.dart";
+import "package:todomobx/widgets/custom_background.dart";
+import "package:todomobx/widgets/custom_icon_button.dart";
+import "package:todomobx/widgets/custom_pass_text_field.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
 class PassRecover1 extends StatefulWidget {
   @override
@@ -93,10 +93,10 @@ class _PassRecover1State extends State<PassRecover1> {
                 ),
               ),
               CustomTextField(
-                hint: '___.___.___-__',
+                hint: "___.___.___-__",
                 controller: cpfController,
                 textInputType: TextInputType.number,
-                formatter: new MaskTextInputFormatter(mask: '###.###.###-##', filter: {"#": RegExp(r'[0-9]')}),
+                formatter: new MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r"[0-9]")}),
                 onChanged: passRecoverStore.checkCpf,
                 enabled: true,
               ),
@@ -112,8 +112,8 @@ class _PassRecover1State extends State<PassRecover1> {
               ),
               Observer(builder: (_) {
                 return CustomPassTextField(
-                  formatter: new MaskTextInputFormatter(mask: '################', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
-                  hint: 'Senha *',
+                  formatter: new MaskTextInputFormatter(mask: "################", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
+                  hint: "Senha *",
                   onChanged: passRecoverStore.setPass,
                   enabled: true,
                   obscure: !passRecoverStore.passVisible,
@@ -144,8 +144,8 @@ class _PassRecover1State extends State<PassRecover1> {
               Observer(
                 builder: (_) {
                   return CustomPassTextField(
-                    formatter: new MaskTextInputFormatter(mask: '################', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
-                    hint: 'Confirmação da senha',
+                    formatter: new MaskTextInputFormatter(mask: "################", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
+                    hint: "Confirmação da senha",
                     onChanged: passRecoverStore.setConfirmPass,
                     enabled: true,
                     obscure: !passRecoverStore.passVisible,
@@ -173,7 +173,7 @@ class _PassRecover1State extends State<PassRecover1> {
                         ),
                         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                           Text(
-                            'Redefinir',
+                            "Redefinir",
                             style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.056,
                                 fontWeight: FontWeight.w400,
@@ -183,17 +183,17 @@ class _PassRecover1State extends State<PassRecover1> {
                         color: Color.fromARGB(255, 137, 202, 204),
                         onPressed: passRecoverStore.isFormValid
                             ? () async {
-                          print(sha256.convert(utf8.encode(passRecoverStore.pass)));
                                 setState(() {
                                   loading = !loading;
                                 });
-                                var document = FirebaseFirestore.instance.collection('Drivers').doc(passRecoverStore.cpf.replaceAll('.', '').replaceAll('-', ''));
+                                var document = FirebaseFirestore.instance.collection("Drivers").doc(passRecoverStore.cpf.replaceAll(".", "").replaceAll("-", ""));
                                 var cnpj = (await document.get()).data()["cnpj"];
-                                FirebaseFirestore.instance.collection('Companies').doc(cnpj).collection("Warnings").add({
+                                FirebaseFirestore.instance.collection("Companies").doc(cnpj).collection("Warnings").add({
                                   "date": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
                                   "type": "passRecover",
-                                  "driverCPF": cpfController.text.replaceAll('.', '').replaceAll('-', ''),
-                                  "driverNewPass":sha256.convert(utf8.encode(passRecoverStore.pass)).toString()
+                                  "driverCPF": cpfController.text.replaceAll(".", "").replaceAll("-", ""),
+                                  "driverNewPass":sha256.convert(utf8.encode(passRecoverStore.pass)).toString(),
+                                  "checked":false
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                                   return Aviso("Senha redefinida!");

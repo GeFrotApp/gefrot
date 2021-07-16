@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pass_recover_store.dart';
+part of "pass_recover_store.dart";
 
 // **************************************************************************
 // StoreGenerator
@@ -14,10 +14,10 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
   @override
   bool get isFormValid =>
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: '_PassRecoverStore.isFormValid'))
+              name: "_PassRecoverStore.isFormValid"))
           .value;
 
-  final _$cpfAtom = Atom(name: '_PassRecoverStore.cpf');
+  final _$cpfAtom = Atom(name: "_PassRecoverStore.cpf");
 
   @override
   String get cpf {
@@ -32,7 +32,7 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
     });
   }
 
-  final _$passAtom = Atom(name: '_PassRecoverStore.pass');
+  final _$passAtom = Atom(name: "_PassRecoverStore.pass");
 
   @override
   String get pass {
@@ -47,7 +47,7 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
     });
   }
 
-  final _$confirmPassAtom = Atom(name: '_PassRecoverStore.confirmPass');
+  final _$confirmPassAtom = Atom(name: "_PassRecoverStore.confirmPass");
 
   @override
   String get confirmPass {
@@ -62,7 +62,7 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
     });
   }
 
-  final _$passVisibleAtom = Atom(name: '_PassRecoverStore.passVisible');
+  final _$passVisibleAtom = Atom(name: "_PassRecoverStore.passVisible");
 
   @override
   bool get passVisible {
@@ -77,7 +77,7 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
     });
   }
 
-  final _$cpfExistAtom = Atom(name: '_PassRecoverStore.cpfExist');
+  final _$cpfExistAtom = Atom(name: "_PassRecoverStore.cpfExist");
 
   @override
   bool get cpfExist {
@@ -92,7 +92,7 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
     });
   }
 
-  final _$checkCpfAsyncAction = AsyncAction('_PassRecoverStore.checkCpf');
+  final _$checkCpfAsyncAction = AsyncAction("_PassRecoverStore.checkCpf");
 
   @override
   Future<void> checkCpf(dynamic cpf) {
@@ -100,12 +100,12 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
   }
 
   final _$_PassRecoverStoreActionController =
-      ActionController(name: '_PassRecoverStore');
+      ActionController(name: "_PassRecoverStore");
 
   @override
   void setCpf(dynamic value) {
     final _$actionInfo = _$_PassRecoverStoreActionController.startAction(
-        name: '_PassRecoverStore.setCpf');
+        name: "_PassRecoverStore.setCpf");
     try {
       return super.setCpf(value);
     } finally {
@@ -116,7 +116,7 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
   @override
   void setPass(dynamic value) {
     final _$actionInfo = _$_PassRecoverStoreActionController.startAction(
-        name: '_PassRecoverStore.setPass');
+        name: "_PassRecoverStore.setPass");
     try {
       return super.setPass(value);
     } finally {
@@ -127,7 +127,7 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
   @override
   void setConfirmPass(dynamic value) {
     final _$actionInfo = _$_PassRecoverStoreActionController.startAction(
-        name: '_PassRecoverStore.setConfirmPass');
+        name: "_PassRecoverStore.setConfirmPass");
     try {
       return super.setConfirmPass(value);
     } finally {
@@ -138,7 +138,7 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
   @override
   void turnVisible() {
     final _$actionInfo = _$_PassRecoverStoreActionController.startAction(
-        name: '_PassRecoverStore.turnVisible');
+        name: "_PassRecoverStore.turnVisible");
     try {
       return super.turnVisible();
     } finally {
@@ -148,13 +148,13 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
 
   @override
   String toString() {
-    return '''
+    return """
 cpf: ${cpf},
 pass: ${pass},
 confirmPass: ${confirmPass},
 passVisible: ${passVisible},
 cpfExist: ${cpfExist},
 isFormValid: ${isFormValid}
-    ''';
+    """;
   }
 }

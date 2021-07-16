@@ -1,6 +1,6 @@
-import 'package:mobx/mobx.dart';
+import "package:mobx/mobx.dart";
 
-part 'home_store.g.dart';
+part "home_store.g.dart";
 
 class HomeStore = _HomeStore with _$HomeStore;
 

@@ -1,22 +1,22 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:path/path.dart' as Path;
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/abastecimento_base_store.dart';
-import 'package:todomobx/stores/abastecimento_registro_store.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/widgets/aviso.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
-import 'package:todomobx/widgets/decimal.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_storage/firebase_storage.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:image_picker/image_picker.dart";
+import "package:intl/intl.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:path/path.dart" as Path;
+import "package:provider/provider.dart";
+import "package:todomobx/stores/abastecimento_base_store.dart";
+import "package:todomobx/stores/abastecimento_registro_store.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/widgets/aviso.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
+import "package:todomobx/widgets/decimal.dart";
 
 class Registro extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _RegistroState extends State<Registro> {
   var loading = false;
   TextEditingController data = new TextEditingController();
   TextEditingController valorLitro = new TextEditingController();
-  final f = new DateFormat('dd-MM-yyyy');
+  final f = new DateFormat("dd-MM-yyyy");
 
   @override
   void didChangeDependencies() {
@@ -68,7 +68,7 @@ class _RegistroState extends State<Registro> {
                 height: 10,
               ),
               Text(
-                '  Abastecimento',
+                "  Abastecimento",
                 textScaleFactor: 1,
                 style: TextStyle(
                     color: Color.fromARGB(255, 137, 202, 204),
@@ -86,7 +86,7 @@ class _RegistroState extends State<Registro> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('  Cavalo',
+                        Text("  Cavalo",
                             textScaleFactor: 1,
                             style: TextStyle(
                                 color: Color.fromARGB(255, 117, 117, 117),
@@ -120,7 +120,7 @@ class _RegistroState extends State<Registro> {
               Container(
                 margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
-                  'CNPJ do posto',
+                  "CNPJ do posto",
                   textScaleFactor: 1,
                   style: TextStyle(
                       color: Color.fromARGB(255, 117, 117, 117),
@@ -132,7 +132,7 @@ class _RegistroState extends State<Registro> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: CustomTextField(
                   hint: "",
-                  formatter: new MaskTextInputFormatter(mask: 'XX. XXX. XXX/XXXX-XX', filter: {"X": RegExp(r'[0-9]')}),
+                  formatter: new MaskTextInputFormatter(mask: "XX. XXX. XXX/XXXX-XX", filter: {"X": RegExp(r"[0-9]")}),
                   color: Color.fromARGB(255, 137, 202, 204),
                   onChanged: (value) async {
                     await abastecimentoRegistroStore.setCnpjPosto(value);
@@ -147,7 +147,7 @@ class _RegistroState extends State<Registro> {
               Container(
                 margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
-                  'Nome do posto *',
+                  "Nome do posto *",
                   textScaleFactor: 1,
                   style: TextStyle(
                       color: Color.fromARGB(255, 117, 117, 117),
@@ -159,8 +159,8 @@ class _RegistroState extends State<Registro> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: CustomTextField(
                   formatter: new MaskTextInputFormatter(
-                      mask: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-                      filter: {"X": RegExp(r'[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]')}),
+                      mask: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                      filter: {"X": RegExp(r"[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]")}),
                   hint: "",
                   controller: abastecimentoRegistroStore.nomePostoController,
                   color: Color.fromARGB(255, 137, 202, 204),
@@ -174,7 +174,7 @@ class _RegistroState extends State<Registro> {
               Container(
                 margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
-                  'Data',
+                  "Data",
                   textScaleFactor: 1,
                   style: TextStyle(
                       color: Color.fromARGB(255, 117, 117, 117),
@@ -237,7 +237,7 @@ class _RegistroState extends State<Registro> {
               Container(
                 margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
-                  'Odômetro (KM) *',
+                  "Odômetro (KM) *",
                   textScaleFactor: 1,
                   style: TextStyle(
                       color: Color.fromARGB(255, 117, 117, 117),
@@ -262,7 +262,7 @@ class _RegistroState extends State<Registro> {
               Container(
                 margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
-                  'Tipo de combustível *',
+                  "Tipo de combustível *",
                   textScaleFactor: 1,
                   style: TextStyle(
                       color: Color.fromARGB(255, 117, 117, 117),
@@ -318,7 +318,7 @@ class _RegistroState extends State<Registro> {
               Container(
                 margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
-                  'Quantidade (Litros) *',
+                  "Quantidade (Litros) *",
                   textScaleFactor: 1,
                   style: TextStyle(
                       color: Color.fromARGB(255, 117, 117, 117),
@@ -397,7 +397,7 @@ class _RegistroState extends State<Registro> {
               Container(
                 margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
-                  'Nota fiscal',
+                  "Nota fiscal",
                   textScaleFactor: 1,
                   style: TextStyle(
                       color: Color.fromARGB(255, 117, 117, 117),
@@ -496,7 +496,7 @@ class _RegistroState extends State<Registro> {
                                                                     child: Row(
                                                                       children: [
                                                                         Text(
-                                                                          'Sim ',
+                                                                          "Sim ",
                                                                           textScaleFactor: 1,
                                                                           style: TextStyle(
                                                                               fontSize: MediaQuery.of(context).size.width * 0.04,
@@ -529,7 +529,7 @@ class _RegistroState extends State<Registro> {
                                                                     child: Row(
                                                                       children: [
                                                                         Text(
-                                                                          'Não ',
+                                                                          "Não ",
                                                                           textScaleFactor: 1,
                                                                           style: TextStyle(
                                                                               fontSize: MediaQuery.of(context).size.width * 0.04,
@@ -565,7 +565,7 @@ class _RegistroState extends State<Registro> {
                                                                   children: [
                                                                     abastecimentoRegistroStore.tanqueCheio
                                                                         ? Text(
-                                                                            'Média: ',
+                                                                            "Média: ",
                                                                             textScaleFactor: 1,
                                                                             style: TextStyle(
                                                                                 fontSize:
@@ -573,7 +573,7 @@ class _RegistroState extends State<Registro> {
                                                                                 color: Color.fromARGB(255, 25, 153, 158)),
                                                                           )
                                                                         : Text(
-                                                                            '',
+                                                                            "",
                                                                             textScaleFactor: 1,
                                                                             style: TextStyle(
                                                                                 fontSize:
@@ -658,7 +658,7 @@ class _RegistroState extends State<Registro> {
                                 });
                                 var firestore;
                                 try {
-                                  final result = await InternetAddress.lookup('example.com');
+                                  final result = await InternetAddress.lookup("example.com");
                                   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                     firestore = FirebaseFirestore.instance;
                                   }
@@ -680,15 +680,15 @@ class _RegistroState extends State<Registro> {
                                 }
                                 if (abastecimentoRegistroStore.last) {
                                   firestore
-                                      .collection('Companies')
-                                      .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                                      .collection("Companies")
+                                      .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
                                       .collection("Horses")
                                       .doc(cadastro1store.placaCavalo)
-                                      .update({'odometer': abastecimentoRegistroStore.odometro});
+                                      .update({"odometer": abastecimentoRegistroStore.odometro});
                                 }
                                 if (foto != null) {
                                   var storageReference =
-                                      FirebaseStorage.instance.ref().child('invoices/${Path.basename(foto.path)}');
+                                      FirebaseStorage.instance.ref().child("invoices/${Path.basename(foto.path)}");
                                   var uploadTask = storageReference.putFile(foto);
                                   await uploadTask.whenComplete(() => null);
                                   await storageReference.getDownloadURL().then((fileURL) {
@@ -699,35 +699,35 @@ class _RegistroState extends State<Registro> {
                                 }
                                 var id = baseStore.getRandomString(20) + baseStore.cpf + DateTime.now().toString();
                                 firestore
-                                    .collection('Companies')
-                                    .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                                    .collection("Companies")
+                                    .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
                                     .collection("Supplies")
                                     .doc(id)
                                     .set({
-                                  'licensePlate': cadastro1store.placaCavalo,
-                                  'gasStationName': abastecimentoRegistroStore.posto,
-                                  'gasStationCnpj': abastecimentoRegistroStore.cnpjPosto,
-                                  'odometerOld': abastecimentoRegistroStore.last
+                                  "licensePlate": cadastro1store.placaCavalo,
+                                  "gasStationName": abastecimentoRegistroStore.posto,
+                                  "gasStationCnpj": abastecimentoRegistroStore.cnpjPosto,
+                                  "odometerOld": abastecimentoRegistroStore.last
                                       ? baseStore.odometro
                                       : abastecimentoRegistroStore.odometroOld,
-                                  'odometerNew': abastecimentoRegistroStore.odometro,
-                                  'amount': abastecimentoRegistroStore.litros,
-                                  'totalPrice': abastecimentoRegistroStore.valor,
-                                  'invoice': abastecimentoRegistroStore.nf,
-                                  'fullTank': abastecimentoRegistroStore.tanqueCheio,
-                                  'date': Timestamp.fromMillisecondsSinceEpoch(
+                                  "odometerNew": abastecimentoRegistroStore.odometro,
+                                  "amount": abastecimentoRegistroStore.litros,
+                                  "totalPrice": abastecimentoRegistroStore.valor,
+                                  "invoice": abastecimentoRegistroStore.nf,
+                                  "fullTank": abastecimentoRegistroStore.tanqueCheio,
+                                  "date": Timestamp.fromMillisecondsSinceEpoch(
                                       abastecimentoRegistroStore.data.millisecondsSinceEpoch),
-                                  'driverCPF': baseStore.cpf,
-                                  'invoicePhoto': path,
+                                  "driverCPF": baseStore.cpf,
+                                  "invoicePhoto": path,
                                   "fuel": abastecimentoRegistroStore.combustivel,
-                                  'driverName': baseStore.nome,
-                                  'first': abastecimentoRegistroStore.first,
+                                  "driverName": baseStore.nome,
+                                  "first": abastecimentoRegistroStore.first,
                                   "isCounted": true,
-                                  'average': (abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                  "average": (abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
                                       (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios)
                                 });
                                 firestore
-                                    .collection('Companies')
+                                    .collection("Companies")
                                     .doc(baseStore.cnpj)
                                     .update({"numberOfSupplies": FieldValue.increment(1)});
 
@@ -740,14 +740,14 @@ class _RegistroState extends State<Registro> {
                                                 abastecimentoRegistroStore.litrosIntermediarios) >
                                         (baseStore.mediaProposta + 2.5)) {
                                   if (abastecimentoRegistroStore.tanqueCheio) {
-                                    firestore.collection('Companies').doc(baseStore.cnpj).collection("Warnings").add({
-                                      'driverCPF': baseStore.cpf,
-                                      'text': "Erro no abastecimento",
-                                      'date': Timestamp.fromMillisecondsSinceEpoch(
+                                    firestore.collection("Companies").doc(baseStore.cnpj).collection("Warnings").add({
+                                      "driverCPF": baseStore.cpf,
+                                      "text": "Erro no abastecimento",
+                                      "date": Timestamp.fromMillisecondsSinceEpoch(
                                           abastecimentoRegistroStore.data.millisecondsSinceEpoch),
-                                      'supply':
+                                      "supply":
                                           firestore.collection("Companies").doc(baseStore.cnpj).collection("Supplies").doc(id),
-                                      'checked': false,
+                                      "checked": false,
                                       "type": "supply"
                                     });
                                     baseStore.setWarnings(1);
@@ -756,51 +756,51 @@ class _RegistroState extends State<Registro> {
                                   if (!abastecimentoRegistroStore.first) {
                                     if (abastecimentoRegistroStore.tanqueCheio) {
                                       var averages = await firestore
-                                          .collection('Drivers')
+                                          .collection("Drivers")
                                           .doc(baseStore.cpf)
-                                          .collection('Averages')
+                                          .collection("Averages")
                                           .doc(cadastro1store.placaCavalo)
                                           .get();
                                       if (averages.exists) {
                                         var data = averages.data();
                                         firestore
-                                            .collection('Drivers')
+                                            .collection("Drivers")
                                             .doc(baseStore.cpf)
                                             .collection("Averages")
                                             .doc(cadastro1store.placaCavalo)
                                             .update({
-                                          'distance': data['distance'] +
+                                          "distance": data["distance"] +
                                               abastecimentoRegistroStore.odometro -
                                               abastecimentoRegistroStore.odometroOld,
-                                          'liters': abastecimentoRegistroStore.litros +
-                                              data['liters'] +
+                                          "liters": abastecimentoRegistroStore.litros +
+                                              data["liters"] +
                                               abastecimentoRegistroStore.litrosIntermediarios,
-                                          'average': (data['distance'] +
+                                          "average": (data["distance"] +
                                                   abastecimentoRegistroStore.odometro -
                                                   abastecimentoRegistroStore.odometroOld) /
                                               (abastecimentoRegistroStore.litros +
-                                                  data['liters'] +
+                                                  data["liters"] +
                                                   abastecimentoRegistroStore.litrosIntermediarios),
-                                          'lastSupply':
+                                          "lastSupply":
                                               Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch)
                                         });
                                       } else {
                                         firestore
-                                            .collection('Drivers')
+                                            .collection("Drivers")
                                             .doc(baseStore.cpf)
                                             .collection("Averages")
                                             .doc(cadastro1store.placaCavalo)
                                             .set({
-                                          'proposedAverage': baseStore.mediaProposta,
-                                          'distance':
+                                          "proposedAverage": baseStore.mediaProposta,
+                                          "distance":
                                               abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld,
-                                          'liters': (abastecimentoRegistroStore.litros +
+                                          "liters": (abastecimentoRegistroStore.litros +
                                               abastecimentoRegistroStore.litrosIntermediarios),
-                                          'average':
+                                          "average":
                                               (abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
                                                   (abastecimentoRegistroStore.litros +
                                                       abastecimentoRegistroStore.litrosIntermediarios),
-                                          'lastSupply':
+                                          "lastSupply":
                                               Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch)
                                         });
                                       }
@@ -811,11 +811,11 @@ class _RegistroState extends State<Registro> {
                                   baseStore.odometro = abastecimentoRegistroStore.odometro;
                                 } else {
                                   firestore
-                                      .collection('Companies')
-                                      .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                                      .collection("Companies")
+                                      .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
                                       .collection("Supplies")
                                       .doc(abastecimentoRegistroStore.idAbsNew)
-                                      .update({'odometerOld': abastecimentoRegistroStore.odometro});
+                                      .update({"odometerOld": abastecimentoRegistroStore.odometro});
                                 }
 
                                 setState(() {

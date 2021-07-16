@@ -1,19 +1,19 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/abastecimento_base_store.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/widgets/aviso.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
-import 'package:todomobx/widgets/decimal.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:image_picker/image_picker.dart";
+import "package:intl/date_symbol_data_local.dart";
+import "package:intl/intl.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/abastecimento_base_store.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/widgets/aviso.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
+import "package:todomobx/widgets/decimal.dart";
 
 class Documento extends StatefulWidget {
   @override
@@ -21,14 +21,14 @@ class Documento extends StatefulWidget {
 }
 
 class _DocumentoState extends State<Documento> {
-  var enDatesFuture = initializeDateFormatting('pt_BR', null);
-  var formatter = DateFormat.yMMMMEEEEd('pt_BR').add_Hm();
+  var enDatesFuture = initializeDateFormatting("pt_BR", null);
+  var formatter = DateFormat.yMMMMEEEEd("pt_BR").add_Hm();
   var hora = new DateTime.now().hour;
   File foto;
   var loading = false;
   String path = "";
   TextEditingController data = new TextEditingController();
-  final f = new DateFormat('dd-MM-yyyy');
+  final f = new DateFormat("dd-MM-yyyy");
   Cadastro1Store cadastro1store;
   AbastecimentoBaseStore abastecimentoBaseStore;
   BaseStore baseStore;
@@ -95,7 +95,7 @@ class _DocumentoState extends State<Documento> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('  Veículo',
+                          Text("  Veículo",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 117, 117, 117),
                                   fontSize: MediaQuery.of(context).size.width * 0.035,
@@ -127,7 +127,7 @@ class _DocumentoState extends State<Documento> {
                 Container(
                   margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                   child: Text(
-                    'CNPJ do posto',
+                    "CNPJ do posto",
                     style: TextStyle(
                         color: Color.fromARGB(255, 117, 117, 117),
                         fontSize: MediaQuery.of(context).size.width * 0.035,
@@ -138,7 +138,7 @@ class _DocumentoState extends State<Documento> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: CustomTextField(
                     hint: "",
-                    formatter: new MaskTextInputFormatter(mask: 'XX. XXX. XXX/XXXX-XX', filter: {"X": RegExp(r'[0-9]')}),
+                    formatter: new MaskTextInputFormatter(mask: "XX. XXX. XXX/XXXX-XX", filter: {"X": RegExp(r"[0-9]")}),
                     color: Color.fromARGB(255, 137, 202, 204),
                     onChanged: abastecimentoBaseStore.setCnpjPosto,
                     textInputType: TextInputType.number,
@@ -151,7 +151,7 @@ class _DocumentoState extends State<Documento> {
                 Container(
                   margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                   child: Text(
-                    'Nome do posto',
+                    "Nome do posto",
                     style: TextStyle(
                         color: Color.fromARGB(255, 117, 117, 117),
                         fontSize: MediaQuery.of(context).size.width * 0.035,
@@ -162,8 +162,8 @@ class _DocumentoState extends State<Documento> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: CustomTextField(
                     formatter: new MaskTextInputFormatter(
-                        mask: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-                        filter: {"X": RegExp(r'[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ0-9 ]')}),
+                        mask: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                        filter: {"X": RegExp(r"[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ0-9 ]")}),
                     hint: "",
                     controller: abastecimentoBaseStore.nomePostoController,
                     color: Color.fromARGB(255, 137, 202, 204),
@@ -177,7 +177,7 @@ class _DocumentoState extends State<Documento> {
 //          Container(
 //            margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
 //            child: Text(
-//              'Data',
+//              "Data",
 //              style: TextStyle(
 //                  color: Color.fromARGB(255, 117, 117, 117),
 //                  fontSize: MediaQuery.of(context).size.width * 0.035,
@@ -224,7 +224,7 @@ class _DocumentoState extends State<Documento> {
                 Container(
                   margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                   child: Text(
-                    'Odômetro (KM) *',
+                    "Odômetro (KM) *",
                     style: TextStyle(
                         color: Color.fromARGB(255, 117, 117, 117),
                         fontSize: MediaQuery.of(context).size.width * 0.035,
@@ -251,7 +251,7 @@ class _DocumentoState extends State<Documento> {
                 Container(
                   margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                   child: Text(
-                    'Tipo de combustível *',
+                    "Tipo de combustível *",
                     style: TextStyle(
                         color: Color.fromARGB(255, 117, 117, 117),
                         fontSize: MediaQuery.of(context).size.width * 0.035,
@@ -304,7 +304,7 @@ class _DocumentoState extends State<Documento> {
                 Container(
                   margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                   child: Text(
-                    'Quantidade (Litros) *',
+                    "Quantidade (Litros) *",
                     style: TextStyle(
                         color: Color.fromARGB(255, 117, 117, 117),
                         fontSize: MediaQuery.of(context).size.width * 0.035,
@@ -384,7 +384,7 @@ class _DocumentoState extends State<Documento> {
                 Container(
                   margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
                   child: Text(
-                    'Nota fiscal',
+                    "Nota fiscal",
                     style: TextStyle(
                         color: Color.fromARGB(255, 117, 117, 117),
                         fontSize: MediaQuery.of(context).size.width * 0.035,
@@ -427,7 +427,7 @@ class _DocumentoState extends State<Documento> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Sim ',
+                                    "Sim ",
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: abastecimentoBaseStore.tanqueCheio
@@ -457,7 +457,7 @@ class _DocumentoState extends State<Documento> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Não ',
+                                    "Não ",
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: !abastecimentoBaseStore.tanqueCheio
@@ -487,7 +487,7 @@ class _DocumentoState extends State<Documento> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Média: ',
+                                    "Média: ",
                                     style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 25, 153, 158)),
                                   ),
                                   Text(
@@ -542,29 +542,29 @@ class _DocumentoState extends State<Documento> {
                       });
                       final firestore = FirebaseFirestore.instance;
                       firestore
-                          .collection('Companies')
-                          .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                          .collection("Companies")
+                          .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
                           .collection("Supplies")
                           .doc(abastecimentoBaseStore.documento)
                           .update({
-                        'gasStationName': abastecimentoBaseStore.posto,
-                        'gasStationCnpj': abastecimentoBaseStore.cnpjPosto,
-                        'odometerNew': abastecimentoBaseStore.odometroNew,
-                        'amount': abastecimentoBaseStore.litros,
-                        'totalPrice': abastecimentoBaseStore.valor,
-                        'invoice': abastecimentoBaseStore.nf,
-                        'fullTank': abastecimentoBaseStore.tanqueCheio,
+                        "gasStationName": abastecimentoBaseStore.posto,
+                        "gasStationCnpj": abastecimentoBaseStore.cnpjPosto,
+                        "odometerNew": abastecimentoBaseStore.odometroNew,
+                        "amount": abastecimentoBaseStore.litros,
+                        "totalPrice": abastecimentoBaseStore.valor,
+                        "invoice": abastecimentoBaseStore.nf,
+                        "fullTank": abastecimentoBaseStore.tanqueCheio,
                         "fuel": abastecimentoBaseStore.combustivel,
-                        'invoicePhoto': path != "" ? abastecimentoBaseStore.invoicePhoto : path,
-                        'average': (abastecimentoBaseStore.odometroNew - abastecimentoBaseStore.odometroOld) /
+                        "invoicePhoto": path != "" ? abastecimentoBaseStore.invoicePhoto : path,
+                        "average": (abastecimentoBaseStore.odometroNew - abastecimentoBaseStore.odometroOld) /
                             abastecimentoBaseStore.litros
                       });
                       firestore
-                          .collection('Companies')
-                          .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
+                          .collection("Companies")
+                          .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
                           .collection("Horses")
                           .doc(cadastro1store.placaCavalo)
-                          .update({'odometer': abastecimentoBaseStore.odometroNew});
+                          .update({"odometer": abastecimentoBaseStore.odometroNew});
                       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                         return Aviso("Abastecimento atualizado!");
                       }));

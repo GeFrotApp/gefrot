@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/app_screens/configScreens/seguranca.dart';
-import 'package:todomobx/main.dart';
-import 'package:todomobx/stores/base_store.dart';
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/app_screens/configScreens/seguranca.dart";
+import "package:todomobx/main.dart";
+import "package:todomobx/stores/base_store.dart";
 
-import 'configScreens/ajuda.dart';
-import 'configScreens/conta.dart';
+import "configScreens/ajuda.dart";
+import "configScreens/conta.dart";
 
 class Config extends StatefulWidget {
   @override

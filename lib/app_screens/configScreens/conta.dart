@@ -1,11 +1,11 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/app_screens/configScreens/conta_empresa.dart';
-import 'package:todomobx/app_screens/configScreens/conta_usuario.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/widgets/base_top.dart';
-import 'package:todomobx/widgets/config_top.dart';
+import "dart:ui";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/app_screens/configScreens/conta_empresa.dart";
+import "package:todomobx/app_screens/configScreens/conta_usuario.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/widgets/base_top.dart";
+import "package:todomobx/widgets/config_top.dart";
 
 class Conta extends StatefulWidget {
   @override

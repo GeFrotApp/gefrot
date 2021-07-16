@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/cadastro_2_store.dart';
-import 'package:todomobx/widgets/custom_background.dart';
-import 'package:todomobx/widgets/custom_icon_button.dart';
-import 'package:todomobx/widgets/custom_pass_text_field.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/cadastro_2_store.dart";
+import "package:todomobx/widgets/custom_background.dart";
+import "package:todomobx/widgets/custom_icon_button.dart";
+import "package:todomobx/widgets/custom_pass_text_field.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
-import 'cadastro_3.dart';
+import "cadastro_3.dart";
 
 class Cadastro2 extends StatefulWidget {
   @override
@@ -68,8 +68,8 @@ class _Cadastro2State extends State<Cadastro2> {
             ),
           ),
           CustomTextField(
-            formatter: new MaskTextInputFormatter(mask: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', filter: {"X": RegExp(r'[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]')}),
-            hint: 'Seu nome completo',
+            formatter: new MaskTextInputFormatter(mask: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", filter: {"X": RegExp(r"[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]")}),
+            hint: "Seu nome completo",
             textInputType: TextInputType.emailAddress,
             onChanged: cadastro2Store.setNome,
             enabled: true,
@@ -87,9 +87,9 @@ class _Cadastro2State extends State<Cadastro2> {
           ),
           CustomTextField(
             textInputType: TextInputType.number,
-            hint: '___.___.___-__',
+            hint: "___.___.___-__",
             formatter: new MaskTextInputFormatter(
-                mask: '###.###.###-##', filter: {"#": RegExp(r'[0-9]')}),
+                mask: "###.###.###-##", filter: {"#": RegExp(r"[0-9]")}),
             onChanged: cadastro2Store.setCpf,
             enabled: true,
           ),
@@ -107,8 +107,8 @@ class _Cadastro2State extends State<Cadastro2> {
           CustomTextField(
             textInputType: TextInputType.number,
             formatter: new MaskTextInputFormatter(
-                mask: '(##) #####-####', filter: {"#": RegExp(r'[0-9]')}),
-            hint: '(__)-_____-____',
+                mask: "(##) #####-####", filter: {"#": RegExp(r"[0-9]")}),
+            hint: "(__)-_____-____",
             onChanged: cadastro2Store.setTelefone,
             enabled: true,
           ),
@@ -124,7 +124,7 @@ class _Cadastro2State extends State<Cadastro2> {
             ),
           ),
           CustomTextField(
-            hint: 'Digite seu email',
+            hint: "Digite seu email",
             onChanged: cadastro2Store.setEmail,
             enabled: true,
           ),
@@ -142,8 +142,8 @@ class _Cadastro2State extends State<Cadastro2> {
           CustomTextField(
             textInputType: TextInputType.number,
             formatter: new MaskTextInputFormatter(
-                mask: '##/##/####', filter: {"#": RegExp(r'[0-9]')}),
-            hint: 'dd/mm/aaaa',
+                mask: "##/##/####", filter: {"#": RegExp(r"[0-9]")}),
+            hint: "dd/mm/aaaa",
             onChanged: cadastro2Store.setDataCNH,
             enabled: true,
           ),
@@ -161,9 +161,9 @@ class _Cadastro2State extends State<Cadastro2> {
           Observer(builder: (_) {
             return CustomPassTextField(
               formatter: new MaskTextInputFormatter(
-                  mask: '################',
-                  filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
-              hint: 'Senha *',
+                  mask: "################",
+                  filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
+              hint: "Senha *",
               onChanged: cadastro2Store.setPass,
               enabled: true,
               obscure: !cadastro2Store.passVisible,
@@ -199,9 +199,9 @@ class _Cadastro2State extends State<Cadastro2> {
             builder: (_) {
               return CustomPassTextField(
                 formatter: new MaskTextInputFormatter(
-                    mask: '################',
-                    filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
-                hint: 'Confirmação da senha',
+                    mask: "################",
+                    filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
+                hint: "Confirmação da senha",
                 onChanged: cadastro2Store.setConfirmPass,
                 enabled: true,
                 obscure: !cadastro2Store.passVisible,
@@ -231,7 +231,7 @@ class _Cadastro2State extends State<Cadastro2> {
                   child: Row(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
 
                     Text(
-                      'Continuar',textScaleFactor: 1,
+                      "Continuar",textScaleFactor: 1,
                       style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                     ),
                     Icon(

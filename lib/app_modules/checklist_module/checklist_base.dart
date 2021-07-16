@@ -1,15 +1,15 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/app_modules/checklist_module/checklist_historico.dart';
-import 'package:todomobx/app_modules/checklist_module/checklist_item.dart';
-import 'package:todomobx/app_modules/checklist_module/checklist_selecao.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/checklist_base_store.dart';
-import 'package:todomobx/widgets/base_top.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/app_modules/checklist_module/checklist_historico.dart";
+import "package:todomobx/app_modules/checklist_module/checklist_item.dart";
+import "package:todomobx/app_modules/checklist_module/checklist_selecao.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/checklist_base_store.dart";
+import "package:todomobx/widgets/base_top.dart";
 
 class ChecklistBase extends StatefulWidget {
   @override
@@ -111,7 +111,7 @@ class _ChecklistBaseState extends State<ChecklistBase> {
                                     onPressed: () async {
                                       checklistBaseStore.setIndex(1);
                                       try {
-                                        final result = await InternetAddress.lookup('example.com');
+                                        final result = await InternetAddress.lookup("example.com");
                                         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                           baseStore.online = true;
                                           UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
@@ -148,7 +148,7 @@ class _ChecklistBaseState extends State<ChecklistBase> {
                                     color: Colors.white,
                                     onPressed: () async{
                                       try {
-                                        final result = await InternetAddress.lookup('example.com');
+                                        final result = await InternetAddress.lookup("example.com");
                                         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                           baseStore.online = true;
                                           UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();

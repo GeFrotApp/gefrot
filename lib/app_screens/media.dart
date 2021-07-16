@@ -1,10 +1,10 @@
-import 'dart:ui';
+import "dart:ui";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/widgets/base_top.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/widgets/base_top.dart";
 
 class Media extends StatefulWidget {
   @override
@@ -181,12 +181,12 @@ class _MediaState extends State<Media> {
                               color: Colors.white,
                               child: StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
-                                    .collection('Drivers')
+                                    .collection("Drivers")
                                     .doc(baseStore.cpf)
-                                    .collection('Averages').orderBy('lastSupply', descending: true)
+                                    .collection("Averages").orderBy("lastSupply", descending: true)
                                     .snapshots(),
                                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                  if (!snapshot.hasData) return new Text('Loading...');
+                                  if (!snapshot.hasData) return new Text("Loading...");
                                   return new ListView(
                                     children: snapshot.data.docs.map((DocumentSnapshot document) {
                                       return new Container(
@@ -234,7 +234,7 @@ class _MediaState extends State<Media> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    document['average'].toStringAsFixed(2).replaceAll(".",","),textScaleFactor: 1,
+                                                    document["average"].toStringAsFixed(2).replaceAll(".",","),textScaleFactor: 1,
                                                     style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                                   ),
                                                 ],
@@ -251,7 +251,7 @@ class _MediaState extends State<Media> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    document['proposedAverage'].toStringAsFixed(2).replaceAll(".",","),textScaleFactor: 1,
+                                                    document["proposedAverage"].toStringAsFixed(2).replaceAll(".",","),textScaleFactor: 1,
                                                     style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                                   ),
                                                 ],

@@ -1,16 +1,16 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/app_modules/abastecimento_module/edicao.dart';
-import 'package:todomobx/app_modules/abastecimento_module/historico.dart';
-import 'package:todomobx/app_modules/abastecimento_module/registro.dart';
-import 'package:todomobx/stores/abastecimento_base_store.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/widgets/base_top.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/app_modules/abastecimento_module/edicao.dart";
+import "package:todomobx/app_modules/abastecimento_module/historico.dart";
+import "package:todomobx/app_modules/abastecimento_module/registro.dart";
+import "package:todomobx/stores/abastecimento_base_store.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/widgets/base_top.dart";
 
 class AbastecimentoBase extends StatefulWidget {
   @override
@@ -39,7 +39,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: Text('Alerta'),
+                    title: Text("Alerta"),
                     content: SingleChildScrollView(
                       child: ListBody(
                         children: <Widget>[
@@ -170,7 +170,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                                         onPressed: () async {
                                           abastecimentoBaseStore.setIndex(1, context, true);
                                           try {
-                                            final result = await InternetAddress.lookup('example.com');
+                                            final result = await InternetAddress.lookup("example.com");
                                             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                               baseStore.online = true;
                                               UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
@@ -212,7 +212,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                                         onPressed: () async {
                                           abastecimentoBaseStore.setIndex(2, context, true);
                                           try {
-                                            final result = await InternetAddress.lookup('example.com');
+                                            final result = await InternetAddress.lookup("example.com");
                                             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                               baseStore.online = true;
                                               UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();

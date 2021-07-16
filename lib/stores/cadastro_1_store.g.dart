@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cadastro_1_store.dart';
+part of "cadastro_1_store.dart";
 
 // **************************************************************************
 // StoreGenerator
@@ -14,10 +14,10 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
   @override
   bool get isFormValid =>
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: '_Cadastro1Store.isFormValid'))
+              name: "_Cadastro1Store.isFormValid"))
           .value;
 
-  final _$numCarretasAtom = Atom(name: '_Cadastro1Store.numCarretas');
+  final _$numCarretasAtom = Atom(name: "_Cadastro1Store.numCarretas");
 
   @override
   dynamic get numCarretas {
@@ -32,7 +32,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
     });
   }
 
-  final _$rememberAtom = Atom(name: '_Cadastro1Store.remember');
+  final _$rememberAtom = Atom(name: "_Cadastro1Store.remember");
 
   @override
   dynamic get remember {
@@ -47,7 +47,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
     });
   }
 
-  final _$placaCavaloAtom = Atom(name: '_Cadastro1Store.placaCavalo');
+  final _$placaCavaloAtom = Atom(name: "_Cadastro1Store.placaCavalo");
 
   @override
   String get placaCavalo {
@@ -62,7 +62,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
     });
   }
 
-  final _$placaCarreta1Atom = Atom(name: '_Cadastro1Store.placaCarreta1');
+  final _$placaCarreta1Atom = Atom(name: "_Cadastro1Store.placaCarreta1");
 
   @override
   String get placaCarreta1 {
@@ -77,7 +77,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
     });
   }
 
-  final _$placaCarreta2Atom = Atom(name: '_Cadastro1Store.placaCarreta2');
+  final _$placaCarreta2Atom = Atom(name: "_Cadastro1Store.placaCarreta2");
 
   @override
   String get placaCarreta2 {
@@ -92,7 +92,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
     });
   }
 
-  final _$placaCarreta3Atom = Atom(name: '_Cadastro1Store.placaCarreta3');
+  final _$placaCarreta3Atom = Atom(name: "_Cadastro1Store.placaCarreta3");
 
   @override
   String get placaCarreta3 {
@@ -108,12 +108,12 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
   }
 
   final _$_Cadastro1StoreActionController =
-      ActionController(name: '_Cadastro1Store');
+      ActionController(name: "_Cadastro1Store");
 
   @override
   void addCarreta() {
     final _$actionInfo = _$_Cadastro1StoreActionController.startAction(
-        name: '_Cadastro1Store.addCarreta');
+        name: "_Cadastro1Store.addCarreta");
     try {
       return super.addCarreta();
     } finally {
@@ -124,7 +124,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
   @override
   void turnRemember() {
     final _$actionInfo = _$_Cadastro1StoreActionController.startAction(
-        name: '_Cadastro1Store.turnRemember');
+        name: "_Cadastro1Store.turnRemember");
     try {
       return super.turnRemember();
     } finally {
@@ -135,7 +135,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
   @override
   void setPlacaCavalo(String value) {
     final _$actionInfo = _$_Cadastro1StoreActionController.startAction(
-        name: '_Cadastro1Store.setPlacaCavalo');
+        name: "_Cadastro1Store.setPlacaCavalo");
     try {
       return super.setPlacaCavalo(value);
     } finally {
@@ -146,7 +146,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
   @override
   void setPlacaCarreta1(String value) {
     final _$actionInfo = _$_Cadastro1StoreActionController.startAction(
-        name: '_Cadastro1Store.setPlacaCarreta1');
+        name: "_Cadastro1Store.setPlacaCarreta1");
     try {
       return super.setPlacaCarreta1(value);
     } finally {
@@ -157,7 +157,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
   @override
   void setPlacaCarreta2(String value) {
     final _$actionInfo = _$_Cadastro1StoreActionController.startAction(
-        name: '_Cadastro1Store.setPlacaCarreta2');
+        name: "_Cadastro1Store.setPlacaCarreta2");
     try {
       return super.setPlacaCarreta2(value);
     } finally {
@@ -168,7 +168,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
   @override
   void setPlacaCarreta3(String value) {
     final _$actionInfo = _$_Cadastro1StoreActionController.startAction(
-        name: '_Cadastro1Store.setPlacaCarreta3');
+        name: "_Cadastro1Store.setPlacaCarreta3");
     try {
       return super.setPlacaCarreta3(value);
     } finally {
@@ -178,7 +178,7 @@ mixin _$Cadastro1Store on _Cadastro1Store, Store {
 
   @override
   String toString() {
-    return '''
+    return """
 numCarretas: ${numCarretas},
 remember: ${remember},
 placaCavalo: ${placaCavalo},
@@ -186,6 +186,6 @@ placaCarreta1: ${placaCarreta1},
 placaCarreta2: ${placaCarreta2},
 placaCarreta3: ${placaCarreta3},
 isFormValid: ${isFormValid}
-    ''';
+    """;
   }
 }

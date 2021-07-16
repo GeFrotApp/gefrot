@@ -1,15 +1,15 @@
-import 'dart:collection';
+import "dart:collection";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/checklist_base_store.dart';
-import 'package:todomobx/stores/checklist_item_store.dart';
-import 'package:todomobx/stores/home_store.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:intl/date_symbol_data_local.dart";
+import "package:intl/intl.dart";
+import "package:mobx/mobx.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/checklist_base_store.dart";
+import "package:todomobx/stores/checklist_item_store.dart";
+import "package:todomobx/stores/home_store.dart";
 
 class CheckListSelecao extends StatefulWidget {
   @override
@@ -17,8 +17,8 @@ class CheckListSelecao extends StatefulWidget {
 }
 
 class _CheckListSelecaoState extends State<CheckListSelecao> {
-  var enDatesFuture = initializeDateFormatting('pt_BR', null);
-  var formatter = DateFormat.yMMMMEEEEd('pt_BR').add_Hm();
+  var enDatesFuture = initializeDateFormatting("pt_BR", null);
+  var formatter = DateFormat.yMMMMEEEEd("pt_BR").add_Hm();
   var hora = new DateTime.now().hour;
   HomeStore homeStore;
   BaseStore baseStore;
@@ -61,12 +61,12 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
               child: Container(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('Companies')
+                      .collection("Companies")
                       .doc(baseStore.cnpj)
-                      .collection('CheckListModels')
+                      .collection("CheckListModels")
                       .snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData) return new Text('Loading...');
+                    if (!snapshot.hasData) return new Text("Loading...");
                     return new ListView(
                       children: snapshot.data.docs.map((DocumentSnapshot document) {
                         return GestureDetector(
@@ -80,34 +80,34 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                             checklistItemStore.setItemCode(document.id);
                             checklistItemStore.isEdit = false;
 
-                            var temp = Map<String, dynamic>.from(document['items']);
+                            var temp = Map<String, dynamic>.from(document["items"]);
                             checklistItemStore.itemArray = Map.fromEntries(temp.entries.toList()
                               ..sort((e1, e2) =>
                                   int.parse(e1.value["number"].toString()).compareTo(int.parse(e2.value["number"].toString()))));
                             checklistItemStore.itemArray.forEach((key, value) {
-                              if (currentHead != value['group']) {
-                                currentHead = value['group'];
+                              if (currentHead != value["group"]) {
+                                currentHead = value["group"];
                                 if (lastItem != null) {
                                   checklistItemStore.arrTail.add(lastItem);
                                 }
 
-                                checklistItemStore.arrHead.add(value['number']);
+                                checklistItemStore.arrHead.add(value["number"]);
                               }
-                              lastItem = value['number'];
+                              lastItem = value["number"];
                               //checklistItemStore.arrTail.add(checklistItemStore.itemArray.last);
                             });
                             checklistItemStore.arrTail.add(lastItem);
 
-                            // if(document.data().containsKey('groups')){
+                            // if(document.data().containsKey("groups")){
                             //   temp = checklistItemStore.itemArray;
                             //   checklistItemStore.itemArray = {};
-                            //   print(document['groups']);is
+                            //   print(document["groups"]);is
                             //   var k=1;
-                            //   for(var i=0;i<document['groups'].length;i++){
-                            //     //print(document['groups'][i]);
+                            //   for(var i=0;i<document["groups"].length;i++){
+                            //     //print(document["groups"][i]);
                             //     for(var j =1; j<=temp.length;j++){
-                            //       if(document['groups'][i]==temp["Item "+j.toString()]['group']){
-                            //         print(document['groups'][i]);
+                            //       if(document["groups"][i]==temp["Item "+j.toString()]["group"]){
+                            //         print(document["groups"][i]);
                             //         checklistItemStore.itemArray["Item "+k.toString()]= temp["Item "+j.toString()];
                             //         k++;
                             //       }
@@ -123,14 +123,15 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.model = document.data();
-                            checklistItemStore.noteText = document.data().containsKey('asksDict') ? document['asksDict'] : {};
+                            checklistItemStore.isFormValid = false;
+                            checklistItemStore.noteText = document.data().containsKey("asksDict") ? document["asksDict"] : {};
                             checklistItemStore.signatureIsRequired =
-                                document.data().containsKey('signatureIsRequired') ? document['signatureIsRequired'] : false;
-                            checklistItemStore.equipmentPlateIsRequired = document.data().containsKey('equipmentPlateIsRequired')
-                                ? document['equipmentPlateIsRequired']
+                                document.data().containsKey("signatureIsRequired") ? document["signatureIsRequired"] : false;
+                            checklistItemStore.equipmentPlateIsRequired = document.data().containsKey("equipmentPlateIsRequired")
+                                ? document["equipmentPlateIsRequired"]
                                 : false;
                             checklistItemStore.locationIsRequired =
-                                document.data().containsKey('locationIsRequired') ? document['locationIsRequired'] : false;
+                                document.data().containsKey("locationIsRequired") ? document["locationIsRequired"] : false;
                             checklistItemStore.note = {};
                             checklistItemStore.isEditable = true;
 
@@ -141,7 +142,7 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: Text('Pergunta'),
+                                        title: Text("Pergunta"),
                                         content: SingleChildScrollView(
                                           child: ListBody(
                                             children: <Widget>[
@@ -158,7 +159,7 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                           Container(
                                             child:
                                             FlatButton(
-                                              child: Text('OK'),
+                                              child: Text("OK"),
                                               onPressed: () {
                                                 ok = true;
                                                 Navigator.of(context).pop();
@@ -202,7 +203,7 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                           left: MediaQuery.of(context).size.width * 0.04,
                                           right: MediaQuery.of(context).size.width * 0.04),
                                       child: Text(
-                                        document['name'],
+                                        document["name"],
                                         textScaleFactor: 1,
                                         style: TextStyle(
                                             fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),

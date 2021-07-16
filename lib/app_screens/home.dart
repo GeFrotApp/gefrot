@@ -1,16 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart';
-import 'package:todomobx/app_modules/checklist_module/checklist_base.dart';
-import 'package:todomobx/app_modules/ocr_module/ocr.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/stores/home_store.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart";
+import "package:todomobx/app_modules/checklist_module/checklist_base.dart";
+import "package:todomobx/app_modules/ocr_module/ocr.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/stores/home_store.dart";
 
-import 'media.dart';
+import "media.dart";
 
 class Home extends StatefulWidget {
   @override
@@ -85,7 +85,7 @@ class _HomeState extends State<Home> {
                                       children: [
                                         Center(
                                           child: Text(
-                                            'Abastecimento',textScaleFactor: 1,
+                                            "Abastecimento",textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context).size.width * 0.04,
                                                 fontWeight: FontWeight.w400,
@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
                                       children: [
                                         Center(
                                           child: Text(
-                                            'Check list',textScaleFactor: 1,
+                                            "Check list",textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context).size.width * 0.04,
                                                 fontWeight: FontWeight.w400,
@@ -167,14 +167,14 @@ class _HomeState extends State<Home> {
                           //                 mainAxisAlignment: MainAxisAlignment.center,
                           //                 children: [
                           //                   Text(
-                          //                     'Diário de ',textScaleFactor: 1,
+                          //                     "Diário de ",textScaleFactor: 1,
                           //                     style: TextStyle(
                           //                         fontSize: MediaQuery.of(context).size.width * 0.04,
                           //                         fontWeight: FontWeight.w400,
                           //                         color: Color.fromARGB(255, 120, 120, 120)),
                           //                   ),
                           //                   Text(
-                          //                     'bordo',textScaleFactor: 1,
+                          //                     "bordo",textScaleFactor: 1,
                           //                     style: TextStyle(
                           //                         fontSize: MediaQuery.of(context).size.width * 0.04,
                           //                         fontWeight: FontWeight.w400,
@@ -208,7 +208,7 @@ class _HomeState extends State<Home> {
                           //             children: [
                           //               Center(
                           //                 child: Text(
-                          //                   'Multas',textScaleFactor: 1,
+                          //                   "Multas",textScaleFactor: 1,
                           //                   style: TextStyle(
                           //                       fontSize: MediaQuery.of(context).size.width * 0.04,
                           //                       fontWeight: FontWeight.w400,
@@ -253,14 +253,14 @@ class _HomeState extends State<Home> {
                               //             mainAxisAlignment: MainAxisAlignment.center,
                               //             children: [
                               //               Text(
-                              //                 'Não ',textScaleFactor: 1,
+                              //                 "Não ",textScaleFactor: 1,
                               //                 style: TextStyle(
                               //                     fontSize: MediaQuery.of(context).size.width * 0.04,
                               //                     fontWeight: FontWeight.w400,
                               //                     color: Color.fromARGB(255, 120, 120, 120)),
                               //               ),
                               //               Text(
-                              //                 'conformidades',textScaleFactor: 1,
+                              //                 "conformidades",textScaleFactor: 1,
                               //                 style: TextStyle(
                               //                     fontSize: MediaQuery.of(context).size.width * 0.04,
                               //                     fontWeight: FontWeight.w400,
@@ -287,17 +287,16 @@ class _HomeState extends State<Home> {
                                     onPressed: () async {
                                       baseStore.turnLoading();
                                       var average = (await FirebaseFirestore.instance
-                                          .collection('Drivers')
+                                          .collection("Drivers")
                                           .doc(baseStore.cpf)
-                                          .collection('Averages')
+                                          .collection("Averages")
                                           .doc(cadastro1Store.placaCavalo)
                                           .get());
-                                      print(baseStore.cpf);
                                       var proposedAverage = 0.0;
                                       var currentAverage = 0.0;
                                       if (average.exists) {
-                                        proposedAverage = average.data()['proposedAverage'];
-                                        currentAverage = average.data()['average'];
+                                        proposedAverage = average.data()["proposedAverage"];
+                                        currentAverage = average.data()["average"];
                                       }
                                       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                                         return Media(proposedAverage, currentAverage);
@@ -313,7 +312,7 @@ class _HomeState extends State<Home> {
                                       children: [
                                         Center(
                                           child: Text(
-                                            'Médias',textScaleFactor: 1,
+                                            "Médias",textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context).size.width * 0.04,
                                                 fontWeight: FontWeight.w400,
@@ -351,7 +350,7 @@ class _HomeState extends State<Home> {
                                   //     children: [
                                   //       Center(
                                   //         child: Text(
-                                  //           'OCR',textScaleFactor: 1,
+                                  //           "OCR",textScaleFactor: 1,
                                   //           style: TextStyle(
                                   //               fontSize: MediaQuery.of(context).size.width * 0.04,
                                   //               fontWeight: FontWeight.w400,

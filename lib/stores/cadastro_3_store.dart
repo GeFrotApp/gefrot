@@ -1,6 +1,6 @@
-import 'package:mobx/mobx.dart';
+import "package:mobx/mobx.dart";
 
-part 'cadastro_3_store.g.dart';
+part "cadastro_3_store.g.dart";
 
 class Cadastro3Store = _Cadastro3Store with _$Cadastro3Store;
 

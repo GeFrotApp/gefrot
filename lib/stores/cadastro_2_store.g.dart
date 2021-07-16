@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cadastro_2_store.dart';
+part of "cadastro_2_store.dart";
 
 // **************************************************************************
 // StoreGenerator
@@ -14,10 +14,10 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   @override
   bool get isFormValid =>
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: '_Cadastro2Store.isFormValid'))
+              name: "_Cadastro2Store.isFormValid"))
           .value;
 
-  final _$nomeAtom = Atom(name: '_Cadastro2Store.nome');
+  final _$nomeAtom = Atom(name: "_Cadastro2Store.nome");
 
   @override
   String get nome {
@@ -32,7 +32,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
     });
   }
 
-  final _$passVisibleAtom = Atom(name: '_Cadastro2Store.passVisible');
+  final _$passVisibleAtom = Atom(name: "_Cadastro2Store.passVisible");
 
   @override
   bool get passVisible {
@@ -47,7 +47,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
     });
   }
 
-  final _$cpfAtom = Atom(name: '_Cadastro2Store.cpf');
+  final _$cpfAtom = Atom(name: "_Cadastro2Store.cpf");
 
   @override
   String get cpf {
@@ -62,7 +62,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
     });
   }
 
-  final _$passAtom = Atom(name: '_Cadastro2Store.pass');
+  final _$passAtom = Atom(name: "_Cadastro2Store.pass");
 
   @override
   String get pass {
@@ -77,7 +77,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
     });
   }
 
-  final _$confirmPassAtom = Atom(name: '_Cadastro2Store.confirmPass');
+  final _$confirmPassAtom = Atom(name: "_Cadastro2Store.confirmPass");
 
   @override
   String get confirmPass {
@@ -92,7 +92,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
     });
   }
 
-  final _$telefoneAtom = Atom(name: '_Cadastro2Store.telefone');
+  final _$telefoneAtom = Atom(name: "_Cadastro2Store.telefone");
 
   @override
   String get telefone {
@@ -107,7 +107,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
     });
   }
 
-  final _$emailAtom = Atom(name: '_Cadastro2Store.email');
+  final _$emailAtom = Atom(name: "_Cadastro2Store.email");
 
   @override
   String get email {
@@ -122,7 +122,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
     });
   }
 
-  final _$dataCNHAtom = Atom(name: '_Cadastro2Store.dataCNH');
+  final _$dataCNHAtom = Atom(name: "_Cadastro2Store.dataCNH");
 
   @override
   String get dataCNH {
@@ -138,12 +138,12 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   }
 
   final _$_Cadastro2StoreActionController =
-      ActionController(name: '_Cadastro2Store');
+      ActionController(name: "_Cadastro2Store");
 
   @override
   void setNome(String value) {
     final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
-        name: '_Cadastro2Store.setNome');
+        name: "_Cadastro2Store.setNome");
     try {
       return super.setNome(value);
     } finally {
@@ -154,7 +154,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   @override
   void turnVisible() {
     final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
-        name: '_Cadastro2Store.turnVisible');
+        name: "_Cadastro2Store.turnVisible");
     try {
       return super.turnVisible();
     } finally {
@@ -165,7 +165,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   @override
   void setCpf(String value) {
     final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
-        name: '_Cadastro2Store.setCpf');
+        name: "_Cadastro2Store.setCpf");
     try {
       return super.setCpf(value);
     } finally {
@@ -176,7 +176,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   @override
   void setPass(String value) {
     final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
-        name: '_Cadastro2Store.setPass');
+        name: "_Cadastro2Store.setPass");
     try {
       return super.setPass(value);
     } finally {
@@ -187,7 +187,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   @override
   void setConfirmPass(String value) {
     final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
-        name: '_Cadastro2Store.setConfirmPass');
+        name: "_Cadastro2Store.setConfirmPass");
     try {
       return super.setConfirmPass(value);
     } finally {
@@ -198,7 +198,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   @override
   void setTelefone(String value) {
     final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
-        name: '_Cadastro2Store.setTelefone');
+        name: "_Cadastro2Store.setTelefone");
     try {
       return super.setTelefone(value);
     } finally {
@@ -209,7 +209,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   @override
   void setEmail(String value) {
     final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
-        name: '_Cadastro2Store.setEmail');
+        name: "_Cadastro2Store.setEmail");
     try {
       return super.setEmail(value);
     } finally {
@@ -220,7 +220,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   @override
   void setDataCNH(String value) {
     final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
-        name: '_Cadastro2Store.setDataCNH');
+        name: "_Cadastro2Store.setDataCNH");
     try {
       return super.setDataCNH(value);
     } finally {
@@ -230,7 +230,7 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
 
   @override
   String toString() {
-    return '''
+    return """
 nome: ${nome},
 passVisible: ${passVisible},
 cpf: ${cpf},
@@ -240,6 +240,6 @@ telefone: ${telefone},
 email: ${email},
 dataCNH: ${dataCNH},
 isFormValid: ${isFormValid}
-    ''';
+    """;
   }
 }

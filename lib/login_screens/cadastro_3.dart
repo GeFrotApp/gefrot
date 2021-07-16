@@ -1,21 +1,21 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/stores/cadastro_2_store.dart';
-import 'package:todomobx/stores/cadastro_3_store.dart';
-import 'package:todomobx/widgets/aviso.dart';
-import 'package:todomobx/widgets/custom_background.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:crypto/crypto.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:mobx/mobx.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/stores/cadastro_2_store.dart";
+import "package:todomobx/stores/cadastro_3_store.dart";
+import "package:todomobx/widgets/aviso.dart";
+import "package:todomobx/widgets/custom_background.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
-import 'login_screen.dart';
+import "login_screen.dart";
 
 class Cadastro3 extends StatefulWidget {
   @override
@@ -96,20 +96,20 @@ class _Cadastro3State extends State<Cadastro3> {
                   ),
                 ),
                 CustomTextField(
-                  hint: 'Digite o CNPJ',
+                  hint: "Digite o CNPJ",
                   textInputType: TextInputType.number,
-                  formatter: new MaskTextInputFormatter(mask: 'XX. XXX. XXX/XXXX-XX', filter: {"X": RegExp(r'[0-9]')}),
+                  formatter: new MaskTextInputFormatter(mask: "XX. XXX. XXX/XXXX-XX", filter: {"X": RegExp(r"[0-9]")}),
                   onChanged: (value) async {
                     cadastro3Store.setCnpj(value);
                     if (cadastro3Store.cnpj.length == 20) {
                       final firestore = FirebaseFirestore.instance;
                       var x = await firestore
-                          .collection('Companies')
+                          .collection("Companies")
                           .doc(
-                              cadastro3Store.cnpj.replaceAll('.', "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", ""))
+                              cadastro3Store.cnpj.replaceAll(".", "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", ""))
                           .get();
                       if (x.exists) {
-                        cadastro3Store.setNomeEmpresa(x.data()['name']);
+                        cadastro3Store.setNomeEmpresa(x.data()["name"]);
                       } else {
                         cadastro3Store.setNomeEmpresa("Empresa não cadastrada");
                       }
@@ -184,7 +184,7 @@ class _Cadastro3State extends State<Cadastro3> {
                         child: Row(
                           children: [
                             Text(
-                              'Cadastrar',
+                              "Cadastrar",
                               textScaleFactor: 1,
                               style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.06, fontWeight: FontWeight.w400),
                             ),
@@ -204,31 +204,31 @@ class _Cadastro3State extends State<Cadastro3> {
                                 var cadastro2Store = Provider.of<Cadastro2Store>(context, listen: false);
                                 final firestore = FirebaseFirestore.instance;
                                 firestore
-                                    .collection('Drivers')
-                                    .doc(cadastro2Store.cpf.replaceAll('.', "").replaceAll("-", ""))
+                                    .collection("Drivers")
+                                    .doc(cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", ""))
                                     .set({
-                                  'name': cadastro2Store.nome.toLowerCase(),
-                                  'password': sha256.convert(utf8.encode(cadastro2Store.pass)).toString(),
-                                  'phone': cadastro2Store.telefone,
-                                  'email': cadastro2Store.email,
-                                  'cnpj': cadastro3Store.cnpj
-                                      .replaceAll('.', "")
+                                  "name": cadastro2Store.nome.toLowerCase(),
+                                  "password": sha256.convert(utf8.encode(cadastro2Store.pass)).toString(),
+                                  "phone": cadastro2Store.telefone,
+                                  "email": cadastro2Store.email,
+                                  "cnpj": cadastro3Store.cnpj
+                                      .replaceAll(".", "")
                                       .replaceAll(" ", "")
                                       .replaceAll("/", "")
                                       .replaceAll("-", ""),
-                                  'cnhDueDate': cadastro2Store.dataCNH,
-                                  'companyApproval': false,
-                                  'ingressDate': Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
+                                  "cnhDueDate": cadastro2Store.dataCNH,
+                                  "companyApproval": false,
+                                  "ingressDate": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
                                 });
-                                firestore.collection('Companies').doc(cadastro3Store.cnpj
-                                    .replaceAll('.', "")
+                                firestore.collection("Companies").doc(cadastro3Store.cnpj
+                                    .replaceAll(".", "")
                                     .replaceAll(" ", "")
                                     .replaceAll("/", "")
                                     .replaceAll("-", "")).collection("Warnings").add({
                                   "checked": false,
                                   "date": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
-                                  "driverCPF": cadastro2Store.cpf.replaceAll('.', "").replaceAll("-", ""),
-                                  "driverReference": "/Drivers/"+cadastro2Store.cpf.replaceAll('.', "").replaceAll("-", ""),
+                                  "driverCPF": cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", ""),
+                                  "driverReference": "/Drivers/"+cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", ""),
                                   "text": "O motorista, "+cadastro2Store.nome.toLowerCase()+" solicitou acesso.",
                                   "type": "newDriver"
                                 });

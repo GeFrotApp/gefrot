@@ -1,6 +1,6 @@
-import 'package:mobx/mobx.dart';
+import "package:mobx/mobx.dart";
 
-part 'cadastro_1_store.g.dart';
+part "cadastro_1_store.g.dart";
 
 class Cadastro1Store = _Cadastro1Store with _$Cadastro1Store;
 
@@ -27,7 +27,6 @@ abstract class _Cadastro1Store with Store {
     }else{
       this.numCarretas=1;
     }
-    print(cavalo);
   }
 
 
@@ -37,7 +36,6 @@ abstract class _Cadastro1Store with Store {
   @action
   void addCarreta(){
     if (numCarretas <3){numCarretas++;}
-    print(numCarretas);
   }
 
   @observable

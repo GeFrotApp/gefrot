@@ -1,13 +1,13 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/config_store.dart';
-import 'package:todomobx/widgets/base_top.dart';
-import 'package:todomobx/widgets/config_top.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "dart:ui";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/config_store.dart";
+import "package:todomobx/widgets/base_top.dart";
+import "package:todomobx/widgets/config_top.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
 class ContaUsuario extends StatefulWidget {
   @override
@@ -137,8 +137,8 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                                       child: CustomTextField(
                                         textInputType: TextInputType.number,
                                         formatter: new MaskTextInputFormatter(
-                                            mask: '(##) #####-####', filter: {"#": RegExp(r'[0-9]')}),
-                                        hint: '(__)-_____-____',
+                                            mask: "(##) #####-####", filter: {"#": RegExp(r"[0-9]")}),
+                                        hint: "(__)-_____-____",
                                         controller: telefone,
                                         onChanged: (value) {
                                           telefone.text = value;
@@ -281,8 +281,8 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                                         child: CustomTextField(
                                           textInputType: TextInputType.number,
                                           formatter: new MaskTextInputFormatter(
-                                              mask: '##/##/####', filter: {"#": RegExp(r'[0-9]')}),
-                                          hint: 'dd/mm/aaaa',
+                                              mask: "##/##/####", filter: {"#": RegExp(r"[0-9]")}),
+                                          hint: "dd/mm/aaaa",
                                           controller: vencimento,
                                           onChanged: (value) {
                                             vencimento.text = value;

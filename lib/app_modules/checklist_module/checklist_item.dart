@@ -1,25 +1,25 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:ui';
+import "dart:convert";
+import "dart:io";
+import "dart:ui";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_signature_pad/flutter_signature_pad.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/stores/checklist_base_store.dart';
-import 'package:todomobx/stores/checklist_item_store.dart';
-import 'package:todomobx/widgets/aviso.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_storage/firebase_storage.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:flutter_signature_pad/flutter_signature_pad.dart";
+import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:image_picker/image_picker.dart";
+import "package:path/path.dart" as Path;
+import "package:provider/provider.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/stores/checklist_base_store.dart";
+import "package:todomobx/stores/checklist_item_store.dart";
+import "package:todomobx/widgets/aviso.dart";
+import "package:path_provider/path_provider.dart";
+import "package:uuid/uuid.dart";
 
 class ChecklistItem extends StatefulWidget {
   @override
@@ -76,9 +76,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                   itemBuilder: (context, index) {
                     var buttonSize;
                     var buttonQty = checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                        index)]['activeButtons'].length;
+                        index)]["activeButtons"].length;
                     var buttons = checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                        index)]['activeButtons'];
+                        index)]["activeButtons"];
                     switch (buttonQty) {
                       case 1:
                         {
@@ -115,14 +115,14 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                 .width * 0.01,
                                 bottom: checklistItemStore.arrTail.contains(
                                     checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                        index)]['number']) ? 15 : 0),
+                                        index)]["number"]) ? 15 : 0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(top: checklistItemStore.arrHead.contains(
                                     checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                        index)]['number']) ? Radius.circular(15) : Radius.circular(0),
+                                        index)]["number"]) ? Radius.circular(15) : Radius.circular(0),
                                     bottom: checklistItemStore.arrTail.contains(
                                         checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                            index)]['number']) ? Radius.circular(15) : Radius.circular(0))
+                                            index)]["number"]) ? Radius.circular(15) : Radius.circular(0))
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +132,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                 ),
                                 checklistItemStore.arrHead.contains(
                                     checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                        index)]['number']) ? Container(
+                                        index)]["number"]) ? Container(
                                   margin: EdgeInsets.only(bottom: MediaQuery
                                       .of(context)
                                       .size
@@ -146,7 +146,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                       .width * 0.98,
                                   child: Text(
                                     " Grupo: " + checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                        index)]['group'], style: TextStyle(
+                                        index)]["group"], style: TextStyle(
                                       fontSize:
                                       MediaQuery
                                           .of(context)
@@ -161,7 +161,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                       .width * 0.015),
                                   child: Text(
                                     "  " + checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                        index)]['description'], textScaleFactor: 1,
+                                        index)]["description"], textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize:
                                         MediaQuery
@@ -191,8 +191,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             //primeiro, o nome da seleção (ex combustível), segundo as ações desse botão
                                             checklistItemStore.setAction(checklistItemStore.itemArray.keys.elementAt(index),
                                                 checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                                    index)]['buttons'][checklistItemStore.selectionArray[checklistItemStore
-                                                    .itemArray.keys.elementAt(index)]]['extern_actions']);
+                                                    index)]["buttons"][checklistItemStore.selectionArray[checklistItemStore
+                                                    .itemArray.keys.elementAt(index)]]["extern_actions"]);
                                             checklistItemStore.setFormValid();
                                           },
                                           child: Container(
@@ -223,7 +223,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                 child: Text(
                                                     checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
                                                         index)]
-                                                    ['buttons']['green']['text']
+                                                    ["buttons"]["green"]["text"]
                                                         .toUpperCase(), textScaleFactor: 1,
                                                     style: TextStyle(color: Colors.white))),
                                           ),
@@ -236,8 +236,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             checklistItemStore.itemArray.keys.elementAt(index), "red");
                                         checklistItemStore.setAction(checklistItemStore.itemArray.keys.elementAt(index),
                                             checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                                index)]['buttons'][checklistItemStore.selectionArray[checklistItemStore.itemArray
-                                                .keys.elementAt(index)]]['extern_actions']);
+                                                index)]["buttons"][checklistItemStore.selectionArray[checklistItemStore.itemArray
+                                                .keys.elementAt(index)]]["extern_actions"]);
                                         checklistItemStore.setFormValid();
                                       },
                                       child: Container(
@@ -267,7 +267,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                         child: Center(
                                             child: Text(
                                                 checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(index)]
-                                                ['buttons']['red']['text']
+                                                ["buttons"]["red"]["text"]
                                                     .toUpperCase(), textScaleFactor: 1,
                                                 style: TextStyle(color: Colors.white))),
                                       ),
@@ -278,8 +278,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             checklistItemStore.itemArray.keys.elementAt(index), "orange");
                                         checklistItemStore.setAction(checklistItemStore.itemArray.keys.elementAt(index),
                                             checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                                index)]['buttons'][checklistItemStore.selectionArray[checklistItemStore.itemArray
-                                                .keys.elementAt(index)]]['extern_actions']);
+                                                index)]["buttons"][checklistItemStore.selectionArray[checklistItemStore.itemArray
+                                                .keys.elementAt(index)]]["extern_actions"]);
                                         checklistItemStore.setFormValid();
                                       },
                                       child: Container(
@@ -309,7 +309,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                         child: Center(
                                             child: Text(
                                                 checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(index)]
-                                                ['buttons']['orange']['text']
+                                                ["buttons"]["orange"]["text"]
                                                     .toUpperCase(), textScaleFactor: 1,
                                                 style: TextStyle(color: Colors.white))),
                                       ),
@@ -321,8 +321,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             checklistItemStore.itemArray.keys.elementAt(index), "blue");
                                         checklistItemStore.setAction(checklistItemStore.itemArray.keys.elementAt(index),
                                             checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                                index)]['buttons'][checklistItemStore.selectionArray[checklistItemStore.itemArray
-                                                .keys.elementAt(index)]]['extern_actions']);
+                                                index)]["buttons"][checklistItemStore.selectionArray[checklistItemStore.itemArray
+                                                .keys.elementAt(index)]]["extern_actions"]);
                                         checklistItemStore.setFormValid();
                                       },
                                       child: Container(
@@ -352,7 +352,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                         child: Center(
                                             child: Text(
                                               checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(index)]
-                                              ['buttons']['blue']['text']
+                                              ["buttons"]["blue"]["text"]
                                                   .toUpperCase(), textScaleFactor: 1,
                                               style: TextStyle(color: Colors.white),
                                             )),
@@ -388,7 +388,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                 return AlertDialog(
                                                     title: Text(
                                                       checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                                          index)]['description'],
+                                                          index)]["description"],
 
                                                       textAlign: TextAlign.center,
                                                     ),
@@ -484,12 +484,12 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                       .inputArray[checklistItemStore.itemArray.keys.elementAt(
                                                       index)] != null &&
                                                       checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(
-                                                          index)]['note'] != null ? Color.fromARGB(255, 137, 202, 204) : Color
+                                                          index)]["note"] != null ? Color.fromARGB(255, 137, 202, 204) : Color
                                                       .fromARGB(255, 244, 98, 98) : checklistItemStore
                                                       .inputArray[checklistItemStore.itemArray.keys.elementAt(
                                                       index)] != null &&
                                                       checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(
-                                                          index)]['note'] != null ? Color.fromARGB(255, 137, 202, 204) : Color
+                                                          index)]["note"] != null ? Color.fromARGB(255, 137, 202, 204) : Color
                                                       .fromARGB(255, 117, 117, 117)
                                                   , fontSize: MediaQuery
                                                   .of(context)
@@ -508,9 +508,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             File file = new File(image.path);
                                             try {
                                               var path = await getApplicationDocumentsDirectory();
-                                              await file.rename(path.path + '/' + Path.basename(file.path));
+                                              await file.rename(path.path + "/" + Path.basename(file.path));
                                               checklistItemStore.setInput(checklistItemStore.itemArray.keys.elementAt(
-                                                  index), File(path.path + '/' + Path.basename(file.path)), "picture");
+                                                  index), File(path.path + "/" + Path.basename(file.path)), "picture");
                                             }
                                             catch (e) {
                                               baseStore.showMyDialog(context, "Não foi possível armazenar a foto");
@@ -533,12 +533,12 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                       .inputArray[checklistItemStore.itemArray.keys.elementAt(
                                                       index)] != null &&
                                                       checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(
-                                                          index)]['picture'] != null ? Color.fromARGB(255, 137, 202, 204) : Color
+                                                          index)]["picture"] != null ? Color.fromARGB(255, 137, 202, 204) : Color
                                                       .fromARGB(255, 244, 98, 98) : checklistItemStore
                                                       .inputArray[checklistItemStore.itemArray.keys.elementAt(
                                                       index)] != null &&
                                                       checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(
-                                                          index)]['picture'] != null ? Color.fromARGB(255, 137, 202, 204) : Color
+                                                          index)]["picture"] != null ? Color.fromARGB(255, 137, 202, 204) : Color
                                                       .fromARGB(255, 117, 117, 117),
                                                   fontSize: MediaQuery
                                                       .of(context)
@@ -554,7 +554,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                 ),
                                 !checklistItemStore.arrTail.contains(
                                     checklistItemStore.itemArray[checklistItemStore.itemArray.keys.elementAt(
-                                        index)]['number']) ? Container(
+                                        index)]["number"]) ? Container(
                                   height: 1,
                                   color: Colors.black,
                                 ) : Container(),
@@ -589,7 +589,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                       });
                       var isOnline;
                       try {
-                        final result = await InternetAddress.lookup('example.com');
+                        final result = await InternetAddress.lookup("example.com");
                         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                           isOnline = true;
                         }
@@ -645,20 +645,20 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                 final sign = _sign.currentState;
                                               },
                                               // Callback called on user pan drawing
-                                              key: _sign, // key that allow you to provide a GlobalKey that'll let you retrieve the image once user has signed
+                                              key: _sign, // key that allow you to provide a GlobalKey that"ll let you retrieve the image once user has signed
                                             ),
                                           )
                                       ),
                                       actions: <Widget>[
                                         FlatButton(
-                                          child: Text('Limpar', textScaleFactor: 1,),
+                                          child: Text("Limpar", textScaleFactor: 1,),
                                           onPressed: () {
                                             final sign = _sign.currentState;
                                             sign.clear();
                                           },
                                         ),
                                         FlatButton(
-                                          child: Text('Pronto', textScaleFactor: 1,),
+                                          child: Text("Pronto", textScaleFactor: 1,),
                                           onPressed: () async {
                                             final sign = _sign.currentState;
                                             image = await sign.getData();
@@ -670,15 +670,13 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                     ));
                               },
                             );
-                            var data = await image.toByteData(format: ImageByteFormat.png);
-                            final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
-                            await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+
                             // if (isOnline) {
                             //   setState(() {
                             //     loading = !loading;
                             //   });
                             //   var storageReference =
-                            //   FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                            //   FirebaseStorage.instance.ref().child("signatures/${Path.basename(file.path)}");
                             //   var uploadTask = storageReference.putFile(file);
                             //   await uploadTask;
                             //   noteSignature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
@@ -687,12 +685,20 @@ class _ChecklistItemState extends State<ChecklistItem> {
                             //   });
                             // } else {
                             try {
+                              var data = await image.toByteData(format: ImageByteFormat.png);
+                              final file = File("${(await getTemporaryDirectory()).path}/" + Uuid().v4().toString() + ".png");
+                              await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
                               var path = await getApplicationDocumentsDirectory();
-                              await file.rename(path.path + '/' + Path.basename(file.path));
-                              noteSignature[question.keys.elementAt(0)] = path.path + '/' + Path.basename(file.path);
+                              await file.rename(path.path + "/" + Path.basename(file.path));
+                              noteSignature[question.keys.elementAt(0)] = path.path + "/" + Path.basename(file.path);
                             }
                             catch (e) {
-                              baseStore.showMyDialog(context, "Não foi possível armazenar a assinatura");
+                             await baseStore.showMyDialog(context, "Não foi possível armazenar a assinatura");
+                             setState(() {
+                               loading = false;
+                             });
+                             return;
+
                             }
 
                             // }
@@ -732,20 +738,20 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                               final sign = _sign.currentState;
                                             },
                                             // Callback called on user pan drawing
-                                            key: _sign, // key that allow you to provide a GlobalKey that'll let you retrieve the image once user has signed
+                                            key: _sign, // key that allow you to provide a GlobalKey that"ll let you retrieve the image once user has signed
                                           ),
                                         )
                                     ),
                                     actions: <Widget>[
                                       FlatButton(
-                                        child: Text('Limpar', textScaleFactor: 1,),
+                                        child: Text("Limpar", textScaleFactor: 1,),
                                         onPressed: () {
                                           final sign = _sign.currentState;
                                           sign.clear();
                                         },
                                       ),
                                       FlatButton(
-                                        child: Text('Pronto', textScaleFactor: 1,),
+                                        child: Text("Pronto", textScaleFactor: 1,),
                                         onPressed: () async {
                                           final sign = _sign.currentState;
                                           image = await sign.getData();
@@ -756,25 +762,30 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                   ));
                             },
                           );
-                          var data = await image.toByteData(format: ImageByteFormat.png);
-                          final file = File('${(await getTemporaryDirectory()).path}/' + Uuid().v4().toString() + '.png');
-                          await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+
                           // if (isOnline) {
                           //   setState(() {
                           //     loading = !loading;
                           //   });
                           //   var storageReference =
-                          //   FirebaseStorage.instance.ref().child('signatures/${Path.basename(file.path)}');
+                          //   FirebaseStorage.instance.ref().child("signatures/${Path.basename(file.path)}");
                           //   var uploadTask = storageReference.putFile(file);
                           //   await uploadTask;
                           //   requiredSignature = await storageReference.getDownloadURL();
                           // } else {
                           try{
+                            var data = await image.toByteData(format: ImageByteFormat.png);
+                            final file = File("${(await getTemporaryDirectory()).path}/" + Uuid().v4().toString() + ".png");
+                            await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
                             var path = await getApplicationDocumentsDirectory();
-                            await file.rename(path.path + '/' + Path.basename(file.path));
-                            requiredSignature = path.path + '/' + Path.basename(file.path);
+                            await file.rename(path.path + "/" + Path.basename(file.path));
+                            requiredSignature = path.path + "/" + Path.basename(file.path);
                           }catch(e){
                             await baseStore.showMyDialog(context, "Erro ao coletar assinatura");
+                            setState(() {
+                              loading = false;
+                            });
+                            return;
                           }
 
                           // }
@@ -784,62 +795,12 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         }
                       }
 
-                      // setState(() {
-                      //   loading = !loading;
-                      // });
+                      setState(() {
+                        loading = true;
+                      });
 
                       var form = Map();
 
-
-                      var arrayPhotoFutures = {};
-                      var arrayUrlFutures = {};
-                      // Caso esteja online, salva os arquivos no banco de dados. Caso não, salva no JSON o caminho do arquivo.
-                      print(checklistItemStore.itemArray);
-                      // if (isOnline) {
-                      //   for (var k in checklistItemStore.itemArray.keys) {
-                      //     arrayPhotoFutures[k] = [];
-                      //     if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                      //       for (var picture in checklistItemStore.inputArray[k]["picture"]) {
-                      //         var path;
-                      //         var foto = picture;
-                      //         var storageReference =
-                      //         FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
-                      //         var uploadTask = storageReference.putFile(foto);
-                      //         arrayPhotoFutures[k].add(uploadTask);
-                      //       }
-                      //     }
-                      //   }
-                      //   for (var k in checklistItemStore.itemArray.keys) {
-                      //     arrayUrlFutures[k] = [];
-                      //     if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                      //       var c = 0;
-                      //       for (var picture in checklistItemStore.inputArray[k]["picture"]) {
-                      //         var path;
-                      //         var foto = picture;
-                      //         var storageReference =
-                      //         FirebaseStorage.instance.ref().child('checklistPhotos/${Path.basename(foto.path)}');
-                      //         await arrayPhotoFutures[k][c];
-                      //         arrayUrlFutures[k].add(storageReference.getDownloadURL());
-                      //         c++;
-                      //       }
-                      //     }
-                      //   }
-                      //   for (var k in checklistItemStore.itemArray.keys) {
-                      //     if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
-                      //       checklistItemStore.inputArray[k]["picture"] = [];
-                      //       for (var urlFuture in arrayUrlFutures[k]) {
-                      //         var path = await urlFuture;
-                      //         checklistItemStore.inputArray[k]["picture"].add(path);
-                      //       }
-                      //     }
-                      //     form.putIfAbsent(k, () =>
-                      //     {
-                      //       "actions": checklistItemStore.inputArray[k],
-                      //       "selectedButton": checklistItemStore.selectionArray[k]
-                      //     });
-                      //   }
-                      // } else {
-                      //Aqui os caminhos das imagens já estão salvos nas variáveis. Basta montar o array.
                       for (var k in checklistItemStore.itemArray.keys) {
                         if (checklistItemStore.inputArray[k] != null && checklistItemStore.inputArray[k]["picture"] != null) {
                           var arrPicturePaths = [];
@@ -859,58 +820,34 @@ class _ChecklistItemState extends State<ChecklistItem> {
 
                       final firestore = FirebaseFirestore.instance;
                       var formToSave = {
-                        'driverCPF': baseStore.cpf,
-                        'driverName': baseStore.nome,
+                        "driverCPF": baseStore.cpf,
+                        "driverName": baseStore.nome,
                         "selection": form,
-                        "modelName": checklistItemStore.model['name'],
-                        'horse': cadastro1Store.placaCavalo,
-                        'latitude': latitude,
-                        'longitude': longitude,
-                        'note': checklistItemStore.note,
-                        'trailers': checklistItemStore.equipmentPlateIsRequired ? [
+                        "modelName": checklistItemStore.model["name"],
+                        "horse": cadastro1Store.placaCavalo,
+                        "latitude": latitude,
+                        "longitude": longitude,
+                        "note": checklistItemStore.note,
+                        "trailers": checklistItemStore.equipmentPlateIsRequired ? [
                           cadastro1Store.placaCarreta1,
                           cadastro1Store.placaCarreta2,
                           cadastro1Store.placaCarreta3
                         ] : null,
-                        'noteSignature': noteSignature,
-                        'requiredSignature': requiredSignature,
+                        "noteSignature": noteSignature,
+                        "requiredSignature": requiredSignature,
                         "model": checklistItemStore.model,
                       };
-                      // if (isOnline) {
-                      //   formToSave['date'] = Timestamp.fromMillisecondsSinceEpoch(DateTime
-                      //       .now()
-                      //       .millisecondsSinceEpoch);
-                      //   if (checklistItemStore.documentId == null) {
-                      //     firestore
-                      //         .collection('Companies')
-                      //         .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
-                      //         .collection("CheckLists")
-                      //         .add(formToSave);
-                      //   } else {
-                      //     firestore
-                      //         .collection('Companies')
-                      //         .doc(baseStore.cnpj.replaceAll('.', "").replaceAll("-", ""))
-                      //         .collection("CheckLists").doc(checklistItemStore.documentId)
-                      //         .update({
-                      //       'date': Timestamp.fromMillisecondsSinceEpoch(DateTime
-                      //           .now()
-                      //           .millisecondsSinceEpoch),
-                      //       "selection": form,
-                      //     });
-                      //   }
-                      // } else {
-                      formToSave['date'] = DateTime
+                      formToSave["date"] = DateTime
                           .now()
                           .millisecondsSinceEpoch;
-                      formToSave['model']['createDate'] = "";
+                      formToSave["model"]["createDate"] = "";
                       Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
 
-                      String appDocumentsPath = appDocumentsDirectory.path + '/docs';
+                      String appDocumentsPath = appDocumentsDirectory.path + "/docs";
 
-                      String filePath = '$appDocumentsPath/checklists/' + DateTime.now().toString() + '.txt';
+                      String filePath = "$appDocumentsPath/checklists/" + DateTime.now().toString() + ".txt";
                       File file = new File(filePath); // 1
                       file.createSync(recursive: true);
-                      print(formToSave);
                       file.writeAsString(jsonEncode(formToSave));
                       String fileContent = await file.readAsString(); // 2
                       // }
@@ -918,7 +855,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                       if (isOnline) {
                         try {
                           setState(() {
-                            loading = !loading;
+                            loading = true;
                           });
                           await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
                           Navigator.of(context).push(
@@ -934,7 +871,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           await Future.delayed(const Duration(seconds: 2), () => "2");
                           Navigator.of(context).pop();
                           setState(() {
-                            loading = !loading;
+                            loading = false;
                           });
                           checklistBaseStore.setIndex(3);
                         }
@@ -948,6 +885,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                         await baseStore.showMyDialog(context, "Erro de rede. Os checklists serão salvos na próxima vez em que logar");
                         checklistBaseStore.setIndex(3);
                       }
+                      setState((){
+                        loading = false;
+                      });
                     } : () async {
                       showDialog(
                           context: context,

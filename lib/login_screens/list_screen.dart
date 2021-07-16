@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:todomobx/widgets/custom_icon_button.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "package:flutter/material.dart";
+import "package:todomobx/widgets/custom_icon_button.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
-import 'login_screen.dart';
+import "login_screen.dart";
 
 class ListScreen extends StatefulWidget {
   @override
@@ -26,7 +26,7 @@ class _ListScreenState extends State<ListScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      'Tarefas',
+                      "Tarefas",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w900,
@@ -54,7 +54,7 @@ class _ListScreenState extends State<ListScreen> {
                     child: Column(
                       children: <Widget>[
                         CustomTextField(
-                          hint: 'Tarefa',
+                          hint: "Tarefa",
                           onChanged: (todo) {},
                           suffix: CustomIconButton(
                             radius: 32,
@@ -71,7 +71,7 @@ class _ListScreenState extends State<ListScreen> {
                             itemBuilder: (_, index) {
                               return ListTile(
                                 title: Text(
-                                  'Item $index',
+                                  "Item $index",
                                 ),
                                 onTap: () {},
                               );

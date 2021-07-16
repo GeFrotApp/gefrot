@@ -1,8 +1,8 @@
-import 'dart:ui';
+import "dart:ui";
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
 
 class CustomPassTextField extends StatelessWidget {
   CustomPassTextField({this.hint, this.prefix, this.suffix, this.obscure = false,
@@ -41,7 +41,7 @@ class CustomPassTextField extends StatelessWidget {
         keyboardType: textInputType,
         onChanged: onChanged,
         enabled: enabled,
-        inputFormatters: <TextInputFormatter>[LengthLimitingTextInputFormatter(92), formatter!=null? formatter: new MaskTextInputFormatter(mask: '###############################################', filter: { "#": RegExp(r'[a-zA-Z0-9@. ]') })],
+        inputFormatters: <TextInputFormatter>[LengthLimitingTextInputFormatter(92), formatter!=null? formatter: new MaskTextInputFormatter(mask: "###############################################", filter: { "#": RegExp(r"[a-zA-Z0-9@. ]") })],
         decoration: InputDecoration(
           suffixIcon: suffix,
           hintText: hint,

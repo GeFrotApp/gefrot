@@ -1,15 +1,15 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart';
-import 'package:todomobx/stores/abastecimento_base_store.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/home_store.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_storage/firebase_storage.dart";
+import "package:flutter/material.dart";
+import "package:intl/date_symbol_data_local.dart";
+import "package:intl/intl.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart";
+import "package:todomobx/stores/abastecimento_base_store.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/home_store.dart";
 
 class Warnings extends StatefulWidget {
   @override
@@ -17,9 +17,9 @@ class Warnings extends StatefulWidget {
 }
 
 class _WarningsState extends State<Warnings> {
-  var enDatesFuture = initializeDateFormatting('pt_BR', null);
+  var enDatesFuture = initializeDateFormatting("pt_BR", null);
   List<String> warnings = ["supply"];
-  var formatter = DateFormat.yMMMMEEEEd('pt_BR').add_Hm();
+  var formatter = DateFormat.yMMMMEEEEd("pt_BR").add_Hm();
   var hora = new DateTime.now().hour;
   HomeStore homeStore;
   BaseStore baseStore;
@@ -71,9 +71,9 @@ class _WarningsState extends State<Warnings> {
                     color: Colors.white,
                     child: StreamBuilder<QuerySnapshot>(
                       stream: fb
-                          .collection('Companies')
+                          .collection("Companies")
                           .doc(baseStore.cnpj.toString())
-                          .collection('Warnings')
+                          .collection("Warnings")
                           .where("type", whereIn: warnings)
                           .where("checked", isEqualTo: false)
                           .where("driverCPF", isEqualTo: baseStore.cpf)
@@ -85,7 +85,7 @@ class _WarningsState extends State<Warnings> {
                             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.024),
                             width: MediaQuery.of(context).size.width,
                             child: Text(
-                              'Loading...',
+                              "Loading...",
                               textScaleFactor: 1,
                             ),
                           );
@@ -108,7 +108,7 @@ class _WarningsState extends State<Warnings> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        document['text'],
+                                        document["text"],
                                         textScaleFactor: 1,
                                         style: TextStyle(
                                             fontSize: MediaQuery.of(context).size.width * 0.048,
@@ -118,7 +118,7 @@ class _WarningsState extends State<Warnings> {
                                       Text(
                                         "  " +
                                             formatter.format(
-                                                DateTime.fromMicrosecondsSinceEpoch(document['date'].microsecondsSinceEpoch)),
+                                                DateTime.fromMicrosecondsSinceEpoch(document["date"].microsecondsSinceEpoch)),
                                         textScaleFactor: 1,
                                         style: TextStyle(color: Colors.grey, fontSize: MediaQuery.of(context).size.width * 0.035),
                                       ),
@@ -131,30 +131,29 @@ class _WarningsState extends State<Warnings> {
                                         onTap: () async {
                                           var firestore;
                                           try {
-                                            final result = await InternetAddress.lookup('example.com');
+                                            final result = await InternetAddress.lookup("example.com");
                                             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
                                           } on SocketException catch (_) {
                                             await fb.disableNetwork();
                                           }
-                                          var document2 = await document.data()['supply'].get();
-                                          print(document2.data());
+                                          var document2 = await document.data()["supply"].get();
                                           abastecimentoBaseStore.documento = document2.id;
                                           abastecimentoBaseStore.data = document2.data()["date"];
-                                          abastecimentoBaseStore.setPosto(document2.data()['gasStationName']);
-                                          abastecimentoBaseStore.setCnpjPosto(document2.data()['gasStationCnpj']);
-                                          abastecimentoBaseStore.setLitros(document2.data()['amount']);
-                                          abastecimentoBaseStore.setNewOdometro(document2.data()['odometerNew']);
-                                          abastecimentoBaseStore.setOldOdometro(document2.data()['odometerOld']);
-                                          abastecimentoBaseStore.setNf(document2.data()['invoice']);
-                                          abastecimentoBaseStore.setValor(document2.data()['totalPrice']);
-                                          abastecimentoBaseStore.invoicePhoto = (document2.data()['invoicePhoto']);
-                                          abastecimentoBaseStore.setTanqueCheio(document2.data()['fullTank']);
+                                          abastecimentoBaseStore.setPosto(document2.data()["gasStationName"]);
+                                          abastecimentoBaseStore.setCnpjPosto(document2.data()["gasStationCnpj"]);
+                                          abastecimentoBaseStore.setLitros(document2.data()["amount"]);
+                                          abastecimentoBaseStore.setNewOdometro(document2.data()["odometerNew"]);
+                                          abastecimentoBaseStore.setOldOdometro(document2.data()["odometerOld"]);
+                                          abastecimentoBaseStore.setNf(document2.data()["invoice"]);
+                                          abastecimentoBaseStore.setValor(document2.data()["totalPrice"]);
+                                          abastecimentoBaseStore.invoicePhoto = (document2.data()["invoicePhoto"]);
+                                          abastecimentoBaseStore.setTanqueCheio(document2.data()["fullTank"]);
 
                                           abastecimentoBaseStore.setIndex(3, context, true);
                                           FirebaseFirestore.instance
-                                              .collection('Companies')
+                                              .collection("Companies")
                                               .doc(baseStore.cnpj)
-                                              .collection('Warnings')
+                                              .collection("Warnings")
                                               .doc(document.id)
                                               .update({"checked": true});
                                           baseStore.setWarnings(-1);
@@ -183,9 +182,9 @@ class _WarningsState extends State<Warnings> {
                                       GestureDetector(
                                         onTap: () {
                                           FirebaseFirestore.instance
-                                              .collection('Companies')
+                                              .collection("Companies")
                                               .doc(baseStore.cnpj)
-                                              .collection('Warnings')
+                                              .collection("Warnings")
                                               .doc(document.id)
                                               .update({"checked": true});
                                           baseStore.setWarnings(-1);

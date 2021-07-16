@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mobx/mobx.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:mobx/mobx.dart";
 
-part 'config_store.g.dart';
+part "config_store.g.dart";
 
 class ConfigStore = _ConfigStore with _$ConfigStore;
 
@@ -15,8 +15,8 @@ abstract class _ConfigStore with Store {
   @action
   Future<void> setNome(id, nome) async {
     var firebase = FirebaseFirestore.instance;
-    firebase.collection('Drivers').doc(id).update({
-      'name':nome
+    firebase.collection("Drivers").doc(id).update({
+      "name":nome
     });
   }
 
@@ -32,8 +32,8 @@ abstract class _ConfigStore with Store {
   @action
   Future<void> setMail(id,mail) async {
     var firebase = FirebaseFirestore.instance;
-    firebase.collection('Drivers').doc(id).update({
-      'email':mail
+    firebase.collection("Drivers").doc(id).update({
+      "email":mail
     });
   }
 
@@ -47,8 +47,8 @@ abstract class _ConfigStore with Store {
   @action
   Future<void> setPhone(id,phone) async {
     var firebase = FirebaseFirestore.instance;
-    firebase.collection('Drivers').doc(id).update({
-      'phone':phone
+    firebase.collection("Drivers").doc(id).update({
+      "phone":phone
     });
   }
 
@@ -62,8 +62,8 @@ abstract class _ConfigStore with Store {
   @action
   Future<void> setCnh(id,cnh) async {
     var firebase = FirebaseFirestore.instance;
-    firebase.collection('Drivers').doc(id).update({
-      'cnhDueDate':cnh
+    firebase.collection("Drivers").doc(id).update({
+      "cnhDueDate":cnh
     });
   }
 }

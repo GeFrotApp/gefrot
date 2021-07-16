@@ -1,29 +1,28 @@
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:in_app_update/in_app_update.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:splashscreen/splashscreen.dart';
-import 'package:todomobx/login_screens/login_screen.dart';
-import 'package:todomobx/stores/abastecimento_base_store.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/stores/cadastro_2_store.dart';
-import 'package:todomobx/stores/cadastro_3_store.dart';
-import 'package:todomobx/stores/checklist_base_store.dart';
-import 'package:todomobx/stores/checklist_item_store.dart';
-import 'package:todomobx/stores/home_store.dart';
-import 'package:todomobx/stores/jornada_base_store.dart';
-import 'package:todomobx/stores/jornada_store.dart';
-import 'package:todomobx/stores/login_store.dart';
+import "package:firebase_core/firebase_core.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:flutter_localizations/flutter_localizations.dart";
+import "package:in_app_update/in_app_update.dart";
+import "package:provider/provider.dart";
+import "package:shared_preferences/shared_preferences.dart";
+import "package:splashscreen/splashscreen.dart";
+import "package:todomobx/login_screens/login_screen.dart";
+import "package:todomobx/stores/abastecimento_base_store.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/stores/cadastro_2_store.dart";
+import "package:todomobx/stores/cadastro_3_store.dart";
+import "package:todomobx/stores/checklist_base_store.dart";
+import "package:todomobx/stores/checklist_item_store.dart";
+import "package:todomobx/stores/home_store.dart";
+import "package:todomobx/stores/jornada_base_store.dart";
+import "package:todomobx/stores/jornada_store.dart";
+import "package:todomobx/stores/login_store.dart";
 
 void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
-  InAppUpdate.performImmediateUpdate().catchError((onError){print(onError);});
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var cpf = prefs.getString("cpf");
   var senha = prefs.getString("pass");
@@ -97,8 +96,8 @@ class MyApp extends StatelessWidget {
         ],
         // builder: DevicePreview.appBuilder,
         // locale: DevicePreview.locale(context),
-        supportedLocales: [const Locale('pt', 'BR')],
-        title: 'GEFROT',
+        supportedLocales: [const Locale("pt", "BR")],
+        title: "GEFROT",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color.fromARGB(255, 108, 190, 193),

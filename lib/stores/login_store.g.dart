@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_store.dart';
+part of "login_store.dart";
 
 // **************************************************************************
 // StoreGenerator
@@ -14,10 +14,10 @@ mixin _$LoginStore on _LoginStore, Store {
   @override
   bool get isFormValid =>
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: '_LoginStore.isFormValid'))
+              name: "_LoginStore.isFormValid"))
           .value;
 
-  final _$cpfAtom = Atom(name: '_LoginStore.cpf');
+  final _$cpfAtom = Atom(name: "_LoginStore.cpf");
 
   @override
   String get cpf {
@@ -32,7 +32,7 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
-  final _$passAtom = Atom(name: '_LoginStore.pass');
+  final _$passAtom = Atom(name: "_LoginStore.pass");
 
   @override
   String get pass {
@@ -47,7 +47,7 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
-  final _$passVisibleAtom = Atom(name: '_LoginStore.passVisible');
+  final _$passVisibleAtom = Atom(name: "_LoginStore.passVisible");
 
   @override
   bool get passVisible {
@@ -63,7 +63,7 @@ mixin _$LoginStore on _LoginStore, Store {
   }
 
   final _$rememberCredentialsAsyncAction =
-      AsyncAction('_LoginStore.rememberCredentials');
+      AsyncAction("_LoginStore.rememberCredentials");
 
   @override
   Future<dynamic> rememberCredentials() {
@@ -71,12 +71,12 @@ mixin _$LoginStore on _LoginStore, Store {
         .run(() => super.rememberCredentials());
   }
 
-  final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
+  final _$_LoginStoreActionController = ActionController(name: "_LoginStore");
 
   @override
   void setCPF(String value) {
     final _$actionInfo =
-        _$_LoginStoreActionController.startAction(name: '_LoginStore.setCPF');
+        _$_LoginStoreActionController.startAction(name: "_LoginStore.setCPF");
     try {
       return super.setCPF(value);
     } finally {
@@ -87,7 +87,7 @@ mixin _$LoginStore on _LoginStore, Store {
   @override
   void setPass(String value) {
     final _$actionInfo =
-        _$_LoginStoreActionController.startAction(name: '_LoginStore.setPass');
+        _$_LoginStoreActionController.startAction(name: "_LoginStore.setPass");
     try {
       return super.setPass(value);
     } finally {
@@ -98,7 +98,7 @@ mixin _$LoginStore on _LoginStore, Store {
   @override
   void turnVisible() {
     final _$actionInfo = _$_LoginStoreActionController.startAction(
-        name: '_LoginStore.turnVisible');
+        name: "_LoginStore.turnVisible");
     try {
       return super.turnVisible();
     } finally {
@@ -108,11 +108,11 @@ mixin _$LoginStore on _LoginStore, Store {
 
   @override
   String toString() {
-    return '''
+    return """
 cpf: ${cpf},
 pass: ${pass},
 passVisible: ${passVisible},
 isFormValid: ${isFormValid}
-    ''';
+    """;
   }
 }

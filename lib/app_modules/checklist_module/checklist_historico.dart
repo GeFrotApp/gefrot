@@ -1,14 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/checklist_base_store.dart';
-import 'package:todomobx/stores/checklist_item_store.dart';
-import 'package:todomobx/stores/home_store.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:intl/date_symbol_data_local.dart";
+import "package:intl/intl.dart";
+import "package:mobx/mobx.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/checklist_base_store.dart";
+import "package:todomobx/stores/checklist_item_store.dart";
+import "package:todomobx/stores/home_store.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
 class CheckListHistorico extends StatefulWidget {
   @override
@@ -16,8 +16,8 @@ class CheckListHistorico extends StatefulWidget {
 }
 
 class _CheckListHistoricoState extends State<CheckListHistorico> {
-  var enDatesFuture = initializeDateFormatting('pt_BR', null);
-  var formatter = DateFormat.yMd('pt_BR');
+  var enDatesFuture = initializeDateFormatting("pt_BR", null);
+  var formatter = DateFormat.yMd("pt_BR");
   var hora = new DateTime.now().hour;
   var filter = "";
   HomeStore homeStore;
@@ -86,43 +86,37 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
               child: Container(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('Companies')
+                      .collection("Companies")
                       .doc(baseStore.cnpj)
-                      .collection('CheckLists')
+                      .collection("CheckLists")
                       .where("driverCPF", isEqualTo: baseStore.cpf)
                       .orderBy("date", descending: true)
                       .snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData) return new Text('Loading...');
+                    if (!snapshot.hasData) return new Text("Loading...");
                     return new ListView(
                       children: snapshot.data.docs.map((DocumentSnapshot document) {
-                        return document['model']['name'].toString().toUpperCase().contains(filter)
+                        return document["model"]["name"].toString().toUpperCase().contains(filter)
                             ? GestureDetector(
                                 onTap: () {
-                                  print("oi");
                                   checklistItemStore.setItemCode(document.id);
-                                  print(document.id);
-                                  print(document.data());
-                                  var temp = document['model']['items'];
+                                  var temp = document["model"]["items"];
                                   checklistItemStore.itemArray = {};
                                   for (var i = 1; i <= temp.length; i++) {
                                     checklistItemStore.itemArray["Item " + i.toString()] = temp["Item " + i.toString()];
                                   }
                                   checklistItemStore.isEdit = true;
-                                  checklistItemStore.selection = document['selection'];
+                                  checklistItemStore.selection = document["selection"];
                                   checklistItemStore.selectionArray = new ObservableMap<dynamic, dynamic>();
                                   checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                                   checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                                   checklistItemStore.documentId = document.id;
                                   checklistItemStore.isEditable =
-                                      document.data()['model'].containsKey("isEditable") ? document['model']['isEditable'] : false;
-                                  for (var key in document['selection'].keys) {
-                                    print("oi");
-                                    print(document['selection'][key]);
-                                    checklistItemStore.setSelection(key, document['selection'][key]['selectedButton']);
-                                    print([key]);
+                                      document.data()["model"].containsKey("isEditable") ? document["model"]["isEditable"] : false;
+                                  for (var key in document["selection"].keys) {
+                                    checklistItemStore.setSelection(key, document["selection"][key]["selectedButton"]);
                                     checklistItemStore.setAction(
-                                        key, checklistItemStore.itemArray[key]['buttons'][checklistItemStore.selectionArray[key]]['extern_actions']);
+                                        key, checklistItemStore.itemArray[key]["buttons"][checklistItemStore.selectionArray[key]]["extern_actions"]);
                                   }
                                   checklistBaseStore.setIndex(4);
                                 },
@@ -146,9 +140,9 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                                                         left: MediaQuery.of(context).size.width * 0.04,
                                                         right: MediaQuery.of(context).size.width * 0.04),
                                                     child: Text(
-                                                      (document['model']['name'].length > 28
-                                                          ? document['model']['name'].substring(0, 28) + "..."
-                                                          : document['model']['name']),
+                                                      (document["model"]["name"].length > 28
+                                                          ? document["model"]["name"].substring(0, 28) + "..."
+                                                          : document["model"]["name"]),
                                                       style: TextStyle(
                                                           fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
                                                       textAlign: TextAlign.start,
@@ -158,7 +152,7 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                                                       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.04),
                                                       child: Text(
                                                         formatter
-                                                            .format(DateTime.fromMicrosecondsSinceEpoch(document['date'].microsecondsSinceEpoch)),
+                                                            .format(DateTime.fromMicrosecondsSinceEpoch(document["date"].microsecondsSinceEpoch)),
                                                         style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                                       )),
                                                 ],

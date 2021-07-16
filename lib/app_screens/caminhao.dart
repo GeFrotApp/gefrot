@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/app_screens/base.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/app_screens/base.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
 class Caminhao extends StatefulWidget {
   @override
@@ -72,8 +72,8 @@ class _CaminhaoState extends State<Caminhao> {
                   alignment: Alignment.centerLeft,
                   child: CustomTextField(
                     controller: cavalo,
-                    hint: 'Digite a placa',
-                    formatter: new MaskTextInputFormatter(mask: '###-####', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
+                    hint: "Digite a placa",
+                    formatter: new MaskTextInputFormatter(mask: "###-####", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
                     onChanged: cadastro1Store.setPlacaCavalo,
                     enabled: true,
                   ),
@@ -91,8 +91,8 @@ class _CaminhaoState extends State<Caminhao> {
                 ),
                 CustomTextField(
                   controller: carreta1,
-                  hint: 'Digite a placa',
-                  formatter: new MaskTextInputFormatter(mask: '###-####', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
+                  hint: "Digite a placa",
+                  formatter: new MaskTextInputFormatter(mask: "###-####", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
                   onChanged: cadastro1Store.setPlacaCarreta1,
                   enabled: true,
                 ),
@@ -112,8 +112,8 @@ class _CaminhaoState extends State<Caminhao> {
                           ),
                           CustomTextField(
                             controller: carreta2,
-                            hint: 'Digite a placa',
-                            formatter: new MaskTextInputFormatter(mask: '###-####', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
+                            hint: "Digite a placa",
+                            formatter: new MaskTextInputFormatter(mask: "###-####", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
                             onChanged: cadastro1Store.setPlacaCarreta2,
                             enabled: true,
                           ),
@@ -136,8 +136,8 @@ class _CaminhaoState extends State<Caminhao> {
                           ),
                           CustomTextField(
                             controller: carreta3,
-                            hint: 'Digite a placa',
-                            formatter: new MaskTextInputFormatter(mask: '###-####', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
+                            hint: "Digite a placa",
+                            formatter: new MaskTextInputFormatter(mask: "###-####", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
                             onChanged: cadastro1Store.setPlacaCarreta3,
                             enabled: true,
                           ),
@@ -181,7 +181,7 @@ class _CaminhaoState extends State<Caminhao> {
                           ),
                           child: Row(children: <Widget>[
                             Text(
-                              'Atualizar',
+                              "Atualizar",
                               textScaleFactor: 1,
                               style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.061),
                             ),
@@ -228,28 +228,25 @@ class _CaminhaoState extends State<Caminhao> {
                                         .get();
                                     carreta3Exists = x.data()?.isNotEmpty;
                                   }
-                                  print(cavaloExists);
                                   if (cavaloExists != null &&
                                       carreta1Exists != null &&
                                       carreta2Exists != null &&
                                       carreta3Exists != null) {
-                                    baseStore.odometro = document.data()['odometer'].toDouble();
-                                    baseStore.mediaProposta = document.data()['average'].toDouble();
-                                    print(baseStore.odometro.toString());
+                                    baseStore.odometro = document.data()["odometer"].toDouble();
+                                    baseStore.mediaProposta = document.data()["average"].toDouble();
                                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
                                     firestore
-                                        .collection('Drivers')
-                                        .doc(baseStore.cpf.replaceAll('.', "").replaceAll("-", ""))
+                                        .collection("Drivers")
+                                        .doc(baseStore.cpf.replaceAll(".", "").replaceAll("-", ""))
                                         .update({
-                                      'horse': cadastro1Store.placaCavalo,
-                                      'trailers': [
+                                      "horse": cadastro1Store.placaCavalo,
+                                      "trailers": [
                                         cadastro1Store.placaCarreta1,
                                         cadastro1Store.placaCarreta2,
                                         cadastro1Store.placaCarreta3
                                       ]
                                     });
                                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Base()));
-                                    print(cadastro1Store.placaCarreta2);
                                   } else if (cavaloExists == null) {
                                     baseStore.showMyDialog(context, "O veículo não está cadastrado");
                                   } else if (carreta1Exists == null) {

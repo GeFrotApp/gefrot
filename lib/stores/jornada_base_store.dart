@@ -1,6 +1,6 @@
-import 'package:mobx/mobx.dart';
+import "package:mobx/mobx.dart";
 
-part 'jornada_base_store.g.dart';
+part "jornada_base_store.g.dart";
 
 class JornadaBaseStore = _JornadaBaseStore with _$JornadaBaseStore;
 
@@ -23,7 +23,6 @@ abstract class _JornadaBaseStore with Store {
   @action
   void turnJornada(){
     jornada = !jornada;
-    print(jornada);
   }
 
 }

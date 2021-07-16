@@ -1,7 +1,7 @@
-import 'package:mobx/mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:mobx/mobx.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
-part 'login_store.g.dart';
+part "login_store.g.dart";
 
 class LoginStore = _LoginStore with _$LoginStore;
 

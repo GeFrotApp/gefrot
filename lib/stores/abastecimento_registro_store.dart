@@ -1,11 +1,11 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:dio/dio.dart";
+import "package:flutter/material.dart";
+import "package:mobx/mobx.dart";
 
-part 'abastecimento_registro_store.g.dart';
+part "abastecimento_registro_store.g.dart";
 
 class AbastecimentoRegistroStore = _AbastecimentoRegistroStore with _$AbastecimentoRegistroStore;
 
@@ -31,11 +31,10 @@ abstract class _AbastecimentoRegistroStore with Store {
   @action
   Future<void> setData(value) async {
     litrosIntermediarios = 0;
-    print("1234");
     data = value;
     var fb;
     try {
-      final result = await InternetAddress.lookup('example.com');
+      final result = await InternetAddress.lookup("example.com");
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         fb = FirebaseFirestore.instance;
       }
@@ -44,7 +43,7 @@ abstract class _AbastecimentoRegistroStore with Store {
       await fb.disableNetwork();
     }
     var absOld = (await fb
-            .collection('Companies')
+            .collection("Companies")
             .doc(base.cnpj)
             .collection("Supplies")
             .where("licensePlate", isEqualTo: cadastro.placaCavalo)
@@ -55,7 +54,7 @@ abstract class _AbastecimentoRegistroStore with Store {
             .get())
         .docs;
     var absNew = (await fb
-            .collection('Companies')
+            .collection("Companies")
             .doc(base.cnpj)
             .collection("Supplies")
             .where("licensePlate", isEqualTo: cadastro.placaCavalo)
@@ -68,11 +67,10 @@ abstract class _AbastecimentoRegistroStore with Store {
       first = true;
       odometroOld = base.odometro;
     } else {
-      print("qwfawf");
       first = false;
-      var lastDate = Timestamp.fromMillisecondsSinceEpoch(absOld[0].data()['date'].millisecondsSinceEpoch);
+      var lastDate = Timestamp.fromMillisecondsSinceEpoch(absOld[0].data()["date"].millisecondsSinceEpoch);
       var absMiddle = (await fb
-          .collection('Companies')
+          .collection("Companies")
           .doc(base.cnpj)
           .collection("Supplies")
           .where("licensePlate", isEqualTo: cadastro.placaCavalo)
@@ -81,13 +79,11 @@ abstract class _AbastecimentoRegistroStore with Store {
           .orderBy("date", descending: false)
           .get())
           .docs;
-      print("quantidade é: "+absMiddle.length.toString());
       for(var x = 0; x < absMiddle.length;x++){
-        litrosIntermediarios += absMiddle[x].data()['amount'];
+        litrosIntermediarios += absMiddle[x].data()["amount"];
       }
-      print(litrosIntermediarios);
 
-      odometroOld = absOld.last.data()['odometerNew'];
+      odometroOld = absOld.last.data()["odometerNew"];
     }
     if (absNew.length == 1) {
       last = false;
@@ -111,13 +107,12 @@ abstract class _AbastecimentoRegistroStore with Store {
 
   @action
   Future<void> setCnpjPosto(value) async {
-    cnpjPosto = value.replaceAll('.', "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", "");
+    cnpjPosto = value.replaceAll(".", "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", "");
     if (cnpjPosto.length == 14) {
       Response response = await Dio().get("https://www.receitaws.com.br/v1/cnpj/" + cnpjPosto);
-      if (response.data['status'] == "OK") {
-        print(response.data['nome']);
-        nomePostoController.text = response.data['nome'];
-        posto = response.data['nome'];
+      if (response.data["status"] == "OK") {
+        nomePostoController.text = response.data["nome"];
+        posto = response.data["nome"];
       }
     }
   }

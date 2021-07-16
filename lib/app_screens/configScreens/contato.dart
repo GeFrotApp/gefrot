@@ -1,11 +1,11 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/widgets/base_top.dart';
-import 'package:todomobx/widgets/config_top.dart';
+import "dart:ui";
+import "package:flutter/material.dart";
+import "package:flutter_open_whatsapp/flutter_open_whatsapp.dart";
+import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/widgets/base_top.dart";
+import "package:todomobx/widgets/config_top.dart";
 
 class Contato extends StatefulWidget {
   @override

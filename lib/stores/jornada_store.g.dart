@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'jornada_store.dart';
+part of "jornada_store.dart";
 
 // **************************************************************************
 // StoreGenerator
@@ -11,8 +11,8 @@ part of 'jornada_store.dart';
 mixin _$JornadaStore on _JornadaStore, Store {
   @override
   String toString() {
-    return '''
+    return """
 
-    ''';
+    """;
   }
 }

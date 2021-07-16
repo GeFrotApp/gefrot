@@ -1,8 +1,8 @@
-import 'dart:ui';
+import "dart:ui";
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
@@ -69,7 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         keyboardType: textInputType,
         onChanged: onChanged,
         enabled: enabled,
-        inputFormatters: <TextInputFormatter>[LengthLimitingTextInputFormatter(92), UpperCaseTextFormatter(), formatter!=null? formatter: new MaskTextInputFormatter(mask: '###############################################', filter: { "#": RegExp(r'[a-zA-Z0-9@. ]') })],
+        inputFormatters: <TextInputFormatter>[LengthLimitingTextInputFormatter(92), UpperCaseTextFormatter(), formatter!=null? formatter: new MaskTextInputFormatter(mask: "###############################################", filter: { "#": RegExp(r"[a-zA-Z0-9@. ]") })],
         decoration: InputDecoration(
           suffixIcon: suffix,
           hintText: hint,

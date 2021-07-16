@@ -1,14 +1,12 @@
-import 'package:mobx/mobx.dart';
+import "package:mobx/mobx.dart";
 
-part 'cadastro_2_store.g.dart';
+part "cadastro_2_store.g.dart";
 
 class Cadastro2Store = _Cadastro2Store with _$Cadastro2Store;
 
 abstract class _Cadastro2Store with Store {
   _Cadastro2Store() {
     autorun((_) {
-      print(cpf.length);
-      print(pass.length);
     });
   }
 

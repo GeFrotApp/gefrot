@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
 
 class BaseTop extends StatefulWidget {
   @override
@@ -93,7 +93,7 @@ class _BaseTopState extends State<BaseTop> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Veículo',
+                                      "Veículo",
                                       textScaleFactor: 1,
                                       style: TextStyle(
                                           color: Color.fromARGB(255, 120, 120, 120),
@@ -134,7 +134,7 @@ class _BaseTopState extends State<BaseTop> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Equipamento',
+                                      "Equipamento",
                                       textScaleFactor: 1,
                                       style: TextStyle(
                                           color: Color.fromARGB(255, 120, 120, 120),
@@ -176,7 +176,7 @@ class _BaseTopState extends State<BaseTop> {
                                       child: Column(
                                         children: [
                                           Text(
-                                              'Equipamento',
+                                              "Equipamento",
                                             textScaleFactor: 1,
                                             style: TextStyle(
                                                 color: Color.fromARGB(255, 120, 120, 120),
@@ -221,7 +221,7 @@ class _BaseTopState extends State<BaseTop> {
                                       child: Column(
                                         children: [
                                           Text(
-                                            'Equipamento',
+                                            "Equipamento",
                                             textScaleFactor: 1,
                                             style: TextStyle(
                                                 color: Color.fromARGB(255, 120, 120, 120),

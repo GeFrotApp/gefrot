@@ -1,24 +1,25 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crypto/crypto.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/login_screens/cadastro_1.dart';
-import 'package:todomobx/login_screens/pass_recover_1.dart';
-import 'package:todomobx/main.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/login_store.dart';
-import 'package:todomobx/widgets/custom_background.dart';
-import 'package:todomobx/widgets/custom_pass_text_field.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:crypto/crypto.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/login_screens/cadastro_1.dart";
+import "package:todomobx/login_screens/pass_recover_1.dart";
+import "package:todomobx/main.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/login_store.dart";
+import 'package:todomobx/utils/Logger.dart';
+import "package:todomobx/widgets/custom_background.dart";
+import "package:todomobx/widgets/custom_pass_text_field.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
-import '../main.dart';
-import 'cadastro_2.dart';
+import "../main.dart";
+import "cadastro_2.dart";
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -89,10 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 CustomTextField(
-                  hint: '___.___.___-__',
+                  hint: "___.___.___-__",
                   controller: cpfController,
                   textInputType: TextInputType.number,
-                  formatter: new MaskTextInputFormatter(mask: '###.###.###-##', filter: {"#": RegExp(r'[0-9]')}),
+                  formatter: new MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r"[0-9]")}),
                   onChanged: loginStore.setCPF,
                   enabled: true,
                 ),
@@ -109,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Observer(
                   builder: (_) {
                     return CustomPassTextField(
-                      hint: 'Senha',
+                      hint: "Senha",
                       onChanged: (value) {
                         loginStore.setPass(value);
                       },
@@ -152,10 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(
                         "Recuperar senha",
-                        style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                            fontSize: MediaQuery.of(context).size.width * 0.032),
+                        style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline, fontSize: MediaQuery.of(context).size.width * 0.032),
                       ),
                     ),
                   ],
@@ -173,10 +171,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child:
-                              Row(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: <Widget>[
+                          child: Row(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: <Widget>[
                             Text(
-                              'Entrar',
+                              "Entrar",
                               style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05, fontWeight: FontWeight.w400),
                             ),
                             Icon(Icons.exit_to_app)
@@ -184,111 +181,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: loginStore.isFormValid ? Color.fromARGB(255, 137, 202, 204) : Colors.grey,
                           textColor: Colors.white,
                           onPressed: () async {
-                            setState(() {
-                              loading = true;
-                            });
-                            var document = FirebaseFirestore.instance
-                                .collection('Drivers')
-                                .doc(cpfController.text.replaceAll('.', '').replaceAll('-', ''));
-                            document.get().then((DocumentSnapshot doc) async {
-                              if (doc.exists) {
-                                print(doc.data());
-                                if (doc['password'] == sha256.convert(utf8.encode(passController.text)).toString()) {
-                                  baseStore.nome =
-                                      capitalize(doc['name'].split(' ')[0] + " " + capitalize(doc['name'].split(' ')[1]));
-                                  baseStore.cpf = doc.id;
-                                  baseStore.telefone = doc['phone'];
-                                  baseStore.vencimentoCNH = doc.data().containsKey('cnhDueDate')?doc['cnhDueDate']:"";
-                                  baseStore.email = doc.data().containsKey('email')? doc['email']:"";
-                                  baseStore.cnpj =
-                                      doc["cnpj"].replaceAll('.', "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", "");
-                                  var documentEmpresa = FirebaseFirestore.instance.collection('Companies').doc(baseStore.cnpj);
-                                  documentEmpresa.get().then((DocumentSnapshot doc) async {
-                                    baseStore.nomeEmpresa = doc['name'];
-                                  });
-                                  if (loginStore.remember) {
-                                    loginStore.rememberCredentials();
-                                  }
-                                  if (doc['companyApproval']) {
-                                    var warningCount = await FirebaseFirestore.instance
-                                        .collection('Companies')
-                                        .doc(baseStore.cnpj.toString())
-                                        .collection('Warnings')
-                                        .where("type", whereIn: warnings)
-                                        .where("checked", isEqualTo: false)
-                                        .where("driverCPF", isEqualTo: baseStore.cpf)
-                                        .orderBy("date", descending: true)
-                                        .get();
-                                    baseStore.warnings = warningCount.size;
-
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Cadastro1()));
-                                  } else {
-                                    baseStore.showMyDialog(
-                                        context, "A empresa deve aprovar seu cadastro. Entrar em contato com o seu gestor.");
-                                  }
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text('Erro'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
-                                              children: <Widget>[
-                                                Text("Credenciais inválidas"),
-                                              ],
-                                            ),
-                                          ),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                              child: Text('OK'),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                }
-                              } else {
-                                showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text(
-                                        'Alerta',
-                                        textScaleFactor: 1,
-                                      ),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text(
-                                              "Motorista não cadastrado",
-                                              textScaleFactor: 1,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Text(
-                                            'OK',
-                                            textScaleFactor: 1,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              }
-                            });
-                            setState(() {
-                              loading = false;
-                            });
+                            try {
+                              await formAction();
+                            } catch (e) {
+                              var logger = new Logger();
+                              logger.firebaseLog(e, data: {"tela":"login"});
+                            }
                           }),
                     );
                   },
@@ -304,11 +202,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Text('Cadastre-se',
+                    child: Text("Cadastre-se",
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromARGB(255, 137, 202, 204))),
+                            fontSize: MediaQuery.of(context).size.width * 0.05, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 137, 202, 204))),
                     color: Color.fromARGB(255, 255, 255, 255),
                     disabledColor: Theme.of(context).primaryColor.withAlpha(100),
                     textColor: Colors.white,
@@ -321,5 +217,109 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: MediaQuery.of(context).size.width * 0.05,
                 )
               ]);
+  }
+
+  formAction() async {
+    {
+      setState(() {
+        loading = true;
+      });
+      var document = FirebaseFirestore.instance.collection("Drivers").doc(cpfController.text.replaceAll(".", "").replaceAll("-", ""));
+      document.get().then((DocumentSnapshot doc) async {
+        if (doc.exists) {
+          if (doc["password"] == sha256.convert(utf8.encode(passController.text)).toString()) {
+            baseStore.nome = capitalize(doc["name"].split(" ")[0] + " " + capitalize(doc["name"].split(" ")[1]));
+            baseStore.cpf = doc.id;
+            baseStore.telefone = doc["phone"];
+            baseStore.vencimentoCNH = doc.data().containsKey("cnhDueDate") ? doc["cnhDueDate"] : "";
+            baseStore.email = doc.data().containsKey("email") ? doc["email"] : "";
+            baseStore.cnpj = doc["cnpj"].replaceAll(".", "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", "");
+            var documentEmpresa = FirebaseFirestore.instance.collection("Companies").doc(baseStore.cnpj);
+            documentEmpresa.get().then((DocumentSnapshot doc) async {
+              baseStore.nomeEmpresa = doc["name"];
+            });
+            if (loginStore.remember) {
+              loginStore.rememberCredentials();
+            }
+            if (doc["companyApproval"]) {
+              var warningCount = await FirebaseFirestore.instance
+                  .collection("Companies")
+                  .doc(baseStore.cnpj.toString())
+                  .collection("Warnings")
+                  .where("type", whereIn: warnings)
+                  .where("checked", isEqualTo: false)
+                  .where("driverCPF", isEqualTo: baseStore.cpf)
+                  .orderBy("date", descending: true)
+                  .get();
+              baseStore.warnings = warningCount.size;
+
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Cadastro1()));
+            } else {
+              baseStore.showMyDialog(context, "A empresa deve aprovar seu cadastro. Entrar em contato com o seu gestor.");
+            }
+          } else {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("Erro"),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          Text("Credenciais inválidas"),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("OK"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                });
+          }
+        } else {
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false, // user must tap button!
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  "Alerta",
+                  textScaleFactor: 1,
+                ),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(
+                        "Motorista não cadastrado",
+                        textScaleFactor: 1,
+                      ),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      "OK",
+                      textScaleFactor: 1,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      });
+      setState(() {
+        loading = false;
+      });
+    }
   }
 }

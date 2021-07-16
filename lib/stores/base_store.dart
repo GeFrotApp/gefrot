@@ -1,10 +1,10 @@
-import 'dart:math';
+import "dart:math";
 
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:mobx/mobx.dart';
+import "package:flutter/material.dart";
+import "package:geolocator/geolocator.dart";
+import "package:mobx/mobx.dart";
 
-part 'base_store.g.dart';
+part "base_store.g.dart";
 
 class BaseStore = _BaseStore with _$BaseStore;
 
@@ -65,7 +65,7 @@ abstract class _BaseStore with Store {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Alerta'),
+          title: Text("Alerta"),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -75,7 +75,7 @@ abstract class _BaseStore with Store {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('OK'),
+              child: Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -86,7 +86,7 @@ abstract class _BaseStore with Store {
     );
   }
 
-  var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  var _chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
   Random _rnd = Random();
 
   String getRandomString(int length) =>
@@ -98,18 +98,18 @@ abstract class _BaseStore with Store {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      return Future.error("Location services are disabled.");
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permantly denied, we cannot request permissions.');
+      return Future.error("Location permissions are permantly denied, we cannot request permissions.");
     }
 
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
-        return Future.error('Location permissions are denied (actual value: $permission).');
+        return Future.error("Location permissions are denied (actual value: $permission).");
       }
     }
 
@@ -121,7 +121,7 @@ abstract class _BaseStore with Store {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Termos de uso'),
+            title: Text("Termos de uso"),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
@@ -424,7 +424,7 @@ Os eventuais litígios deverão ser apresentados no foro da comarca em que se en
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('OK'),
+                child: Text("OK"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

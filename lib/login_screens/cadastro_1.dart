@@ -1,18 +1,19 @@
-import 'dart:io';
-import 'dart:ui';
+import "dart:io";
+import "dart:ui";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todomobx/app_screens/base.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/stores/checklist_item_store.dart';
-import 'package:todomobx/widgets/custom_background.dart';
-import 'package:todomobx/widgets/custom_text_field.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
+import "package:provider/provider.dart";
+import "package:shared_preferences/shared_preferences.dart";
+import "package:todomobx/app_screens/base.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/stores/checklist_item_store.dart";
+import 'package:todomobx/utils/Logger.dart';
+import "package:todomobx/widgets/custom_background.dart";
+import "package:todomobx/widgets/custom_text_field.dart";
 
 class Cadastro1 extends StatefulWidget {
   @override
@@ -68,9 +69,7 @@ class _Cadastro1State extends State<Cadastro1> {
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.06,
                         width: MediaQuery.of(context).size.height * 0.06,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Color.fromARGB(255, 140, 140, 140))),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Color.fromARGB(255, 140, 140, 140))),
                         child: IconButton(
                             icon: Icon(
                               Icons.arrow_back_ios_outlined,
@@ -91,9 +90,7 @@ class _Cadastro1State extends State<Cadastro1> {
                         "Veículo da jornada",
                         textScaleFactor: 1,
                         style: TextStyle(
-                            color: Color.fromARGB(255, 137, 202, 204),
-                            fontSize: MediaQuery.of(context).size.width * 0.073,
-                            fontWeight: FontWeight.bold),
+                            color: Color.fromARGB(255, 137, 202, 204), fontSize: MediaQuery.of(context).size.width * 0.073, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(
@@ -111,8 +108,8 @@ class _Cadastro1State extends State<Cadastro1> {
                       alignment: Alignment.centerLeft,
                       child: CustomTextField(
                         controller: cavalo,
-                        hint: 'Digite a placa',
-                        formatter: new MaskTextInputFormatter(mask: '###-####', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
+                        hint: "Digite a placa",
+                        formatter: new MaskTextInputFormatter(mask: "###-####", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
                         onChanged: cadastro1Store.setPlacaCavalo,
                         enabled: true,
                       ),
@@ -130,8 +127,8 @@ class _Cadastro1State extends State<Cadastro1> {
                     ),
                     CustomTextField(
                       controller: carreta1,
-                      hint: 'Digite a placa',
-                      formatter: new MaskTextInputFormatter(mask: '###-####', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
+                      hint: "Digite a placa",
+                      formatter: new MaskTextInputFormatter(mask: "###-####", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
                       onChanged: cadastro1Store.setPlacaCarreta1,
                       enabled: true,
                     ),
@@ -151,8 +148,8 @@ class _Cadastro1State extends State<Cadastro1> {
                               ),
                               CustomTextField(
                                 controller: carreta2,
-                                hint: 'Digite a placa',
-                                formatter: new MaskTextInputFormatter(mask: '###-####', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
+                                hint: "Digite a placa",
+                                formatter: new MaskTextInputFormatter(mask: "###-####", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
                                 onChanged: cadastro1Store.setPlacaCarreta2,
                                 enabled: true,
                               ),
@@ -175,8 +172,8 @@ class _Cadastro1State extends State<Cadastro1> {
                               ),
                               CustomTextField(
                                 controller: carreta3,
-                                hint: 'Digite a placa',
-                                formatter: new MaskTextInputFormatter(mask: '###-####', filter: {"#": RegExp(r'[0-9a-zA-Z]')}),
+                                hint: "Digite a placa",
+                                formatter: new MaskTextInputFormatter(mask: "###-####", filter: {"#": RegExp(r"[0-9a-zA-Z]")}),
                                 onChanged: cadastro1Store.setPlacaCarreta3,
                                 enabled: true,
                               ),
@@ -200,8 +197,7 @@ class _Cadastro1State extends State<Cadastro1> {
                                 color: Color.fromARGB(255, 25, 153, 158),
                                 fontSize: MediaQuery.of(context).size.width * 0.05),
                           ),
-                          Icon(Icons.add_circle,
-                              color: Color.fromARGB(255, 25, 153, 158), size: MediaQuery.of(context).size.width * 0.05),
+                          Icon(Icons.add_circle, color: Color.fromARGB(255, 25, 153, 158), size: MediaQuery.of(context).size.width * 0.05),
                         ],
                       )),
                     ),
@@ -240,12 +236,9 @@ class _Cadastro1State extends State<Cadastro1> {
                               ),
                               child: Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                                 Text(
-                                  'Entrar',
+                                  "Entrar",
                                   textScaleFactor: 1,
-                                  style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width * 0.056,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white),
+                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.056, fontWeight: FontWeight.w400, color: Colors.white),
                                 ),
                                 Icon(
                                   Icons.exit_to_app,
@@ -256,218 +249,7 @@ class _Cadastro1State extends State<Cadastro1> {
                               color: Color.fromARGB(255, 137, 202, 204),
                               onPressed: cadastro1Store.isFormValid
                                   ? () async {
-                                      setState(() {
-                                        loading = true;
-                                      });
-                                      var isOnline = false;
-                                      try {
-                                        final result = await InternetAddress.lookup('example.com');
-                                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                          isOnline = true;
-                                        }
-                                      } catch (e) {
-                                        isOnline = false;
-                                      }
-                                      if (isOnline) {
-                                        var checklistItemStore = new ChecklistItemStore();
-                                        try {
-                                          await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
-                                          //await baseStore.showMyDialog(context, "Checklists sincronizados!");
-                                        } catch (e) {
-                                          await baseStore.showMyDialog(context, "Não foi possível sincronizar os checklists");
-                                        }
-                                      }
-                                      final firestore = FirebaseFirestore.instance;
-                                      var document;
-                                      try{
-                                        document = await firestore
-                                            .collection("Companies")
-                                            .doc(baseStore.cnpj)
-                                            .collection("Horses")
-                                            .doc(cadastro1Store.placaCavalo)
-                                            .get();
-                                      }catch(e){
-                                        await baseStore.showMyDialog(context, "Não foi possível carregar a placa do veículo");
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                        return;
-                                      }
-                                      var cavaloExists = document.data()?.isNotEmpty;
-                                      var carreta1Exists = true;
-                                      var carreta2Exists = true;
-                                      var carreta3Exists = true;
-                                      if (cadastro1Store.placaCarreta1.length == 8) {
-                                        try{
-                                          var x = await firestore
-                                              .collection("Companies")
-                                              .doc(baseStore.cnpj)
-                                              .collection("Trailers")
-                                              .doc(cadastro1Store.placaCarreta1)
-                                              .get();
-                                          carreta1Exists = x.data()?.isNotEmpty;
-                                        }catch(e){
-                                          await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
-                                          setState(() {
-                                            loading = false;
-                                          });
-                                          return;
-                                        }
-                                      }
-                                      if (cadastro1Store.placaCarreta2.length == 8) {
-                                        try{
-                                          var x = await firestore
-                                              .collection("Companies")
-                                              .doc(baseStore.cnpj)
-                                              .collection("Trailers")
-                                              .doc(cadastro1Store.placaCarreta1)
-                                              .get();
-                                          carreta2Exists = x.data()?.isNotEmpty;
-                                        }catch(e){
-                                          await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
-                                          setState(() {
-                                            loading = false;
-                                          });
-                                          return;
-                                        }
-                                      }
-                                      if (cadastro1Store.placaCarreta3.length == 8) {
-                                        try{
-                                          var x = await firestore
-                                              .collection("Companies")
-                                              .doc(baseStore.cnpj)
-                                              .collection("Trailers")
-                                              .doc(cadastro1Store.placaCarreta1)
-                                              .get();
-                                          carreta3Exists = x.data()?.isNotEmpty;
-                                        }catch(e){
-                                          await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
-                                          setState(() {
-                                            loading = false;
-                                          });
-                                          return;
-                                        }
-
-                                      }
-                                      if (cavaloExists != null &&
-                                          carreta1Exists != null &&
-                                          carreta2Exists != null &&
-                                          carreta3Exists != null) {
-                                        try {
-                                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                                          if (cadastro1Store.remember) {
-                                            prefs.setString("cavalo", cadastro1Store.placaCavalo);
-                                            prefs.setString("carreta1", cadastro1Store.placaCarreta1);
-                                            prefs.setString("carreta2", cadastro1Store.placaCarreta2);
-                                            prefs.setString("carreta3", cadastro1Store.placaCarreta3);
-                                          } else {
-                                            prefs.setString("cavalo", "");
-                                            prefs.setString("carreta1", "");
-                                            prefs.setString("carreta2", "");
-                                            prefs.setString("carreta3", "");
-                                          }
-                                        } catch (e) {}
-
-                                        baseStore.odometro = document.data()['odometer'].toDouble();
-                                        baseStore.mediaProposta =
-                                            document.data().containsKey('average') ? document.data()['average'].toDouble() : 2.5;
-                                        var now = Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
-                                        //Navigator.of(context).push(MaterialPageRoute(builder: (context) => Base()));
-                                        try{
-                                          firestore
-                                              .collection('Drivers')
-                                              .doc(baseStore.cpf.replaceAll('.', "").replaceAll("-", ""))
-                                              .update({
-                                            'lastHorseChange': now,
-                                            'horse': cadastro1Store.placaCavalo,
-                                            'trailers': [
-                                              cadastro1Store.placaCarreta1,
-                                              cadastro1Store.placaCarreta2,
-                                              cadastro1Store.placaCarreta3
-                                            ]
-                                          });
-                                        }catch(e){
-
-                                        }
-                                        try{
-
-                                        }catch(e){
-
-                                        }
-                                        var motoristaComCavalo = await FirebaseFirestore.instance
-                                            .collection('Drivers')
-                                            .where("horse", isEqualTo: cadastro1Store.placaCavalo)
-                                            .get();
-                                        if (motoristaComCavalo.docs.length > 1) {
-                                          await showDialog<void>(
-                                            context: context,
-                                            barrierDismissible: false, // user must tap button!
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text(
-                                                  'Alerta',
-                                                  textScaleFactor: 1,
-                                                ),
-                                                content: SingleChildScrollView(
-                                                  child: ListBody(
-                                                    children: <Widget>[
-                                                      Text(
-                                                        "Já existe um motorista com esse equipamento. Deseja prosseguir?",
-                                                        textScaleFactor: 1,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                actions: <Widget>[
-                                                  FlatButton(
-                                                    child: Text(
-                                                      'Sim',
-                                                      textScaleFactor: 1,
-                                                    ),
-                                                    onPressed: () {
-                                                      motoristaComCavalo.docs.forEach((doc) {
-                                                        if (doc.id != baseStore.cpf) {
-                                                          try{
-                                                            doc.reference.update({"horse": "", "trailers": []});
-                                                          }catch(e){
-
-                                                          }
-
-                                                        }
-                                                      });
-                                                      Navigator.of(context)
-                                                          .pushReplacement(MaterialPageRoute(builder: (context) => Base()));
-                                                    },
-                                                  ),
-                                                  FlatButton(
-                                                    child: Text(
-                                                      'Não',
-                                                      textScaleFactor: 1,
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          Navigator.of(context).pop();
-                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
-                                        }
-                                      } else if (cavaloExists == null) {
-                                        baseStore.showMyDialog(context, "O veículo não está cadastrado");
-                                      } else if (carreta1Exists == null) {
-                                        baseStore.showMyDialog(context, "A carreta 1 não está cadastrada");
-                                      } else if (carreta2Exists == null) {
-                                        baseStore.showMyDialog(context, "A carreta 2 não está cadastrada");
-                                      }else if (carreta3Exists == null) {
-                                        baseStore.showMyDialog(context, "A carreta 2 não está cadastrada");
-                                      }
-                                      setState(() {
-                                        loading = false;
-                                      });
+                                      await formAction();
                                     }
                                   : null),
                         );
@@ -476,5 +258,181 @@ class _Cadastro1State extends State<Cadastro1> {
                   ]);
       },
     );
+  }
+
+  formAction() async {
+    try{
+
+      setState(() {
+        loading = true;
+      });
+      var isOnline = false;
+      try {
+        final result = await InternetAddress.lookup("example.com");
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          isOnline = true;
+        }
+      } catch (e) {
+        isOnline = false;
+      }
+      if (isOnline) {
+        var checklistItemStore = new ChecklistItemStore();
+        try {
+          await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
+          //await baseStore.showMyDialog(context, "Checklists sincronizados!");
+        } catch (e) {
+          await baseStore.showMyDialog(context, "Não foi possível sincronizar os checklists");
+        }
+      }
+      final firestore = FirebaseFirestore.instance;
+      var document;
+      try {
+        document = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Horses").doc(cadastro1Store.placaCavalo).get();
+      } catch (e) {
+        await baseStore.showMyDialog(context, "Não foi possível carregar a placa do veículo");
+        setState(() {
+          loading = false;
+        });
+        return;
+      }
+      var cavaloExists = document.data()?.isNotEmpty;
+      var carreta1Exists = true;
+      var carreta2Exists = true;
+      var carreta3Exists = true;
+      if (cadastro1Store.placaCarreta1.length == 8) {
+        try {
+          var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta1).get();
+          carreta1Exists = x.data()?.isNotEmpty;
+        } catch (e) {
+          await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
+          setState(() {
+            loading = false;
+          });
+          return;
+        }
+      }
+      if (cadastro1Store.placaCarreta2.length == 8) {
+        try {
+          var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta1).get();
+          carreta2Exists = x.data()?.isNotEmpty;
+        } catch (e) {
+          await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
+          setState(() {
+            loading = false;
+          });
+          return;
+        }
+      }
+      if (cadastro1Store.placaCarreta3.length == 8) {
+        try {
+          var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta1).get();
+          carreta3Exists = x.data()?.isNotEmpty;
+        } catch (e) {
+          await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
+          setState(() {
+            loading = false;
+          });
+          return;
+        }
+      }
+      if (cavaloExists != null && carreta1Exists != null && carreta2Exists != null && carreta3Exists != null) {
+        try {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          if (cadastro1Store.remember) {
+            prefs.setString("cavalo", cadastro1Store.placaCavalo);
+            prefs.setString("carreta1", cadastro1Store.placaCarreta1);
+            prefs.setString("carreta2", cadastro1Store.placaCarreta2);
+            prefs.setString("carreta3", cadastro1Store.placaCarreta3);
+          } else {
+            prefs.setString("cavalo", "");
+            prefs.setString("carreta1", "");
+            prefs.setString("carreta2", "");
+            prefs.setString("carreta3", "");
+          }
+        } catch (e) {}
+
+        baseStore.odometro = document.data()["odometer"].toDouble();
+        baseStore.mediaProposta = document.data().containsKey("average") ? document.data()["average"].toDouble() : 2.5;
+        var now = Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
+        //Navigator.of(context).push(MaterialPageRoute(builder: (context) => Base()));
+        try {
+          firestore.collection("Drivers").doc(baseStore.cpf.replaceAll(".", "").replaceAll("-", "")).update({
+            "lastHorseChange": now,
+            "horse": cadastro1Store.placaCavalo,
+            "trailers": [cadastro1Store.placaCarreta1, cadastro1Store.placaCarreta2, cadastro1Store.placaCarreta3]
+          });
+        } catch (e) {}
+        try {} catch (e) {}
+        var motoristaComCavalo = await FirebaseFirestore.instance.collection("Drivers").where("horse", isEqualTo: cadastro1Store.placaCavalo).get();
+        if (motoristaComCavalo.docs.length > 1) {
+          await showDialog<void>(
+            context: context,
+            barrierDismissible: false, // user must tap button!
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  "Alerta",
+                  textScaleFactor: 1,
+                ),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(
+                        "Já existe um motorista com esse equipamento. Deseja prosseguir?",
+                        textScaleFactor: 1,
+                      ),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      "Sim",
+                      textScaleFactor: 1,
+                    ),
+                    onPressed: () {
+                      motoristaComCavalo.docs.forEach((doc) {
+                        if (doc.id != baseStore.cpf) {
+                          try {
+                            doc.reference.update({"horse": "", "trailers": []});
+                          } catch (e) {}
+                        }
+                      });
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      "Não",
+                      textScaleFactor: 1,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
+        }
+      } else if (cavaloExists == null) {
+        baseStore.showMyDialog(context, "O veículo não está cadastrado");
+      } else if (carreta1Exists == null) {
+        baseStore.showMyDialog(context, "A carreta 1 não está cadastrada");
+      } else if (carreta2Exists == null) {
+        baseStore.showMyDialog(context, "A carreta 2 não está cadastrada");
+      } else if (carreta3Exists == null) {
+        baseStore.showMyDialog(context, "A carreta 2 não está cadastrada");
+      }
+      setState(() {
+        loading = false;
+      });
+    }catch(e){
+      var logger = new Logger();
+      logger.firebaseLog(e,data: {"tela":"cadastro_1","motirista":baseStore.cpf, "cavalo":cadastro1Store.placaCavalo, "carretas":[cadastro1Store.placaCarreta1, cadastro1Store.placaCarreta2, cadastro1Store.placaCarreta3]});
+    }
   }
 }

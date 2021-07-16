@@ -1,17 +1,17 @@
-import 'package:badges/badges.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:todomobx/app_screens/warnings.dart';
-import 'package:todomobx/stores/base_store.dart';
-import 'package:todomobx/stores/cadastro_1_store.dart';
-import 'package:todomobx/widgets/base_top.dart';
+import "package:badges/badges.dart";
+import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
+import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:provider/provider.dart";
+import "package:todomobx/app_screens/warnings.dart";
+import "package:todomobx/stores/base_store.dart";
+import "package:todomobx/stores/cadastro_1_store.dart";
+import "package:todomobx/widgets/base_top.dart";
 
-import 'caminhao.dart';
-import 'config.dart';
-import 'home.dart';
+import "caminhao.dart";
+import "config.dart";
+import "home.dart";
 
 class Base extends StatefulWidget {
   @override
@@ -48,7 +48,7 @@ class _BaseState extends State<Base> {
                 Icons.home,
                 size: 25,
               ),
-              title: Text('Home', textScaleFactor: 1,style: TextStyle(fontSize: 20)),
+              title: Text("Home", textScaleFactor: 1,style: TextStyle(fontSize: 20)),
             ),
             BottomNavigationBarItem(
               icon: Observer(
@@ -72,7 +72,7 @@ class _BaseState extends State<Base> {
                 },
               ),
               title: Text(
-                'Avisos',textScaleFactor: 1,
+                "Avisos",textScaleFactor: 1,
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -81,7 +81,7 @@ class _BaseState extends State<Base> {
                 FontAwesomeIcons.truckMoving,
                 size: 25,
               ),
-              title: Text('Caminhão',textScaleFactor: 1, style: TextStyle(fontSize: 20)),
+              title: Text("Caminhão",textScaleFactor: 1, style: TextStyle(fontSize: 20)),
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -89,7 +89,7 @@ class _BaseState extends State<Base> {
                 size: 25,
               ),
               title: Text(
-                'Config',textScaleFactor: 1,
+                "Config",textScaleFactor: 1,
                 style: TextStyle(fontSize: 20),
               ),
             ),
