@@ -6,8 +6,7 @@ class Cadastro2Store = _Cadastro2Store with _$Cadastro2Store;
 
 abstract class _Cadastro2Store with Store {
   _Cadastro2Store() {
-    autorun((_) {
-    });
+    autorun((_) {});
   }
 
   @observable
@@ -59,10 +58,5 @@ abstract class _Cadastro2Store with Store {
   void setDataCNH(String value) => dataCNH = value;
 
   @computed
-  bool get isFormValid =>
-      pass.length > 3 &&
-      pass == confirmPass &&
-      telefone.length == 15 &&
-      cpf.length == 14 &&
-      nome.length > 6;
+  bool get isFormValid => pass.length > 3 && pass == confirmPass && telefone.length == 15 && cpf.length == 14 && nome.length > 6;
 }

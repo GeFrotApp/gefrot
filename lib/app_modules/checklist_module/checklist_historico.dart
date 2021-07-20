@@ -8,7 +8,6 @@ import "package:todomobx/stores/base_store.dart";
 import "package:todomobx/stores/checklist_base_store.dart";
 import "package:todomobx/stores/checklist_item_store.dart";
 import "package:todomobx/stores/home_store.dart";
-import "package:todomobx/widgets/custom_text_field.dart";
 
 class CheckListHistorico extends StatefulWidget {
   @override
@@ -20,10 +19,10 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
   var formatter = DateFormat.yMd("pt_BR");
   var hora = new DateTime.now().hour;
   var filter = "";
-  HomeStore homeStore;
-  BaseStore baseStore;
-  ChecklistItemStore checklistItemStore;
-  ChecklistBaseStore checklistBaseStore;
+  late HomeStore homeStore;
+  late BaseStore baseStore;
+  late ChecklistItemStore checklistItemStore;
+  late ChecklistBaseStore checklistBaseStore;
 
   @override
   void didChangeDependencies() {
@@ -60,9 +59,7 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                     child: Expanded(
                       child: TextField(
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            color: Colors.grey,
-                            height: MediaQuery.of(context).size.height * 0.0017),
+                            fontSize: MediaQuery.of(context).size.width * 0.05, color: Colors.grey, height: MediaQuery.of(context).size.height * 0.0017),
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.search,
@@ -95,7 +92,7 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) return new Text("Loading...");
                     return new ListView(
-                      children: snapshot.data.docs.map((DocumentSnapshot document) {
+                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
                         return document["model"]["name"].toString().toUpperCase().contains(filter)
                             ? GestureDetector(
                                 onTap: () {
@@ -111,8 +108,7 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                                   checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                                   checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                                   checklistItemStore.documentId = document.id;
-                                  checklistItemStore.isEditable =
-                                      document.data()["model"].containsKey("isEditable") ? document["model"]["isEditable"] : false;
+                                  checklistItemStore.isEditable = document["model"].containsKey("isEditable") ? document["model"]["isEditable"] : false;
                                   for (var key in document["selection"].keys) {
                                     checklistItemStore.setSelection(key, document["selection"][key]["selectedButton"]);
                                     checklistItemStore.setAction(
@@ -137,22 +133,19 @@ class _CheckListHistoricoState extends State<CheckListHistorico> {
                                                 children: [
                                                   Container(
                                                     padding: EdgeInsets.only(
-                                                        left: MediaQuery.of(context).size.width * 0.04,
-                                                        right: MediaQuery.of(context).size.width * 0.04),
+                                                        left: MediaQuery.of(context).size.width * 0.04, right: MediaQuery.of(context).size.width * 0.04),
                                                     child: Text(
                                                       (document["model"]["name"].length > 28
                                                           ? document["model"]["name"].substring(0, 28) + "..."
                                                           : document["model"]["name"]),
-                                                      style: TextStyle(
-                                                          fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
+                                                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
                                                       textAlign: TextAlign.start,
                                                     ),
                                                   ),
                                                   Container(
                                                       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.04),
                                                       child: Text(
-                                                        formatter
-                                                            .format(DateTime.fromMicrosecondsSinceEpoch(document["date"].microsecondsSinceEpoch)),
+                                                        formatter.format(DateTime.fromMicrosecondsSinceEpoch(document["date"].microsecondsSinceEpoch)),
                                                         style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
                                                       )),
                                                 ],

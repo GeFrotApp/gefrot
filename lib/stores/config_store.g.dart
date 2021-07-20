@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "config_store.dart";
+part of 'config_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -9,7 +9,7 @@ part of "config_store.dart";
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ConfigStore on _ConfigStore, Store {
-  final _$editNomeAtom = Atom(name: "_ConfigStore.editNome");
+  final _$editNomeAtom = Atom(name: '_ConfigStore.editNome');
 
   @override
   bool get editNome {
@@ -24,7 +24,7 @@ mixin _$ConfigStore on _ConfigStore, Store {
     });
   }
 
-  final _$editEmailAtom = Atom(name: "_ConfigStore.editEmail");
+  final _$editEmailAtom = Atom(name: '_ConfigStore.editEmail');
 
   @override
   bool get editEmail {
@@ -39,7 +39,7 @@ mixin _$ConfigStore on _ConfigStore, Store {
     });
   }
 
-  final _$editPhoneAtom = Atom(name: "_ConfigStore.editPhone");
+  final _$editPhoneAtom = Atom(name: '_ConfigStore.editPhone');
 
   @override
   bool get editPhone {
@@ -54,7 +54,7 @@ mixin _$ConfigStore on _ConfigStore, Store {
     });
   }
 
-  final _$editCnhAtom = Atom(name: "_ConfigStore.editCnh");
+  final _$editCnhAtom = Atom(name: '_ConfigStore.editCnh');
 
   @override
   bool get editCnh {
@@ -69,40 +69,39 @@ mixin _$ConfigStore on _ConfigStore, Store {
     });
   }
 
-  final _$setNomeAsyncAction = AsyncAction("_ConfigStore.setNome");
+  final _$setNomeAsyncAction = AsyncAction('_ConfigStore.setNome');
 
   @override
   Future<void> setNome(dynamic id, dynamic nome) {
     return _$setNomeAsyncAction.run(() => super.setNome(id, nome));
   }
 
-  final _$setMailAsyncAction = AsyncAction("_ConfigStore.setMail");
+  final _$setMailAsyncAction = AsyncAction('_ConfigStore.setMail');
 
   @override
   Future<void> setMail(dynamic id, dynamic mail) {
     return _$setMailAsyncAction.run(() => super.setMail(id, mail));
   }
 
-  final _$setPhoneAsyncAction = AsyncAction("_ConfigStore.setPhone");
+  final _$setPhoneAsyncAction = AsyncAction('_ConfigStore.setPhone');
 
   @override
   Future<void> setPhone(dynamic id, dynamic phone) {
     return _$setPhoneAsyncAction.run(() => super.setPhone(id, phone));
   }
 
-  final _$setCnhAsyncAction = AsyncAction("_ConfigStore.setCnh");
+  final _$setCnhAsyncAction = AsyncAction('_ConfigStore.setCnh');
 
   @override
   Future<void> setCnh(dynamic id, dynamic cnh) {
     return _$setCnhAsyncAction.run(() => super.setCnh(id, cnh));
   }
 
-  final _$_ConfigStoreActionController = ActionController(name: "_ConfigStore");
+  final _$_ConfigStoreActionController = ActionController(name: '_ConfigStore');
 
   @override
   void turnEditNome() {
-    final _$actionInfo = _$_ConfigStoreActionController.startAction(
-        name: "_ConfigStore.turnEditNome");
+    final _$actionInfo = _$_ConfigStoreActionController.startAction(name: '_ConfigStore.turnEditNome');
     try {
       return super.turnEditNome();
     } finally {
@@ -112,8 +111,7 @@ mixin _$ConfigStore on _ConfigStore, Store {
 
   @override
   void turnEditMail() {
-    final _$actionInfo = _$_ConfigStoreActionController.startAction(
-        name: "_ConfigStore.turnEditMail");
+    final _$actionInfo = _$_ConfigStoreActionController.startAction(name: '_ConfigStore.turnEditMail');
     try {
       return super.turnEditMail();
     } finally {
@@ -123,8 +121,7 @@ mixin _$ConfigStore on _ConfigStore, Store {
 
   @override
   void turnEditPhone() {
-    final _$actionInfo = _$_ConfigStoreActionController.startAction(
-        name: "_ConfigStore.turnEditPhone");
+    final _$actionInfo = _$_ConfigStoreActionController.startAction(name: '_ConfigStore.turnEditPhone');
     try {
       return super.turnEditPhone();
     } finally {
@@ -134,8 +131,7 @@ mixin _$ConfigStore on _ConfigStore, Store {
 
   @override
   void turnEditCnh() {
-    final _$actionInfo = _$_ConfigStoreActionController.startAction(
-        name: "_ConfigStore.turnEditCnh");
+    final _$actionInfo = _$_ConfigStoreActionController.startAction(name: '_ConfigStore.turnEditCnh');
     try {
       return super.turnEditCnh();
     } finally {
@@ -145,11 +141,11 @@ mixin _$ConfigStore on _ConfigStore, Store {
 
   @override
   String toString() {
-    return """
+    return '''
 editNome: ${editNome},
 editEmail: ${editEmail},
 editPhone: ${editPhone},
 editCnh: ${editCnh}
-    """;
+    ''';
   }
 }

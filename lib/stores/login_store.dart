@@ -6,15 +6,18 @@ part "login_store.g.dart";
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
-
   _LoginStore(loginCpf, loginSenha, loginRemember) {
-    if(loginCpf!=null){setCPF(loginCpf);}
-    if(loginSenha!=null){setPass(loginSenha);}
+    if (loginCpf != null) {
+      setCPF(loginCpf);
+    }
+    if (loginSenha != null) {
+      setPass(loginSenha);
+    }
 
     remember = loginRemember;
   }
 
-  bool remember;
+  late bool remember;
 
   @action
   Future rememberCredentials() async {
@@ -49,5 +52,5 @@ abstract class _LoginStore with Store {
   }
 
   @computed
-  bool get isFormValid => pass.length>3&&cpf.length==14;
+  bool get isFormValid => pass.length > 3 && cpf.length == 14;
 }

@@ -4,8 +4,7 @@ part "checklist_base_store.g.dart";
 
 class ChecklistBaseStore = _ChecklistBaseStore with _$ChecklistBaseStore;
 
-abstract class _ChecklistBaseStore with Store{
-
+abstract class _ChecklistBaseStore with Store {
   @observable
   var select = false;
 

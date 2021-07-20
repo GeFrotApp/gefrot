@@ -22,8 +22,8 @@ class _BaseState extends State<Base> {
   int selectedIndex = 0;
   final widgetOptions = [Home(), Warnings(), Caminhao(), Config()];
   var hora = new DateTime.now().hour;
-  BaseStore baseStore;
-  Cadastro1Store cadastro1Store;
+  late BaseStore baseStore;
+  late Cadastro1Store cadastro1Store;
 
   @override
   void didChangeDependencies() {
@@ -48,31 +48,33 @@ class _BaseState extends State<Base> {
                 Icons.home,
                 size: 25,
               ),
-              title: Text("Home", textScaleFactor: 1,style: TextStyle(fontSize: 20)),
+              title: Text("Home", textScaleFactor: 1, style: TextStyle(fontSize: 20)),
             ),
             BottomNavigationBarItem(
               icon: Observer(
-                builder: (context){
+                builder: (context) {
                   return baseStore.warnings > 0
                       ? Badge(
-                    badgeColor: Color.fromARGB(255, 255, 165, 165),
-                    badgeContent: Text(
-                      baseStore.warnings.toString(),textScaleFactor: 1,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    child: Icon(
-                      Icons.warning_rounded,
-                      size: 25,
-                    ),
-                  )
+                          badgeColor: Color.fromARGB(255, 255, 165, 165),
+                          badgeContent: Text(
+                            baseStore.warnings.toString(),
+                            textScaleFactor: 1,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          child: Icon(
+                            Icons.warning_rounded,
+                            size: 25,
+                          ),
+                        )
                       : Icon(
-                    Icons.warning_rounded,
-                    size: 25,
-                  );
+                          Icons.warning_rounded,
+                          size: 25,
+                        );
                 },
               ),
               title: Text(
-                "Avisos",textScaleFactor: 1,
+                "Avisos",
+                textScaleFactor: 1,
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -81,7 +83,7 @@ class _BaseState extends State<Base> {
                 FontAwesomeIcons.truckMoving,
                 size: 25,
               ),
-              title: Text("Caminhão",textScaleFactor: 1, style: TextStyle(fontSize: 20)),
+              title: Text("Caminhão", textScaleFactor: 1, style: TextStyle(fontSize: 20)),
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -89,20 +91,20 @@ class _BaseState extends State<Base> {
                 size: 25,
               ),
               title: Text(
-                "Config",textScaleFactor: 1,
+                "Config",
+                textScaleFactor: 1,
                 style: TextStyle(fontSize: 20),
               ),
             ),
           ],
         ),
         body: SafeArea(
-            child:  Column(
-                  children: [
-                    BaseTop(),
-                    widgetOptions.elementAt(selectedIndex),
-                  ],
-                )
-            ));
+            child: Column(
+          children: [
+            BaseTop(),
+            widgetOptions.elementAt(selectedIndex),
+          ],
+        )));
   }
 
   void onItemTapped(int index) {

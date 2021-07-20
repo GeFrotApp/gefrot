@@ -31,21 +31,17 @@ abstract class _PassRecoverStore with Store {
   void setConfirmPass(value) => confirmPass = value;
 
   @action
-  void turnVisible()=>passVisible = !passVisible;
+  void turnVisible() => passVisible = !passVisible;
 
   @action
-  Future <void> checkCpf(cpf)async{
+  Future<void> checkCpf(cpf) async {
     this.cpf = cpf;
-    if(cpf.length ==14){
-      var document = FirebaseFirestore.instance
-          .collection("Drivers")
-          .doc(cpf.replaceAll(".", "").replaceAll("-", ""));
+    if (cpf.length == 14) {
+      var document = FirebaseFirestore.instance.collection("Drivers").doc(cpf.replaceAll(".", "").replaceAll("-", ""));
       document.get().then((DocumentSnapshot doc) {
-
         if (doc.exists) {
           cpfExist = true;
-
-        }else{
+        } else {
           cpfExist = false;
         }
       });
@@ -53,5 +49,5 @@ abstract class _PassRecoverStore with Store {
   }
 
   @computed
-  bool get isFormValid => pass.length > 3 && pass == confirmPass && cpf.length == 14 &&cpfExist;
+  bool get isFormValid => pass.length > 3 && pass == confirmPass && cpf.length == 14 && cpfExist;
 }

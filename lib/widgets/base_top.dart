@@ -12,8 +12,8 @@ class BaseTop extends StatefulWidget {
 class _BaseTopState extends State<BaseTop> {
   int selectedIndex = 0;
   var hora = new DateTime.now().hour;
-  BaseStore baseStore;
-  Cadastro1Store cadastro1Store;
+  late BaseStore baseStore;
+  late Cadastro1Store cadastro1Store;
 
   @override
   void didChangeDependencies() {
@@ -95,9 +95,7 @@ class _BaseTopState extends State<BaseTop> {
                                     Text(
                                       "Veículo",
                                       textScaleFactor: 1,
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 120, 120, 120),
-                                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                                      style: TextStyle(color: Color.fromARGB(255, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05),
                                     ),
                                     Container(
                                         height: 30,
@@ -111,9 +109,8 @@ class _BaseTopState extends State<BaseTop> {
                                             builder: (_) {
                                               return Text(cadastro1Store.placaCavalo,
                                                   textScaleFactor: 1,
-                                                  style: TextStyle(
-                                                      color: Color.fromARGB(255, 120, 120, 120),
-                                                      fontSize: MediaQuery.of(context).size.width * 0.05));
+                                                  style:
+                                                      TextStyle(color: Color.fromARGB(255, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05));
                                             },
                                           ),
                                         )),
@@ -136,9 +133,7 @@ class _BaseTopState extends State<BaseTop> {
                                     Text(
                                       "Equipamento",
                                       textScaleFactor: 1,
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 120, 120, 120),
-                                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                                      style: TextStyle(color: Color.fromARGB(255, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05),
                                     ),
                                     Container(
                                         height: 30,
@@ -152,9 +147,8 @@ class _BaseTopState extends State<BaseTop> {
                                             builder: (_) {
                                               return Text(cadastro1Store.placaCarreta1,
                                                   textScaleFactor: 1,
-                                                  style: TextStyle(
-                                                      color: Color.fromARGB(255, 120, 120, 120),
-                                                      fontSize: MediaQuery.of(context).size.width * 0.05));
+                                                  style:
+                                                      TextStyle(color: Color.fromARGB(255, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05));
                                             },
                                           ),
                                         )),
@@ -176,11 +170,9 @@ class _BaseTopState extends State<BaseTop> {
                                       child: Column(
                                         children: [
                                           Text(
-                                              "Equipamento",
+                                            "Equipamento",
                                             textScaleFactor: 1,
-                                            style: TextStyle(
-                                                color: Color.fromARGB(255, 120, 120, 120),
-                                                fontSize: MediaQuery.of(context).size.width * 0.05),
+                                            style: TextStyle(color: Color.fromARGB(255, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05),
                                           ),
                                           Container(
                                               height: 30,
@@ -195,8 +187,7 @@ class _BaseTopState extends State<BaseTop> {
                                                     return Text(cadastro1Store.placaCarreta2,
                                                         textScaleFactor: 1,
                                                         style: TextStyle(
-                                                            color: Color.fromARGB(255, 120, 120, 120),
-                                                            fontSize: MediaQuery.of(context).size.width * 0.05));
+                                                            color: Color.fromARGB(255, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05));
                                                   },
                                                 ),
                                               )),
@@ -223,9 +214,7 @@ class _BaseTopState extends State<BaseTop> {
                                           Text(
                                             "Equipamento",
                                             textScaleFactor: 1,
-                                            style: TextStyle(
-                                                color: Color.fromARGB(255, 120, 120, 120),
-                                                fontSize: MediaQuery.of(context).size.width * 0.05),
+                                            style: TextStyle(color: Color.fromARGB(255, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05),
                                           ),
                                           Container(
                                               height: 30,
@@ -240,8 +229,7 @@ class _BaseTopState extends State<BaseTop> {
                                                     return Text(cadastro1Store.placaCarreta3,
                                                         textScaleFactor: 1,
                                                         style: TextStyle(
-                                                            color: Color.fromARGB(255, 120, 120, 120),
-                                                            fontSize: MediaQuery.of(context).size.width * 0.05));
+                                                            color: Color.fromARGB(255, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05));
                                                   },
                                                 ),
                                               )),

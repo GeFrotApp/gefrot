@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "home_store.dart";
+part of 'home_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -11,8 +11,8 @@ part of "home_store.dart";
 mixin _$HomeStore on _HomeStore, Store {
   @override
   String toString() {
-    return """
+    return '''
 
-    """;
+    ''';
   }
 }

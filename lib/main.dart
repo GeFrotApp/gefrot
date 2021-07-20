@@ -1,12 +1,9 @@
-
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
-import "package:in_app_update/in_app_update.dart";
 import "package:provider/provider.dart";
 import "package:shared_preferences/shared_preferences.dart";
-import "package:splashscreen/splashscreen.dart";
 import "package:todomobx/login_screens/login_screen.dart";
 import "package:todomobx/stores/abastecimento_base_store.dart";
 import "package:todomobx/stores/base_store.dart";
@@ -20,8 +17,7 @@ import "package:todomobx/stores/jornada_base_store.dart";
 import "package:todomobx/stores/jornada_store.dart";
 import "package:todomobx/stores/login_store.dart";
 
-void main() async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var cpf = prefs.getString("cpf");
@@ -32,26 +28,24 @@ void main() async{
   var carreta3 = prefs.getString("carreta3");
   var remember;
   var rememberEquip;
-  if(cpf != ""){
+  if (cpf != "") {
     remember = true;
-  }else{
+  } else {
     remember = false;
   }
-  if(cavalo!=""&&cpf!=null&&cavalo!="null"){
+  if (cavalo != "" && cpf != null && cavalo != "null") {
     rememberEquip = true;
-  }else{
+  } else {
     rememberEquip = false;
   }
   await Firebase.initializeApp();
-  runApp(RestartWidget(child:MyApp(cpf, senha, remember, cavalo, carreta1, carreta2, carreta3, rememberEquip)));
+  runApp(RestartWidget(child: MyApp(cpf, senha, remember, cavalo, carreta1, carreta2, carreta3, rememberEquip)));
   //runApp(DevicePreview(builder: (context)=>MyApp(cpf, senha, remember, cavalo, carreta1, carreta2, carreta3, rememberEquip)));
-
-
 }
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
-  MyApp(cpf, senha, remember, cavalo, carreta1, carreta2, carreta3, rememberEquip){
+  MyApp(cpf, senha, remember, cavalo, carreta1, carreta2, carreta3, rememberEquip) {
     this.cpf = cpf;
     this.senha = senha;
     this.remember = remember;
@@ -61,6 +55,7 @@ class MyApp extends StatelessWidget {
     this.carreta3 = carreta3;
     this.rememberEquip = rememberEquip;
   }
+
   var cpf;
   var senha;
   var remember;
@@ -69,31 +64,51 @@ class MyApp extends StatelessWidget {
   var carreta1;
   var carreta2;
   var carreta3;
+
   @override
   Widget build(BuildContext context) {
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MultiProvider(
       providers: [
-        Provider<LoginStore>(create:(_)=> LoginStore(cpf, senha, remember),),
-        Provider<Cadastro1Store>(create:(_)=> Cadastro1Store(cavalo, carreta1, carreta2, carreta3, rememberEquip),),
-        Provider<Cadastro2Store>(create:(_)=> Cadastro2Store(),),
-        Provider<Cadastro3Store>(create:(_)=> Cadastro3Store(),),
-        Provider<HomeStore>(create:(_)=> HomeStore(),),
-        Provider<BaseStore>(create:(_)=> BaseStore(),),
-        Provider<ChecklistItemStore>(create:(_)=> ChecklistItemStore(),),
-        Provider<ChecklistBaseStore>(create:(_)=>ChecklistBaseStore(),),
-        Provider<AbastecimentoBaseStore>(create: (_)=>AbastecimentoBaseStore(),),
-        Provider<JornadaBaseStore>(create: (_)=>JornadaBaseStore(),),
-        Provider<JornadaStore>(create: (_)=>JornadaStore(),)
+        Provider<LoginStore>(
+          create: (_) => LoginStore(cpf, senha, remember),
+        ),
+        Provider<Cadastro1Store>(
+          create: (_) => Cadastro1Store(cavalo, carreta1, carreta2, carreta3, rememberEquip),
+        ),
+        Provider<Cadastro2Store>(
+          create: (_) => Cadastro2Store(),
+        ),
+        Provider<Cadastro3Store>(
+          create: (_) => Cadastro3Store(),
+        ),
+        Provider<HomeStore>(
+          create: (_) => HomeStore(),
+        ),
+        Provider<BaseStore>(
+          create: (_) => BaseStore(),
+        ),
+        Provider<ChecklistItemStore>(
+          create: (_) => ChecklistItemStore(),
+        ),
+        Provider<ChecklistBaseStore>(
+          create: (_) => ChecklistBaseStore(),
+        ),
+        Provider<AbastecimentoBaseStore>(
+          create: (_) => AbastecimentoBaseStore(),
+        ),
+        Provider<JornadaBaseStore>(
+          create: (_) => JornadaBaseStore(),
+        ),
+        Provider<JornadaStore>(
+          create: (_) => JornadaStore(),
+        )
       ],
       child: MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate],
         // builder: DevicePreview.appBuilder,
         // locale: DevicePreview.locale(context),
         supportedLocales: [const Locale("pt", "BR")],
@@ -109,35 +124,36 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-Widget _introScreen() {
-  return Stack(
-    children: <Widget>[
-      SplashScreen(
-        seconds: 2,
 
-        navigateAfterSeconds: LoginScreen(),
-        loaderColor: Color.fromARGB(255, 137, 202, 204),
-      ),
-      Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/splashscreen.png"),
-            fit: BoxFit.fill,
-          ),
-        ),
-      ),
-    ],
-  );
+Widget _introScreen() {
+  return LoginScreen();
+  // return Stack(
+  //   children: <Widget>[
+  //     SplashScreen(
+  //       seconds: 2,
+  //       navigateAfterSeconds: LoginScreen(),
+  //       loaderColor: Color.fromARGB(255, 137, 202, 204),
+  //     ),
+  //     Container(
+  //       decoration: BoxDecoration(
+  //         image: DecorationImage(
+  //           image: AssetImage("assets/images/splashscreen.png"),
+  //           fit: BoxFit.fill,
+  //         ),
+  //       ),
+  //     ),
+  //   ],
+  // );
 }
 
 //Classe utilizada para reiniciar o app (logout)
 class RestartWidget extends StatefulWidget {
-  RestartWidget({this.child});
+  RestartWidget({required this.child});
 
   final Widget child;
 
   static void restartApp(BuildContext context) {
-    context.findAncestorStateOfType<_RestartWidgetState>().restartApp();
+    context.findAncestorStateOfType<_RestartWidgetState>()!.restartApp();
   }
 
   @override
@@ -161,4 +177,5 @@ class _RestartWidgetState extends State<RestartWidget> {
     );
   }
 }
+
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);

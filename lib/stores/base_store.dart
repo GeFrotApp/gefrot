@@ -19,42 +19,42 @@ abstract class _BaseStore with Store {
   bool jornada = false;
 
   @observable
-  int warnings;
+  int warnings = 0;
 
   @observable
   bool online = true;
 
   @action
-  void setWarnings(value) => warnings += value;
+  void setWarnings(int value) => warnings += value;
   @observable
-  String nome;
+  String nome = "";
 
   @action
-  setNome(value)=>nome=value;
+  setNome(value) => nome = value;
 
   @observable
-  String vencimentoCNH;
+  String vencimentoCNH = "";
 
   @action
-  setCNH(value)=>vencimentoCNH=value;
+  setCNH(value) => vencimentoCNH = value;
 
   @observable
-  String telefone;
+  String telefone = "";
 
   @action
-  setTelefone(value)=>telefone=value;
+  setTelefone(value) => telefone = value;
 
   @observable
-  String email;
+  String email = "";
 
   @action
-  setEmail(value)=>email=value;
+  setEmail(value) => email = value;
 
-  String cpf;
-  String cnpj;
-  String nomeEmpresa;
-  double odometro;
-  double mediaProposta;
+  String cpf = "";
+  String cnpj = "";
+  String nomeEmpresa = "";
+  double odometro = 0;
+  double mediaProposta = 2.5;
 
   @action
   void setOdometro(value) => odometro = value;
@@ -89,8 +89,7 @@ abstract class _BaseStore with Store {
   var _chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
   Random _rnd = Random();
 
-  String getRandomString(int length) =>
-      String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   Future<Position> determinePosition() async {
     bool serviceEnabled;

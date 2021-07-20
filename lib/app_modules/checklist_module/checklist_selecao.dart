@@ -1,4 +1,3 @@
-import "dart:collection";
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
@@ -20,10 +19,10 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
   var enDatesFuture = initializeDateFormatting("pt_BR", null);
   var formatter = DateFormat.yMMMMEEEEd("pt_BR").add_Hm();
   var hora = new DateTime.now().hour;
-  HomeStore homeStore;
-  BaseStore baseStore;
-  ChecklistItemStore checklistItemStore;
-  ChecklistBaseStore checklistBaseStore;
+  late HomeStore homeStore;
+  late BaseStore baseStore;
+  late ChecklistItemStore checklistItemStore;
+  late ChecklistBaseStore checklistBaseStore;
 
   @override
   void didChangeDependencies() {
@@ -60,15 +59,11 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
             Expanded(
               child: Container(
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection("Companies")
-                      .doc(baseStore.cnpj)
-                      .collection("CheckListModels")
-                      .snapshots(),
+                  stream: FirebaseFirestore.instance.collection("Companies").doc(baseStore.cnpj).collection("CheckListModels").snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) return new Text("Loading...");
                     return new ListView(
-                      children: snapshot.data.docs.map((DocumentSnapshot document) {
+                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
                         return GestureDetector(
                           onTap: () async {
                             var ok = false;
@@ -82,8 +77,7 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
 
                             var temp = Map<String, dynamic>.from(document["items"]);
                             checklistItemStore.itemArray = Map.fromEntries(temp.entries.toList()
-                              ..sort((e1, e2) =>
-                                  int.parse(e1.value["number"].toString()).compareTo(int.parse(e2.value["number"].toString()))));
+                              ..sort((e1, e2) => int.parse(e1.value["number"].toString()).compareTo(int.parse(e2.value["number"].toString()))));
                             checklistItemStore.itemArray.forEach((key, value) {
                               if (currentHead != value["group"]) {
                                 currentHead = value["group"];
@@ -124,14 +118,32 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.model = document.data();
                             checklistItemStore.isFormValid = false;
-                            checklistItemStore.noteText = document.data().containsKey("asksDict") ? document["asksDict"] : {};
-                            checklistItemStore.signatureIsRequired =
-                                document.data().containsKey("signatureIsRequired") ? document["signatureIsRequired"] : false;
-                            checklistItemStore.equipmentPlateIsRequired = document.data().containsKey("equipmentPlateIsRequired")
-                                ? document["equipmentPlateIsRequired"]
-                                : false;
-                            checklistItemStore.locationIsRequired =
-                                document.data().containsKey("locationIsRequired") ? document["locationIsRequired"] : false;
+                            checklistItemStore.noteText = {};
+                            try{
+                              checklistItemStore.noteText =  document["asksDict"];
+                            }catch(e){
+
+                            }
+
+                            checklistItemStore.signatureIsRequired = false;
+                            try{
+                              checklistItemStore.signatureIsRequired = document["signatureIsRequired"];
+                            }catch(e){
+
+                            }
+                            checklistItemStore.equipmentPlateIsRequired = false;
+                            try{
+
+                              checklistItemStore.equipmentPlateIsRequired = document["equipmentPlateIsRequired"];
+                            }catch(e){
+
+                            }
+                            checklistItemStore.locationIsRequired = false;
+                            try{
+                              checklistItemStore.locationIsRequired = document["locationIsRequired"];
+                            }catch(e){
+
+                            }
                             checklistItemStore.note = {};
                             checklistItemStore.isEditable = true;
 
@@ -157,8 +169,7 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                         ),
                                         actions: <Widget>[
                                           Container(
-                                            child:
-                                            FlatButton(
+                                            child: FlatButton(
                                               child: Text("OK"),
                                               onPressed: () {
                                                 ok = true;
@@ -176,12 +187,12 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
 
                             // última verificação, para garantir que os valores preenchidos na pergunta sejam verdadeiros
                             for (var question in checklistItemStore.noteText.values) {
-                              if(checklistItemStore.note[question.keys.elementAt(0)]==""||checklistItemStore.note[question.keys.elementAt(0)]==null )
+                              if (checklistItemStore.note[question.keys.elementAt(0)] == "" || checklistItemStore.note[question.keys.elementAt(0)] == null)
                                 ok = false;
                             }
                             if (ok == true) {
                               checklistBaseStore.setIndex(2);
-                            }else{
+                            } else {
                               await baseStore.showMyDialog(context, "Preencha todas as informações solicitadas!!");
                             }
                           },
@@ -199,14 +210,11 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context).size.width * 0.04,
-                                          right: MediaQuery.of(context).size.width * 0.04),
+                                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.04, right: MediaQuery.of(context).size.width * 0.04),
                                       child: Text(
                                         document["name"],
                                         textScaleFactor: 1,
-                                        style: TextStyle(
-                                            fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
+                                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 120, 120, 120)),
                                         textAlign: TextAlign.start,
                                       ),
                                     ),

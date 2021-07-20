@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import "package:todomobx/widgets/custom_icon_button.dart";
 import "package:todomobx/widgets/custom_text_field.dart";
 
@@ -20,24 +21,19 @@ class _ListScreenState extends State<ListScreen> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 2),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 2),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
                       "Tarefas",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 32),
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 32),
                     ),
                     IconButton(
                       icon: Icon(Icons.exit_to_app),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => LoginScreen()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
                       },
                     ),
                   ],
@@ -54,6 +50,9 @@ class _ListScreenState extends State<ListScreen> {
                     child: Column(
                       children: <Widget>[
                         CustomTextField(
+                          formatter:
+                              new MaskTextInputFormatter(mask: "###############################################", filter: {"#": RegExp(r"[a-zA-Z0-9@. ]")}),
+                          controller: new TextEditingController(),
                           hint: "Tarefa",
                           onChanged: (todo) {},
                           suffix: CustomIconButton(

@@ -24,14 +24,14 @@ class _DocumentoState extends State<Documento> {
   var enDatesFuture = initializeDateFormatting("pt_BR", null);
   var formatter = DateFormat.yMMMMEEEEd("pt_BR").add_Hm();
   var hora = new DateTime.now().hour;
-  File foto;
+  late File foto;
   var loading = false;
   String path = "";
   TextEditingController data = new TextEditingController();
   final f = new DateFormat("dd-MM-yyyy");
-  Cadastro1Store cadastro1store;
-  AbastecimentoBaseStore abastecimentoBaseStore;
-  BaseStore baseStore;
+  late Cadastro1Store cadastro1store;
+  late AbastecimentoBaseStore abastecimentoBaseStore;
+  late BaseStore baseStore;
   TextEditingController valorLitro = new TextEditingController();
   TextEditingController posto = new TextEditingController();
   TextEditingController odometro = new TextEditingController();
@@ -63,9 +63,7 @@ class _DocumentoState extends State<Documento> {
               height: MediaQuery.of(context).size.width * 0.2,
               width: MediaQuery.of(context).size.width * 0.2,
               child: CircularProgressIndicator(
-                  strokeWidth: 10,
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-                  backgroundColor: Color.fromARGB(255, 137, 202, 204)),
+                  strokeWidth: 10, valueColor: new AlwaysStoppedAnimation<Color>(Colors.white), backgroundColor: Color.fromARGB(255, 137, 202, 204)),
             )),
           )
         : SingleChildScrollView(
@@ -78,10 +76,8 @@ class _DocumentoState extends State<Documento> {
                 Container(
                   padding: EdgeInsets.only(left: 10),
                   child: Text(
-                    "Abastecimento " +
-                        formatter.format(DateTime.fromMicrosecondsSinceEpoch(abastecimentoBaseStore.data.microsecondsSinceEpoch)),
-                    style:
-                        TextStyle(color: Color.fromARGB(255, 137, 202, 204), fontSize: MediaQuery.of(context).size.width * 0.05),
+                    "Abastecimento " + formatter.format(DateTime.fromMicrosecondsSinceEpoch(abastecimentoBaseStore.data.microsecondsSinceEpoch)),
+                    style: TextStyle(color: Color.fromARGB(255, 137, 202, 204), fontSize: MediaQuery.of(context).size.width * 0.05),
                   ),
                 ),
                 SizedBox(
@@ -129,14 +125,13 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "CNPJ do posto",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: CustomTextField(
+                    controller: TextEditingController(),
                     hint: "",
                     formatter: new MaskTextInputFormatter(mask: "XX. XXX. XXX/XXXX-XX", filter: {"X": RegExp(r"[0-9]")}),
                     color: Color.fromARGB(255, 137, 202, 204),
@@ -153,9 +148,7 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "Nome do posto",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Padding(
@@ -226,9 +219,7 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "Odômetro (KM) *",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Padding(
@@ -253,19 +244,14 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "Tipo de combustível *",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.grey)),
+                      shape: BoxShape.rectangle, color: Colors.white, borderRadius: BorderRadius.circular(5), border: Border.all(color: Colors.grey)),
                   child: Observer(builder: (_) {
                     return DropdownButton(
                       isExpanded: true,
@@ -306,9 +292,7 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "Quantidade (Litros) *",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Padding(
@@ -333,9 +317,7 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "Valor total R\$",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Padding(
@@ -363,19 +345,19 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "Valor por litro *",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: CustomTextField(
+                    formatter: new MaskTextInputFormatter(mask: "###############################################", filter: {"#": RegExp(r"[a-zA-Z0-9@. ]")}),
                     hint: "",
                     color: Color.fromARGB(255, 137, 202, 204),
                     controller: valorLitro,
                     textInputType: TextInputType.numberWithOptions(decimal: true, signed: false),
                     enabled: false,
+                    onChanged: (value) {},
                   ),
                 ),
                 SizedBox(
@@ -386,9 +368,7 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "Nota fiscal",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Padding(
@@ -402,6 +382,7 @@ class _DocumentoState extends State<Documento> {
                     },
                     textInputType: TextInputType.number,
                     enabled: true,
+                    formatter: new MaskTextInputFormatter(mask: "###############################################", filter: {"#": RegExp(r"[a-zA-Z0-9@. ]")}),
                   ),
                 ),
                 Container(
@@ -409,9 +390,7 @@ class _DocumentoState extends State<Documento> {
                   child: Text(
                     "Completou o tanque?",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 117, 117, 117),
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        decoration: TextDecoration.none),
+                        color: Color.fromARGB(255, 117, 117, 117), fontSize: MediaQuery.of(context).size.width * 0.035, decoration: TextDecoration.none),
                   ),
                 ),
                 Row(
@@ -430,16 +409,12 @@ class _DocumentoState extends State<Documento> {
                                     "Sim ",
                                     style: TextStyle(
                                         fontSize: 16,
-                                        color: abastecimentoBaseStore.tanqueCheio
-                                            ? Color.fromARGB(255, 25, 153, 158)
-                                            : Color.fromARGB(255, 204, 204, 204)),
+                                        color: abastecimentoBaseStore.tanqueCheio ? Color.fromARGB(255, 25, 153, 158) : Color.fromARGB(255, 204, 204, 204)),
                                   ),
                                   Icon(
                                     Icons.check,
                                     size: 18,
-                                    color: abastecimentoBaseStore.tanqueCheio
-                                        ? Color.fromARGB(255, 25, 153, 158)
-                                        : Color.fromARGB(255, 204, 204, 204),
+                                    color: abastecimentoBaseStore.tanqueCheio ? Color.fromARGB(255, 25, 153, 158) : Color.fromARGB(255, 204, 204, 204),
                                   )
                                 ],
                               )),
@@ -460,16 +435,12 @@ class _DocumentoState extends State<Documento> {
                                     "Não ",
                                     style: TextStyle(
                                         fontSize: 16,
-                                        color: !abastecimentoBaseStore.tanqueCheio
-                                            ? Color.fromARGB(255, 25, 153, 158)
-                                            : Color.fromARGB(255, 204, 204, 204)),
+                                        color: !abastecimentoBaseStore.tanqueCheio ? Color.fromARGB(255, 25, 153, 158) : Color.fromARGB(255, 204, 204, 204)),
                                   ),
                                   Icon(
                                     Icons.clear,
                                     size: 18,
-                                    color: !abastecimentoBaseStore.tanqueCheio
-                                        ? Color.fromARGB(255, 25, 153, 158)
-                                        : Color.fromARGB(255, 204, 204, 204),
+                                    color: !abastecimentoBaseStore.tanqueCheio ? Color.fromARGB(255, 25, 153, 158) : Color.fromARGB(255, 204, 204, 204),
                                   )
                                 ],
                               )),
@@ -492,8 +463,7 @@ class _DocumentoState extends State<Documento> {
                                   ),
                                   Text(
                                     (abastecimentoBaseStore.litros != 0
-                                            ? ((abastecimentoBaseStore.odometroNew - abastecimentoBaseStore.odometroOld) /
-                                                    abastecimentoBaseStore.litros)
+                                            ? ((abastecimentoBaseStore.odometroNew - abastecimentoBaseStore.odometroOld) / abastecimentoBaseStore.litros)
                                                 .toStringAsFixed(2)
                                             : "0") +
                                         "km/L",
@@ -516,11 +486,9 @@ class _DocumentoState extends State<Documento> {
                             color: foto != null ? Color.fromARGB(255, 137, 202, 204) : Color.fromARGB(255, 164, 164, 164),
                           ),
                           onPressed: () async {
-                            await ImagePicker()
-                                .getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75)
-                                .then((image) {
+                            await ImagePicker().getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75).then((image) {
                               setState(() {
-                                foto = File(image.path);
+                                foto = File(image!.path);
                               });
                             });
                           },
@@ -556,8 +524,7 @@ class _DocumentoState extends State<Documento> {
                         "fullTank": abastecimentoBaseStore.tanqueCheio,
                         "fuel": abastecimentoBaseStore.combustivel,
                         "invoicePhoto": path != "" ? abastecimentoBaseStore.invoicePhoto : path,
-                        "average": (abastecimentoBaseStore.odometroNew - abastecimentoBaseStore.odometroOld) /
-                            abastecimentoBaseStore.litros
+                        "average": (abastecimentoBaseStore.odometroNew - abastecimentoBaseStore.odometroOld) / abastecimentoBaseStore.litros
                       });
                       firestore
                           .collection("Companies")

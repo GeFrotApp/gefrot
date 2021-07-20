@@ -21,8 +21,8 @@ class Cadastro1 extends StatefulWidget {
 }
 
 class _Cadastro1State extends State<Cadastro1> {
-  Cadastro1Store cadastro1Store;
-  BaseStore baseStore;
+  late Cadastro1Store cadastro1Store;
+  late BaseStore baseStore;
   var loading = false;
   TextEditingController cavalo = new TextEditingController();
   TextEditingController carreta1 = new TextEditingController();
@@ -46,7 +46,6 @@ class _Cadastro1State extends State<Cadastro1> {
       builder: (_) {
         return CustomBackground(
             header: "Equipamentos",
-            image: "img4.jpeg",
             children: loading
                 ? [
                     Center(
@@ -261,8 +260,7 @@ class _Cadastro1State extends State<Cadastro1> {
   }
 
   formAction() async {
-    try{
-
+    try {
       setState(() {
         loading = true;
       });
@@ -302,7 +300,7 @@ class _Cadastro1State extends State<Cadastro1> {
       if (cadastro1Store.placaCarreta1.length == 8) {
         try {
           var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta1).get();
-          carreta1Exists = x.data()?.isNotEmpty;
+          carreta1Exists = x.data()!.isNotEmpty;
         } catch (e) {
           await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
           setState(() {
@@ -314,7 +312,7 @@ class _Cadastro1State extends State<Cadastro1> {
       if (cadastro1Store.placaCarreta2.length == 8) {
         try {
           var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta1).get();
-          carreta2Exists = x.data()?.isNotEmpty;
+          carreta2Exists = x.data()!.isNotEmpty;
         } catch (e) {
           await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
           setState(() {
@@ -326,7 +324,7 @@ class _Cadastro1State extends State<Cadastro1> {
       if (cadastro1Store.placaCarreta3.length == 8) {
         try {
           var x = await firestore.collection("Companies").doc(baseStore.cnpj).collection("Trailers").doc(cadastro1Store.placaCarreta1).get();
-          carreta3Exists = x.data()?.isNotEmpty;
+          carreta3Exists = x.data()!.isNotEmpty;
         } catch (e) {
           await baseStore.showMyDialog(context, "Não foi possível carregar a carreta");
           setState(() {
@@ -430,9 +428,14 @@ class _Cadastro1State extends State<Cadastro1> {
       setState(() {
         loading = false;
       });
-    }catch(e){
+    } catch (e) {
       var logger = new Logger();
-      logger.firebaseLog(e,data: {"tela":"cadastro_1","motirista":baseStore.cpf, "cavalo":cadastro1Store.placaCavalo, "carretas":[cadastro1Store.placaCarreta1, cadastro1Store.placaCarreta2, cadastro1Store.placaCarreta3]});
+      logger.firebaseLog(e, data: {
+        "tela": "cadastro_1",
+        "motorista": baseStore.cpf,
+        "cavalo": cadastro1Store.placaCavalo,
+        "carretas": [cadastro1Store.placaCarreta1, cadastro1Store.placaCarreta2, cadastro1Store.placaCarreta3]
+      });
     }
   }
 }

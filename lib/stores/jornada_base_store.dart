@@ -21,8 +21,7 @@ abstract class _JornadaBaseStore with Store {
   var jornada = false;
 
   @action
-  void turnJornada(){
+  void turnJornada() {
     jornada = !jornada;
   }
-
 }

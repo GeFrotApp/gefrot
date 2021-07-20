@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "checklist_item_store.dart";
+part of 'checklist_item_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -9,7 +9,7 @@ part of "checklist_item_store.dart";
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
-  final _$onlineAtom = Atom(name: "_ChecklistItemStore.online");
+  final _$onlineAtom = Atom(name: '_ChecklistItemStore.online');
 
   @override
   dynamic get online {
@@ -24,7 +24,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$itemCodeAtom = Atom(name: "_ChecklistItemStore.itemCode");
+  final _$itemCodeAtom = Atom(name: '_ChecklistItemStore.itemCode');
 
   @override
   dynamic get itemCode {
@@ -39,7 +39,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$buttonQtyAtom = Atom(name: "_ChecklistItemStore.buttonQty");
+  final _$buttonQtyAtom = Atom(name: '_ChecklistItemStore.buttonQty');
 
   @override
   dynamic get buttonQty {
@@ -54,7 +54,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$itemArrayAtom = Atom(name: "_ChecklistItemStore.itemArray");
+  final _$itemArrayAtom = Atom(name: '_ChecklistItemStore.itemArray');
 
   @override
   dynamic get itemArray {
@@ -69,7 +69,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$selectionArrayAtom = Atom(name: "_ChecklistItemStore.selectionArray");
+  final _$selectionArrayAtom = Atom(name: '_ChecklistItemStore.selectionArray');
 
   @override
   dynamic get selectionArray {
@@ -84,7 +84,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$actionArrayAtom = Atom(name: "_ChecklistItemStore.actionArray");
+  final _$actionArrayAtom = Atom(name: '_ChecklistItemStore.actionArray');
 
   @override
   dynamic get actionArray {
@@ -99,7 +99,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$isFormValidAtom = Atom(name: "_ChecklistItemStore.isFormValid");
+  final _$isFormValidAtom = Atom(name: '_ChecklistItemStore.isFormValid');
 
   @override
   bool get isFormValid {
@@ -114,7 +114,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$inputArrayAtom = Atom(name: "_ChecklistItemStore.inputArray");
+  final _$inputArrayAtom = Atom(name: '_ChecklistItemStore.inputArray');
 
   @override
   ObservableMap<dynamic, dynamic> get inputArray {
@@ -129,13 +129,11 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$_ChecklistItemStoreActionController =
-      ActionController(name: "_ChecklistItemStore");
+  final _$_ChecklistItemStoreActionController = ActionController(name: '_ChecklistItemStore');
 
   @override
   void setItemCode(dynamic value) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
-        name: "_ChecklistItemStore.setItemCode");
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setItemCode');
     try {
       return super.setItemCode(value);
     } finally {
@@ -145,8 +143,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setSelection(dynamic index, dynamic value) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
-        name: "_ChecklistItemStore.setSelection");
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setSelection');
     try {
       return super.setSelection(index, value);
     } finally {
@@ -156,8 +153,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setInput(dynamic index, dynamic value, dynamic type) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
-        name: "_ChecklistItemStore.setInput");
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setInput');
     try {
       return super.setInput(index, value, type);
     } finally {
@@ -167,8 +163,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setAction(dynamic index, dynamic value) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
-        name: "_ChecklistItemStore.setAction");
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setAction');
     try {
       return super.setAction(index, value);
     } finally {
@@ -178,8 +173,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setArray(dynamic value) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
-        name: "_ChecklistItemStore.setArray");
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setArray');
     try {
       return super.setArray(value);
     } finally {
@@ -189,8 +183,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setFormValid() {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
-        name: "_ChecklistItemStore.setFormValid");
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setFormValid');
     try {
       return super.setFormValid();
     } finally {
@@ -200,7 +193,7 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   String toString() {
-    return """
+    return '''
 online: ${online},
 itemCode: ${itemCode},
 buttonQty: ${buttonQty},
@@ -209,6 +202,6 @@ selectionArray: ${selectionArray},
 actionArray: ${actionArray},
 isFormValid: ${isFormValid},
 inputArray: ${inputArray}
-    """;
+    ''';
   }
 }

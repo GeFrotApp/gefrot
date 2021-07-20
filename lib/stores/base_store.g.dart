@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "base_store.dart";
+part of 'base_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -9,7 +9,7 @@ part of "base_store.dart";
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$BaseStore on _BaseStore, Store {
-  final _$loadingAtom = Atom(name: "_BaseStore.loading");
+  final _$loadingAtom = Atom(name: '_BaseStore.loading');
 
   @override
   bool get loading {
@@ -24,7 +24,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$jornadaAtom = Atom(name: "_BaseStore.jornada");
+  final _$jornadaAtom = Atom(name: '_BaseStore.jornada');
 
   @override
   bool get jornada {
@@ -39,7 +39,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$warningsAtom = Atom(name: "_BaseStore.warnings");
+  final _$warningsAtom = Atom(name: '_BaseStore.warnings');
 
   @override
   int get warnings {
@@ -54,7 +54,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$onlineAtom = Atom(name: "_BaseStore.online");
+  final _$onlineAtom = Atom(name: '_BaseStore.online');
 
   @override
   bool get online {
@@ -69,7 +69,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$nomeAtom = Atom(name: "_BaseStore.nome");
+  final _$nomeAtom = Atom(name: '_BaseStore.nome');
 
   @override
   String get nome {
@@ -84,7 +84,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$vencimentoCNHAtom = Atom(name: "_BaseStore.vencimentoCNH");
+  final _$vencimentoCNHAtom = Atom(name: '_BaseStore.vencimentoCNH');
 
   @override
   String get vencimentoCNH {
@@ -99,7 +99,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$telefoneAtom = Atom(name: "_BaseStore.telefone");
+  final _$telefoneAtom = Atom(name: '_BaseStore.telefone');
 
   @override
   String get telefone {
@@ -114,7 +114,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$emailAtom = Atom(name: "_BaseStore.email");
+  final _$emailAtom = Atom(name: '_BaseStore.email');
 
   @override
   String get email {
@@ -129,12 +129,11 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$_BaseStoreActionController = ActionController(name: "_BaseStore");
+  final _$_BaseStoreActionController = ActionController(name: '_BaseStore');
 
   @override
   void turnLoading() {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(
-        name: "_BaseStore.turnLoading");
+    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.turnLoading');
     try {
       return super.turnLoading();
     } finally {
@@ -143,9 +142,8 @@ mixin _$BaseStore on _BaseStore, Store {
   }
 
   @override
-  void setWarnings(dynamic value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(
-        name: "_BaseStore.setWarnings");
+  void setWarnings(int value) {
+    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setWarnings');
     try {
       return super.setWarnings(value);
     } finally {
@@ -155,8 +153,7 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   dynamic setNome(dynamic value) {
-    final _$actionInfo =
-        _$_BaseStoreActionController.startAction(name: "_BaseStore.setNome");
+    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setNome');
     try {
       return super.setNome(value);
     } finally {
@@ -166,8 +163,7 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   dynamic setCNH(dynamic value) {
-    final _$actionInfo =
-        _$_BaseStoreActionController.startAction(name: "_BaseStore.setCNH");
+    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setCNH');
     try {
       return super.setCNH(value);
     } finally {
@@ -177,8 +173,7 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   dynamic setTelefone(dynamic value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(
-        name: "_BaseStore.setTelefone");
+    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setTelefone');
     try {
       return super.setTelefone(value);
     } finally {
@@ -188,8 +183,7 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   dynamic setEmail(dynamic value) {
-    final _$actionInfo =
-        _$_BaseStoreActionController.startAction(name: "_BaseStore.setEmail");
+    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setEmail');
     try {
       return super.setEmail(value);
     } finally {
@@ -199,8 +193,7 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   void setOdometro(dynamic value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(
-        name: "_BaseStore.setOdometro");
+    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setOdometro');
     try {
       return super.setOdometro(value);
     } finally {
@@ -210,7 +203,7 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   String toString() {
-    return """
+    return '''
 loading: ${loading},
 jornada: ${jornada},
 warnings: ${warnings},
@@ -219,6 +212,6 @@ nome: ${nome},
 vencimentoCNH: ${vencimentoCNH},
 telefone: ${telefone},
 email: ${email}
-    """;
+    ''';
   }
 }

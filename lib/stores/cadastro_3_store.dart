@@ -14,10 +14,8 @@ abstract class _Cadastro3Store with Store {
   @observable
   var check1 = false;
 
-
   @action
-  void setCheck1(value)=>check1 = value;
-
+  void setCheck1(value) => check1 = value;
 
   @action
   void setNomeEmpresa(value) => nomeEmpresa = value;
@@ -26,5 +24,5 @@ abstract class _Cadastro3Store with Store {
   void setCnpj(value) => cnpj = value;
 
   @computed
-  bool get isFormValid => cnpj.length == 20&&nomeEmpresa !=""&&nomeEmpresa!="Empresa não cadastrada"&&check1;
+  bool get isFormValid => cnpj.length == 20 && nomeEmpresa != "" && nomeEmpresa != "Empresa não cadastrada" && check1;
 }

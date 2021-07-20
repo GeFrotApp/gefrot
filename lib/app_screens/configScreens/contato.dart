@@ -1,10 +1,9 @@
 import "dart:ui";
+
 import "package:flutter/material.dart";
-import "package:flutter_open_whatsapp/flutter_open_whatsapp.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:provider/provider.dart";
 import "package:todomobx/stores/base_store.dart";
-import "package:todomobx/widgets/base_top.dart";
 import "package:todomobx/widgets/config_top.dart";
 
 class Contato extends StatefulWidget {
@@ -13,7 +12,7 @@ class Contato extends StatefulWidget {
 }
 
 class _ContatoState extends State<Contato> {
-  BaseStore baseStore;
+  late BaseStore baseStore;
 
   @override
   void didChangeDependencies() {
@@ -39,20 +38,17 @@ class _ContatoState extends State<Contato> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.email,color: Color.fromARGB(255, 137,202, 204)),
+                            Icon(Icons.email, color: Color.fromARGB(255, 137, 202, 204)),
                             Text(
                               "  gefrot@gmail.br",
                               textScaleFactor: 1,
-                              style: TextStyle(
-                                  color: Color.fromARGB(250, 137, 202, 204), fontSize: MediaQuery.of(context).size.width * 0.045),
+                              style: TextStyle(color: Color.fromARGB(250, 137, 202, 204), fontSize: MediaQuery.of(context).size.width * 0.045),
                             )
-
                           ],
                         ),
                       ),
                       GestureDetector(
-                        onTap: (){
-                          FlutterOpenWhatsapp.sendSingleMessage("+5541998186112", "");
+                        onTap: () {
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -70,8 +66,7 @@ class _ContatoState extends State<Contato> {
                               Text(
                                 "  Fale conosco pelo whatsapp",
                                 textScaleFactor: 1,
-                                style: TextStyle(
-                                    color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
+                                style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
                               ),
                             ],
                           ),

@@ -1,7 +1,6 @@
 import "dart:io";
 
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/material.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:intl/intl.dart";
@@ -21,9 +20,9 @@ class _WarningsState extends State<Warnings> {
   List<String> warnings = ["supply"];
   var formatter = DateFormat.yMMMMEEEEd("pt_BR").add_Hm();
   var hora = new DateTime.now().hour;
-  HomeStore homeStore;
-  BaseStore baseStore;
-  AbastecimentoBaseStore abastecimentoBaseStore;
+  late HomeStore homeStore;
+  late BaseStore baseStore;
+  late AbastecimentoBaseStore abastecimentoBaseStore;
   var fb = FirebaseFirestore.instance;
 
   @override
@@ -52,12 +51,9 @@ class _WarningsState extends State<Warnings> {
                       "  Avisos  ",
                       textScaleFactor: 1,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: MediaQuery.of(context).size.height * 0.025,
-                          color: Color.fromARGB(255, 100, 100, 100)),
+                          fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.height * 0.025, color: Color.fromARGB(255, 100, 100, 100)),
                     ),
-                    Icon(Icons.warning_rounded,
-                        size: MediaQuery.of(context).size.height * 0.035, color: Color.fromARGB(255, 137, 202, 204)),
+                    Icon(Icons.warning_rounded, size: MediaQuery.of(context).size.height * 0.035, color: Color.fromARGB(255, 137, 202, 204)),
                   ],
                 ),
               ),
@@ -90,7 +86,7 @@ class _WarningsState extends State<Warnings> {
                             ),
                           );
                         return new ListView(
-                          children: snapshot.data.docs.map((DocumentSnapshot document) {
+                          children: snapshot.data!.docs.map((DocumentSnapshot document) {
                             return new Container(
                               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.012),
                               width: MediaQuery.of(context).size.width,
@@ -110,15 +106,11 @@ class _WarningsState extends State<Warnings> {
                                       Text(
                                         document["text"],
                                         textScaleFactor: 1,
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width * 0.048,
-                                            color: Color.fromARGB(255, 84, 84, 84)),
+                                        style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.048, color: Color.fromARGB(255, 84, 84, 84)),
                                         textAlign: TextAlign.start,
                                       ),
                                       Text(
-                                        "  " +
-                                            formatter.format(
-                                                DateTime.fromMicrosecondsSinceEpoch(document["date"].microsecondsSinceEpoch)),
+                                        "  " + formatter.format(DateTime.fromMicrosecondsSinceEpoch(document["date"].microsecondsSinceEpoch)),
                                         textScaleFactor: 1,
                                         style: TextStyle(color: Colors.grey, fontSize: MediaQuery.of(context).size.width * 0.035),
                                       ),
@@ -136,7 +128,7 @@ class _WarningsState extends State<Warnings> {
                                           } on SocketException catch (_) {
                                             await fb.disableNetwork();
                                           }
-                                          var document2 = await document.data()["supply"].get();
+                                          var document2 = await document["supply"].get();
                                           abastecimentoBaseStore.documento = document2.id;
                                           abastecimentoBaseStore.data = document2.data()["date"];
                                           abastecimentoBaseStore.setPosto(document2.data()["gasStationName"]);
@@ -164,8 +156,7 @@ class _WarningsState extends State<Warnings> {
                                             margin: EdgeInsets.only(
                                               right: MediaQuery.of(context).size.width * 0.01,
                                             ),
-                                            decoration: BoxDecoration(
-                                                border: Border(left: BorderSide(color: Color.fromARGB(255, 210, 210, 210)))),
+                                            decoration: BoxDecoration(border: Border(left: BorderSide(color: Color.fromARGB(255, 210, 210, 210)))),
                                             padding: EdgeInsets.only(
                                               left: MediaQuery.of(context).size.width * 0.02,
                                             ),
@@ -195,8 +186,7 @@ class _WarningsState extends State<Warnings> {
                                               right: MediaQuery.of(context).size.width * 0.02,
                                               left: MediaQuery.of(context).size.width * 0.02,
                                             ),
-                                            decoration: BoxDecoration(
-                                                border: Border(left: BorderSide(color: Color.fromARGB(255, 210, 210, 210)))),
+                                            decoration: BoxDecoration(border: Border(left: BorderSide(color: Color.fromARGB(255, 210, 210, 210)))),
                                             padding: EdgeInsets.only(
                                               left: MediaQuery.of(context).size.width * 0.01,
                                             ),

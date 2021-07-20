@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "jornada_base_store.dart";
+part of 'jornada_base_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -9,7 +9,7 @@ part of "jornada_base_store.dart";
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
-  final _$selectAtom = Atom(name: "_JornadaBaseStore.select");
+  final _$selectAtom = Atom(name: '_JornadaBaseStore.select');
 
   @override
   bool get select {
@@ -24,7 +24,7 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
     });
   }
 
-  final _$indexAtom = Atom(name: "_JornadaBaseStore.index");
+  final _$indexAtom = Atom(name: '_JornadaBaseStore.index');
 
   @override
   int get index {
@@ -39,7 +39,7 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
     });
   }
 
-  final _$jornadaAtom = Atom(name: "_JornadaBaseStore.jornada");
+  final _$jornadaAtom = Atom(name: '_JornadaBaseStore.jornada');
 
   @override
   bool get jornada {
@@ -54,13 +54,11 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
     });
   }
 
-  final _$_JornadaBaseStoreActionController =
-      ActionController(name: "_JornadaBaseStore");
+  final _$_JornadaBaseStoreActionController = ActionController(name: '_JornadaBaseStore');
 
   @override
   void setIndex(dynamic value) {
-    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(
-        name: "_JornadaBaseStore.setIndex");
+    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(name: '_JornadaBaseStore.setIndex');
     try {
       return super.setIndex(value);
     } finally {
@@ -70,8 +68,7 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
 
   @override
   void turnSelect() {
-    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(
-        name: "_JornadaBaseStore.turnSelect");
+    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(name: '_JornadaBaseStore.turnSelect');
     try {
       return super.turnSelect();
     } finally {
@@ -81,8 +78,7 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
 
   @override
   void turnJornada() {
-    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(
-        name: "_JornadaBaseStore.turnJornada");
+    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(name: '_JornadaBaseStore.turnJornada');
     try {
       return super.turnJornada();
     } finally {
@@ -92,10 +88,10 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
 
   @override
   String toString() {
-    return """
+    return '''
 select: ${select},
 index: ${index},
 jornada: ${jornada}
-    """;
+    ''';
   }
 }

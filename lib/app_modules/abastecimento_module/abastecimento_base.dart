@@ -18,8 +18,8 @@ class AbastecimentoBase extends StatefulWidget {
 }
 
 class _AbastecimentoBaseState extends State<AbastecimentoBase> {
-  AbastecimentoBaseStore abastecimentoBaseStore;
-  BaseStore baseStore;
+  late AbastecimentoBaseStore abastecimentoBaseStore;
+  late BaseStore baseStore;
 
   @override
   void didChangeDependencies() {
@@ -34,7 +34,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
     return WillPopScope(
         onWillPop: () async {
           if (abastecimentoBaseStore.index == 1) {
-            bool confirm;
+            late bool confirm;
             await showDialog(
                 context: context,
                 builder: (context) {
@@ -52,8 +52,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                         child: Container(
                           height: MediaQuery.of(context).size.width * 0.06,
                           width: MediaQuery.of(context).size.width * 0.1,
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(5), color: Color.fromARGB(255, 255, 165, 165)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Color.fromARGB(255, 255, 165, 165)),
                           child: Center(
                             child: Text(
                               "Não",
@@ -71,8 +70,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                         child: Container(
                           height: MediaQuery.of(context).size.width * 0.06,
                           width: MediaQuery.of(context).size.width * 0.1,
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(5), color: Color.fromARGB(255, 137, 202, 204)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Color.fromARGB(255, 137, 202, 204)),
                           child: Center(
                             child: Text(
                               "Sim",
@@ -113,9 +111,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                           Container(
                               height: MediaQuery.of(context).size.height * 0.06,
                               width: MediaQuery.of(context).size.height * 0.06,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Color.fromARGB(255, 140, 140, 140))),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Color.fromARGB(255, 140, 140, 140))),
                               child: Center(
                                 child: IconButton(
                                     icon: Icon(
@@ -124,20 +120,15 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                                       size: MediaQuery.of(context).size.width * 0.05,
                                     ),
                                     onPressed: () {
-                                      abastecimentoBaseStore.index == 0
-                                          ? Navigator.of(context).pop()
-                                          : abastecimentoBaseStore.setIndex(0, context, true);
+                                      abastecimentoBaseStore.index == 0 ? Navigator.of(context).pop() : abastecimentoBaseStore.setIndex(0, context, true);
                                     }),
                               )),
                           Text(
                             "  Abastecimento  ",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: MediaQuery.of(context).size.height * 0.025,
-                                color: Color.fromARGB(255, 100, 100, 100)),
+                                fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.height * 0.025, color: Color.fromARGB(255, 100, 100, 100)),
                           ),
-                          FaIcon(FontAwesomeIcons.gasPump,
-                              size: MediaQuery.of(context).size.height * 0.035, color: Color.fromARGB(255, 230, 230, 59)),
+                          FaIcon(FontAwesomeIcons.gasPump, size: MediaQuery.of(context).size.height * 0.035, color: Color.fromARGB(255, 230, 230, 59)),
                         ],
                       ),
                     ),

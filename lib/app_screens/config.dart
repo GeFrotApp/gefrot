@@ -13,7 +13,7 @@ class Config extends StatefulWidget {
 }
 
 class _ConfigState extends State<Config> {
-  BaseStore baseStore;
+  late BaseStore baseStore;
 
   @override
   void didChangeDependencies() {
@@ -41,8 +41,7 @@ class _ConfigState extends State<Config> {
                     Text(
                       "    " + baseStore.nome,
                       textScaleFactor: 1,
-                      style: TextStyle(
-                          color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05),
+                      style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.05),
                     )
                   ],
                 )),
@@ -64,20 +63,17 @@ class _ConfigState extends State<Config> {
                     Text(
                       "Conta",
                       textScaleFactor: 1,
-                      style: TextStyle(
-                          color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
+                      style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
                     ),
                     Text("Usuário, empresa",
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                            color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
+                        textScaleFactor: 1, style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
                   ],
                 ),
               ),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                   return Seguranca();
                 }));
               },
@@ -93,24 +89,19 @@ class _ConfigState extends State<Config> {
                     Text(
                       "Segurança",
                       textScaleFactor: 1,
-                      style:
-                      TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
+                      style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
                     ),
                     Text("Senha, telefone",
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                            color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
+                        textScaleFactor: 1, style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
                   ],
                 ),
               ),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context){
-                    return Ajuda();
-                  }
-                ));
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return Ajuda();
+                }));
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -124,20 +115,16 @@ class _ConfigState extends State<Config> {
                     Text(
                       "Ajuda",
                       textScaleFactor: 1,
-                      style:
-                      TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
+                      style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
                     ),
                     Text("Fale conosco, política de privacidade",
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                            color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
+                        textScaleFactor: 1, style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
                   ],
                 ),
               ),
-
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 RestartWidget.restartApp(context);
               },
               child: Container(
@@ -152,17 +139,13 @@ class _ConfigState extends State<Config> {
                     Text(
                       "Logout",
                       textScaleFactor: 1,
-                      style:
-                      TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
+                      style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.045),
                     ),
                     Text("Desloga do aplicativo",
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                            color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
+                        textScaleFactor: 1, style: TextStyle(color: Color.fromARGB(250, 120, 120, 120), fontSize: MediaQuery.of(context).size.width * 0.030))
                   ],
                 ),
               ),
-
             )
           ],
         ),

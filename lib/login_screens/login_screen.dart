@@ -2,7 +2,6 @@ import "dart:convert";
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:crypto/crypto.dart";
-import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_mobx/flutter_mobx.dart";
@@ -27,9 +26,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  Dialog dialog;
-  LoginStore loginStore;
-  BaseStore baseStore;
+  late Dialog dialog;
+  late LoginStore loginStore;
+  late BaseStore baseStore;
   List<String> warnings = ["supply"];
   var loading = false;
 
@@ -50,7 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return CustomBackground(
         header: "Acesse sua conta",
-        image: "img3.jpeg",
         children: loading
             ? [
                 Center(
@@ -110,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Observer(
                   builder: (_) {
                     return CustomPassTextField(
+                      formatter: new MaskTextInputFormatter(mask: "###############################################", filter: {"#": RegExp(r"[a-zA-Z0-9@. ]")}),
                       hint: "Senha",
                       onChanged: (value) {
                         loginStore.setPass(value);
@@ -185,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               await formAction();
                             } catch (e) {
                               var logger = new Logger();
-                              logger.firebaseLog(e, data: {"tela":"login"});
+                              logger.firebaseLog(e, data: {"tela": "login"});
                             }
                           }),
                     );
@@ -231,8 +230,8 @@ class _LoginScreenState extends State<LoginScreen> {
             baseStore.nome = capitalize(doc["name"].split(" ")[0] + " " + capitalize(doc["name"].split(" ")[1]));
             baseStore.cpf = doc.id;
             baseStore.telefone = doc["phone"];
-            baseStore.vencimentoCNH = doc.data().containsKey("cnhDueDate") ? doc["cnhDueDate"] : "";
-            baseStore.email = doc.data().containsKey("email") ? doc["email"] : "";
+            baseStore.vencimentoCNH = doc.get("cnhDueDate")!=null ? doc["cnhDueDate"] : "";
+            baseStore.email = doc.get("email")!=null ? doc["email"] : "";
             baseStore.cnpj = doc["cnpj"].replaceAll(".", "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", "");
             var documentEmpresa = FirebaseFirestore.instance.collection("Companies").doc(baseStore.cnpj);
             documentEmpresa.get().then((DocumentSnapshot doc) async {

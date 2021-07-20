@@ -70,16 +70,16 @@ abstract class _AbastecimentoRegistroStore with Store {
       first = false;
       var lastDate = Timestamp.fromMillisecondsSinceEpoch(absOld[0].data()["date"].millisecondsSinceEpoch);
       var absMiddle = (await fb
-          .collection("Companies")
-          .doc(base.cnpj)
-          .collection("Supplies")
-          .where("licensePlate", isEqualTo: cadastro.placaCavalo)
-          .where("date", isLessThan: Timestamp.fromMillisecondsSinceEpoch(data.millisecondsSinceEpoch))
-          .where("date", isGreaterThan: lastDate)
-          .orderBy("date", descending: false)
-          .get())
+              .collection("Companies")
+              .doc(base.cnpj)
+              .collection("Supplies")
+              .where("licensePlate", isEqualTo: cadastro.placaCavalo)
+              .where("date", isLessThan: Timestamp.fromMillisecondsSinceEpoch(data.millisecondsSinceEpoch))
+              .where("date", isGreaterThan: lastDate)
+              .orderBy("date", descending: false)
+              .get())
           .docs;
-      for(var x = 0; x < absMiddle.length;x++){
+      for (var x = 0; x < absMiddle.length; x++) {
         litrosIntermediarios += absMiddle[x].data()["amount"];
       }
 
@@ -98,12 +98,7 @@ abstract class _AbastecimentoRegistroStore with Store {
 
   @computed
   bool get isFormValid =>
-      (cnpjPosto.length == 0 || cnpjPosto.length == 14) &&
-      posto.length > 2 &&
-      odometro != 0 &&
-      litros != 0 &&
-      valor != 0 &&
-      combustivel != "";
+      (cnpjPosto.length == 0 || cnpjPosto.length == 14) && posto.length > 2 && odometro != 0 && litros != 0 && valor != 0 && combustivel != "";
 
   @action
   Future<void> setCnpjPosto(value) async {

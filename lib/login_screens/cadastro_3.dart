@@ -1,12 +1,13 @@
 import "dart:convert";
+import 'dart:io';
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:crypto/crypto.dart";
 import "package:flutter/material.dart";
 import "package:flutter_mobx/flutter_mobx.dart";
 import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
-import "package:mobx/mobx.dart";
 import "package:provider/provider.dart";
+import 'package:todomobx/login_screens/cadastro_1.dart';
 import "package:todomobx/stores/base_store.dart";
 import "package:todomobx/stores/cadastro_1_store.dart";
 import "package:todomobx/stores/cadastro_2_store.dart";
@@ -25,12 +26,16 @@ class Cadastro3 extends StatefulWidget {
 class _Cadastro3State extends State<Cadastro3> {
   var remember = false;
   var loading = false;
-  Cadastro3Store cadastro3Store;
-  BaseStore baseStore;
+  late Cadastro1Store cadastro1Store;
+  late Cadastro2Store cadastro2Store;
+  late Cadastro3Store cadastro3Store;
+  late BaseStore baseStore;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    cadastro1Store = Provider.of<Cadastro1Store>(context);
+    cadastro2Store = Provider.of<Cadastro2Store>(context);
     cadastro3Store = Provider.of<Cadastro3Store>(context);
     baseStore = Provider.of<BaseStore>(context);
   }
@@ -47,9 +52,7 @@ class _Cadastro3State extends State<Cadastro3> {
                       width: MediaQuery.of(context).size.width * 0.2,
                       height: MediaQuery.of(context).size.width * 0.2,
                       child: CircularProgressIndicator(
-                          strokeWidth: 10,
-                          valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-                          backgroundColor: Color.fromARGB(255, 137, 202, 204)),
+                          strokeWidth: 10, valueColor: new AlwaysStoppedAnimation<Color>(Colors.white), backgroundColor: Color.fromARGB(255, 137, 202, 204)),
                     ),
                   )))
           : Column(
@@ -59,8 +62,7 @@ class _Cadastro3State extends State<Cadastro3> {
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.06,
                     width: MediaQuery.of(context).size.height * 0.06,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10), border: Border.all(color: Color.fromARGB(255, 140, 140, 140))),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Color.fromARGB(255, 140, 140, 140))),
                     child: IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios_outlined,
@@ -80,8 +82,7 @@ class _Cadastro3State extends State<Cadastro3> {
                   child: Text(
                     "Vincule sua conta a uma transportadora *",
                     textScaleFactor: 1,
-                    style:
-                        TextStyle(fontSize: MediaQuery.of(context).size.width * 0.061, color: Color.fromARGB(255, 137, 202, 204)),
+                    style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.061, color: Color.fromARGB(255, 137, 202, 204)),
                   ),
                 ),
                 SizedBox(
@@ -96,6 +97,7 @@ class _Cadastro3State extends State<Cadastro3> {
                   ),
                 ),
                 CustomTextField(
+                  controller: new TextEditingController(),
                   hint: "Digite o CNPJ",
                   textInputType: TextInputType.number,
                   formatter: new MaskTextInputFormatter(mask: "XX. XXX. XXX/XXXX-XX", filter: {"X": RegExp(r"[0-9]")}),
@@ -105,11 +107,10 @@ class _Cadastro3State extends State<Cadastro3> {
                       final firestore = FirebaseFirestore.instance;
                       var x = await firestore
                           .collection("Companies")
-                          .doc(
-                              cadastro3Store.cnpj.replaceAll(".", "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", ""))
+                          .doc(cadastro3Store.cnpj.replaceAll(".", "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", ""))
                           .get();
                       if (x.exists) {
-                        cadastro3Store.setNomeEmpresa(x.data()["name"]);
+                        cadastro3Store.setNomeEmpresa(x["name"]);
                       } else {
                         cadastro3Store.setNomeEmpresa("Empresa não cadastrada");
                       }
@@ -132,9 +133,7 @@ class _Cadastro3State extends State<Cadastro3> {
                                 cadastro3Store.nomeEmpresa,
                                 textScaleFactor: 1,
                                 style: TextStyle(
-                                    color: cadastro3Store.nomeEmpresa != "Empresa não cadastrada"
-                                        ? Color.fromARGB(255, 137, 202, 204)
-                                        : Colors.red,
+                                    color: cadastro3Store.nomeEmpresa != "Empresa não cadastrada" ? Color.fromARGB(255, 137, 202, 204) : Colors.red,
                                     fontWeight: FontWeight.w400,
                                     fontSize: MediaQuery.of(context).size.width * 0.045),
                                 textAlign: TextAlign.left,
@@ -160,10 +159,8 @@ class _Cadastro3State extends State<Cadastro3> {
                       child: Text(
                         "Termos de uso",
                         textScaleFactor: 1,
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.04,
-                            color: Colors.lightBlueAccent,
-                            decoration: TextDecoration.underline),
+                        style:
+                            TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, color: Colors.lightBlueAccent, decoration: TextDecoration.underline),
                       ),
                     )
                   ],
@@ -200,51 +197,66 @@ class _Cadastro3State extends State<Cadastro3> {
                                 setState(() {
                                   loading = !loading;
                                 });
-                                var cadastro1Store = Provider.of<Cadastro1Store>(context, listen: false);
-                                var cadastro2Store = Provider.of<Cadastro2Store>(context, listen: false);
-                                final firestore = FirebaseFirestore.instance;
-                                firestore
-                                    .collection("Drivers")
-                                    .doc(cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", ""))
-                                    .set({
-                                  "name": cadastro2Store.nome.toLowerCase(),
-                                  "password": sha256.convert(utf8.encode(cadastro2Store.pass)).toString(),
-                                  "phone": cadastro2Store.telefone,
-                                  "email": cadastro2Store.email,
-                                  "cnpj": cadastro3Store.cnpj
-                                      .replaceAll(".", "")
-                                      .replaceAll(" ", "")
-                                      .replaceAll("/", "")
-                                      .replaceAll("-", ""),
-                                  "cnhDueDate": cadastro2Store.dataCNH,
-                                  "companyApproval": false,
-                                  "ingressDate": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
-                                });
-                                firestore.collection("Companies").doc(cadastro3Store.cnpj
-                                    .replaceAll(".", "")
-                                    .replaceAll(" ", "")
-                                    .replaceAll("/", "")
-                                    .replaceAll("-", "")).collection("Warnings").add({
-                                  "checked": false,
-                                  "date": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
-                                  "driverCPF": cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", ""),
-                                  "driverReference": "/Drivers/"+cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", ""),
-                                  "text": "O motorista, "+cadastro2Store.nome.toLowerCase()+" solicitou acesso.",
-                                  "type": "newDriver"
-                                });
+                                var isOnline;
+                                try {
+                                  final result = await InternetAddress.lookup("example.com");
+                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                    isOnline = true;
+                                  }
+                                } catch (e) {
+                                  isOnline = false;
+                                }
 
+                                if(isOnline){
+                                  final firestore = FirebaseFirestore.instance;
+                                  var testaMotorista = await firestore.collection("Drivers").doc(cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", "")).get();
+                                  if(testaMotorista.exists){
+                                    baseStore.showMyDialog(context, "Motorista já cadastrado!!");
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    return;
+                                  }
+                                  firestore.collection("Drivers").doc(cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", "")).set({
+                                    "name": cadastro2Store.nome.toLowerCase(),
+                                    "password": sha256.convert(utf8.encode(cadastro2Store.pass)).toString(),
+                                    "phone": cadastro2Store.telefone,
+                                    "email": cadastro2Store.email,
+                                    "cnpj": cadastro3Store.cnpj.replaceAll(".", "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", ""),
+                                    "cnhDueDate": cadastro2Store.dataCNH,
+                                    "companyApproval": false,
+                                    "ingressDate": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
+                                  });
+                                  firestore
+                                      .collection("Companies")
+                                      .doc(cadastro3Store.cnpj.replaceAll(".", "").replaceAll(" ", "").replaceAll("/", "").replaceAll("-", ""))
+                                      .collection("Warnings")
+                                      .add({
+                                    "checked": false,
+                                    "date": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch),
+                                    "driverCPF": cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", ""),
+                                    "driverReference": "/Drivers/" + cadastro2Store.cpf.replaceAll(".", "").replaceAll("-", ""),
+                                    "text": "O motorista, " + cadastro2Store.nome.toLowerCase() + " solicitou acesso.",
+                                    "type": "newDriver"
+                                  });
 
-
-                                setState(() {
-                                  loading = !loading;
-                                });
-                                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                                  return Aviso("Usuário cadastrado!");
-                                }));
-                                await Future.delayed(const Duration(seconds: 2), () => "2");
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-                                  return LoginScreen();
-                                }));
+                                  setState(() {
+                                    loading = !loading;
+                                  });
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                                    return Aviso("Usuário cadastrado!");
+                                  }));
+                                  await Future.delayed(const Duration(seconds: 2), () => "2");
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+                                    return LoginScreen();
+                                  }));
+                                }else{
+                                  await baseStore.showMyDialog(context, "Sem rede!");
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  return;
+                                }
                               }
                             : () {},
                       ),

@@ -4,8 +4,4 @@ part "home_store.g.dart";
 
 class HomeStore = _HomeStore with _$HomeStore;
 
-abstract class _HomeStore with Store{
-
-
-
-}
+abstract class _HomeStore with Store {}

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "abastecimento_base_store.dart";
+part of 'abastecimento_base_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -9,15 +9,12 @@ part of "abastecimento_base_store.dart";
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
-  Computed<bool> _$isFormValidComputed;
+  Computed<bool>? _$isFormValidComputed;
 
   @override
-  bool get isFormValid =>
-      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: "_AbastecimentoBaseStore.isFormValid"))
-          .value;
+  bool get isFormValid => (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid, name: '_AbastecimentoBaseStore.isFormValid')).value;
 
-  final _$postoAtom = Atom(name: "_AbastecimentoBaseStore.posto");
+  final _$postoAtom = Atom(name: '_AbastecimentoBaseStore.posto');
 
   @override
   String get posto {
@@ -32,7 +29,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$cnpjPostoAtom = Atom(name: "_AbastecimentoBaseStore.cnpjPosto");
+  final _$cnpjPostoAtom = Atom(name: '_AbastecimentoBaseStore.cnpjPosto');
 
   @override
   String get cnpjPosto {
@@ -47,7 +44,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$placaCavaloAtom = Atom(name: "_AbastecimentoBaseStore.placaCavalo");
+  final _$placaCavaloAtom = Atom(name: '_AbastecimentoBaseStore.placaCavalo');
 
   @override
   String get placaCavalo {
@@ -62,8 +59,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$nomePostoControllerAtom =
-      Atom(name: "_AbastecimentoBaseStore.nomePostoController");
+  final _$nomePostoControllerAtom = Atom(name: '_AbastecimentoBaseStore.nomePostoController');
 
   @override
   TextEditingController get nomePostoController {
@@ -78,7 +74,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$dataAtom = Atom(name: "_AbastecimentoBaseStore.data");
+  final _$dataAtom = Atom(name: '_AbastecimentoBaseStore.data');
 
   @override
   dynamic get data {
@@ -93,7 +89,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$odometroNewAtom = Atom(name: "_AbastecimentoBaseStore.odometroNew");
+  final _$odometroNewAtom = Atom(name: '_AbastecimentoBaseStore.odometroNew');
 
   @override
   double get odometroNew {
@@ -108,7 +104,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$odometroOldAtom = Atom(name: "_AbastecimentoBaseStore.odometroOld");
+  final _$odometroOldAtom = Atom(name: '_AbastecimentoBaseStore.odometroOld');
 
   @override
   double get odometroOld {
@@ -123,7 +119,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$litrosAtom = Atom(name: "_AbastecimentoBaseStore.litros");
+  final _$litrosAtom = Atom(name: '_AbastecimentoBaseStore.litros');
 
   @override
   double get litros {
@@ -138,7 +134,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$valorAtom = Atom(name: "_AbastecimentoBaseStore.valor");
+  final _$valorAtom = Atom(name: '_AbastecimentoBaseStore.valor');
 
   @override
   double get valor {
@@ -153,7 +149,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$nfAtom = Atom(name: "_AbastecimentoBaseStore.nf");
+  final _$nfAtom = Atom(name: '_AbastecimentoBaseStore.nf');
 
   @override
   String get nf {
@@ -168,7 +164,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$tanqueCheioAtom = Atom(name: "_AbastecimentoBaseStore.tanqueCheio");
+  final _$tanqueCheioAtom = Atom(name: '_AbastecimentoBaseStore.tanqueCheio');
 
   @override
   bool get tanqueCheio {
@@ -183,7 +179,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$invoicePhotoAtom = Atom(name: "_AbastecimentoBaseStore.invoicePhoto");
+  final _$invoicePhotoAtom = Atom(name: '_AbastecimentoBaseStore.invoicePhoto');
 
   @override
   dynamic get invoicePhoto {
@@ -198,7 +194,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$selectAtom = Atom(name: "_AbastecimentoBaseStore.select");
+  final _$selectAtom = Atom(name: '_AbastecimentoBaseStore.select');
 
   @override
   bool get select {
@@ -213,7 +209,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$indexAtom = Atom(name: "_AbastecimentoBaseStore.index");
+  final _$indexAtom = Atom(name: '_AbastecimentoBaseStore.index');
 
   @override
   int get index {
@@ -228,7 +224,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$combustivelAtom = Atom(name: "_AbastecimentoBaseStore.combustivel");
+  final _$combustivelAtom = Atom(name: '_AbastecimentoBaseStore.combustivel');
 
   @override
   String get combustivel {
@@ -243,29 +239,25 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
     });
   }
 
-  final _$setCnpjPostoAsyncAction =
-      AsyncAction("_AbastecimentoBaseStore.setCnpjPosto");
+  final _$setCnpjPostoAsyncAction = AsyncAction('_AbastecimentoBaseStore.setCnpjPosto');
 
   @override
   Future<void> setCnpjPosto(dynamic value) {
     return _$setCnpjPostoAsyncAction.run(() => super.setCnpjPosto(value));
   }
 
-  final _$setIndexAsyncAction = AsyncAction("_AbastecimentoBaseStore.setIndex");
+  final _$setIndexAsyncAction = AsyncAction('_AbastecimentoBaseStore.setIndex');
 
   @override
   Future<void> setIndex(dynamic value, dynamic context, dynamic checkRegistro) {
-    return _$setIndexAsyncAction
-        .run(() => super.setIndex(value, context, checkRegistro));
+    return _$setIndexAsyncAction.run(() => super.setIndex(value, context, checkRegistro));
   }
 
-  final _$_AbastecimentoBaseStoreActionController =
-      ActionController(name: "_AbastecimentoBaseStore");
+  final _$_AbastecimentoBaseStoreActionController = ActionController(name: '_AbastecimentoBaseStore');
 
   @override
   void setData(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setData");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setData');
     try {
       return super.setData(value);
     } finally {
@@ -275,8 +267,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void setPosto(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setPosto");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setPosto');
     try {
       return super.setPosto(value);
     } finally {
@@ -286,8 +277,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void setPlacaCavalo(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setPlacaCavalo");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setPlacaCavalo');
     try {
       return super.setPlacaCavalo(value);
     } finally {
@@ -297,8 +287,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void setNewOdometro(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setNewOdometro");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setNewOdometro');
     try {
       return super.setNewOdometro(value);
     } finally {
@@ -308,8 +297,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void setOldOdometro(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setOldOdometro");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setOldOdometro');
     try {
       return super.setOldOdometro(value);
     } finally {
@@ -319,8 +307,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void setLitros(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setLitros");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setLitros');
     try {
       return super.setLitros(value);
     } finally {
@@ -330,8 +317,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void setValor(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setValor");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setValor');
     try {
       return super.setValor(value);
     } finally {
@@ -341,8 +327,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void setNf(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setNf");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setNf');
     try {
       return super.setNf(value);
     } finally {
@@ -352,8 +337,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void setTanqueCheio(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setTanqueCheio");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setTanqueCheio');
     try {
       return super.setTanqueCheio(value);
     } finally {
@@ -363,8 +347,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   void turnSelect() {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.turnSelect");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.turnSelect');
     try {
       return super.turnSelect();
     } finally {
@@ -374,8 +357,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   dynamic setCombustivel(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(
-        name: "_AbastecimentoBaseStore.setCombustivel");
+    final _$actionInfo = _$_AbastecimentoBaseStoreActionController.startAction(name: '_AbastecimentoBaseStore.setCombustivel');
     try {
       return super.setCombustivel(value);
     } finally {
@@ -385,7 +367,7 @@ mixin _$AbastecimentoBaseStore on _AbastecimentoBaseStore, Store {
 
   @override
   String toString() {
-    return """
+    return '''
 posto: ${posto},
 cnpjPosto: ${cnpjPosto},
 placaCavalo: ${placaCavalo},
@@ -402,6 +384,6 @@ select: ${select},
 index: ${index},
 combustivel: ${combustivel},
 isFormValid: ${isFormValid}
-    """;
+    ''';
   }
 }

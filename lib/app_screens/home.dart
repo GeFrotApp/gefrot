@@ -5,7 +5,6 @@ import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:provider/provider.dart";
 import "package:todomobx/app_modules/abastecimento_module/abastecimento_base.dart";
 import "package:todomobx/app_modules/checklist_module/checklist_base.dart";
-import "package:todomobx/app_modules/ocr_module/ocr.dart";
 import "package:todomobx/stores/base_store.dart";
 import "package:todomobx/stores/cadastro_1_store.dart";
 import "package:todomobx/stores/home_store.dart";
@@ -19,9 +18,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var hora = new DateTime.now().hour;
-  HomeStore homeStore;
-  BaseStore baseStore;
-  Cadastro1Store cadastro1Store;
+  late HomeStore homeStore;
+  late BaseStore baseStore;
+  late Cadastro1Store cadastro1Store;
 
   @override
   void didChangeDependencies() {
@@ -33,28 +32,27 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Observer(
-        builder: (context){
-          return Container(
-            color: Colors.white,
-            child: baseStore.loading
-                ? Center(
-                child: Container(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        height: MediaQuery.of(context).size.width * 0.2,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 10,
-                            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-                            backgroundColor: Color.fromARGB(255, 137, 202, 204)),
-                      ),
-                    )))
-                :Column(children: [
-              Expanded(
-                  child: SingleChildScrollView(
+    return Expanded(child: Observer(
+      builder: (context) {
+        return Container(
+          color: Colors.white,
+          child: baseStore.loading
+              ? Center(
+                  child: Container(
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      child: Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          height: MediaQuery.of(context).size.width * 0.2,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 10,
+                              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                              backgroundColor: Color.fromARGB(255, 137, 202, 204)),
+                        ),
+                      )))
+              : Column(children: [
+                  Expanded(
+                      child: SingleChildScrollView(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
@@ -68,7 +66,6 @@ class _HomeState extends State<Home> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-
                               Container(
                                   width: MediaQuery.of(context).size.width * 0.4,
                                   height: MediaQuery.of(context).size.width * 0.4,
@@ -79,13 +76,13 @@ class _HomeState extends State<Home> {
                                     elevation: 10,
                                     color: Colors.white,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
+                                        borderRadius: BorderRadius.circular(15), side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
                                     child: Stack(
                                       children: [
                                         Center(
                                           child: Text(
-                                            "Abastecimento",textScaleFactor: 1,
+                                            "Abastecimento",
+                                            textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context).size.width * 0.04,
                                                 fontWeight: FontWeight.w400,
@@ -114,13 +111,13 @@ class _HomeState extends State<Home> {
                                     elevation: 10,
                                     color: Colors.white,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
+                                        borderRadius: BorderRadius.circular(15), side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
                                     child: Stack(
                                       children: [
                                         Center(
                                           child: Text(
-                                            "Check list",textScaleFactor: 1,
+                                            "Check list",
+                                            textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context).size.width * 0.04,
                                                 fontWeight: FontWeight.w400,
@@ -295,8 +292,8 @@ class _HomeState extends State<Home> {
                                       var proposedAverage = 0.0;
                                       var currentAverage = 0.0;
                                       if (average.exists) {
-                                        proposedAverage = average.data()["proposedAverage"];
-                                        currentAverage = average.data()["average"];
+                                        proposedAverage = average["proposedAverage"];
+                                        currentAverage = average["average"];
                                       }
                                       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                                         return Media(proposedAverage, currentAverage);
@@ -306,13 +303,13 @@ class _HomeState extends State<Home> {
                                     elevation: 10,
                                     color: Colors.white,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
+                                        borderRadius: BorderRadius.circular(15), side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
                                     child: Stack(
                                       children: [
                                         Center(
                                           child: Text(
-                                            "Médias",textScaleFactor: 1,
+                                            "Médias",
+                                            textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context).size.width * 0.04,
                                                 fontWeight: FontWeight.w400,
@@ -332,53 +329,53 @@ class _HomeState extends State<Home> {
                                     ),
                                   )),
                               Container(
-                                  width: MediaQuery.of(context).size.width * 0.4,
-                                  height: MediaQuery.of(context).size.width * 0.4,
-                                  // child: RaisedButton(
-                                  //   onPressed: () async {
-                                  //
-                                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                                  //       return Ocr();
-                                  //     }));
-                                  //   },
-                                  //   elevation: 10,
-                                  //   color: Colors.white,
-                                  //   shape: RoundedRectangleBorder(
-                                  //       borderRadius: BorderRadius.circular(15),
-                                  //       side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
-                                  //   child: Stack(
-                                  //     children: [
-                                  //       Center(
-                                  //         child: Text(
-                                  //           "OCR",textScaleFactor: 1,
-                                  //           style: TextStyle(
-                                  //               fontSize: MediaQuery.of(context).size.width * 0.04,
-                                  //               fontWeight: FontWeight.w400,
-                                  //               color: Color.fromARGB(255, 117, 117, 117)),
-                                  //         ),
-                                  //       ),
-                                  //       Container(
-                                  //         alignment: Alignment.bottomCenter,
-                                  //         child: Icon(
-                                  //           Icons.remove_red_eye_outlined,
-                                  //           size: MediaQuery.of(context).size.width * 0.085,
-                                  //           color: Color.fromARGB(255, 40, 95, 140),
-                                  //         ),
-                                  //         margin: EdgeInsets.all(15),
-                                  //       )
-                                  //     ],
-                                  //   ),
-                                  // )),
-                              )],
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height: MediaQuery.of(context).size.width * 0.4,
+                                // child: RaisedButton(
+                                //   onPressed: () async {
+                                //
+                                //     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                                //       return Ocr();
+                                //     }));
+                                //   },
+                                //   elevation: 10,
+                                //   color: Colors.white,
+                                //   shape: RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.circular(15),
+                                //       side: BorderSide(color: Color.fromARGB(255, 204, 204, 204))),
+                                //   child: Stack(
+                                //     children: [
+                                //       Center(
+                                //         child: Text(
+                                //           "OCR",textScaleFactor: 1,
+                                //           style: TextStyle(
+                                //               fontSize: MediaQuery.of(context).size.width * 0.04,
+                                //               fontWeight: FontWeight.w400,
+                                //               color: Color.fromARGB(255, 117, 117, 117)),
+                                //         ),
+                                //       ),
+                                //       Container(
+                                //         alignment: Alignment.bottomCenter,
+                                //         child: Icon(
+                                //           Icons.remove_red_eye_outlined,
+                                //           size: MediaQuery.of(context).size.width * 0.085,
+                                //           color: Color.fromARGB(255, 40, 95, 140),
+                                //         ),
+                                //         margin: EdgeInsets.all(15),
+                                //       )
+                                //     ],
+                                //   ),
+                                // )),
+                              )
+                            ],
                           )
                         ],
                       ),
                     ),
                   ))
-            ]),
-          );
-        },
-      )
-    );
+                ]),
+        );
+      },
+    ));
   }
 }

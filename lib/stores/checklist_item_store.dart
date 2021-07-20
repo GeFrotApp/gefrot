@@ -1,12 +1,11 @@
 import "dart:convert";
 import "dart:io";
-import "dart:ui";
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_storage/firebase_storage.dart";
 import "package:mobx/mobx.dart";
-import "package:path_provider/path_provider.dart";
 import "package:path/path.dart" as Path;
+import "package:path_provider/path_provider.dart";
 
 part "checklist_item_store.g.dart";
 
@@ -81,7 +80,7 @@ abstract class _ChecklistItemStore with Store {
   @action
   void setFormValid() {
     var check = true;
-    if (online) {
+    if (online!= null&&online !=false) {
       actionArray.forEach((k, v) {
         if (v.contains("note")) {
           if (inputArray[k] == null || inputArray[k]["note"] == null) {
@@ -174,20 +173,23 @@ abstract class _ChecklistItemStore with Store {
             checklistContent["selection"][v.key]["actions"]["picture"] = pictureArray;
           }
           if (checklistItems[v.key]["buttons"][v.value["selectedButton"]]["intern_actions"].contains("warning")) {
-            firestore.collection("Companies").doc(cnpj).collection("Warnings").add(
-              {
-                "checked": false,
-                "date": DateTime.now(),
-                "driverCPF": checklistContent["driverCPF"],
-                "checkList": checklistContent["modelName"],
-                "text": "Motorista "+checklistContent["driverName"]+" selecionou a opção "+checklistItems[v.key]["buttons"][v.value["selectedButton"]]["text"] + " do item "+checklistItems[v.key]["description"]+" no checklist "+checklistContent["modelName"],
-                "type": "checkList"
-
+            firestore.collection("Companies").doc(cnpj).collection("Warnings").add({
+              "checked": false,
+              "date": DateTime.now(),
+              "driverCPF": checklistContent["driverCPF"],
+              "checkList": checklistContent["modelName"],
+              "text": "Motorista " +
+                  checklistContent["driverName"] +
+                  " selecionou a opção " +
+                  checklistItems[v.key]["buttons"][v.value["selectedButton"]]["text"] +
+                  " do item " +
+                  checklistItems[v.key]["description"] +
+                  " no checklist " +
+                  checklistContent["modelName"],
+              "type": "checkList"
             });
           }
         }
-
-
 
         firestore.collection("Companies").doc(cnpj).collection("CheckLists").add(checklistContent);
         await checklistEntity.delete();

@@ -15,13 +15,8 @@ abstract class _ConfigStore with Store {
   @action
   Future<void> setNome(id, nome) async {
     var firebase = FirebaseFirestore.instance;
-    firebase.collection("Drivers").doc(id).update({
-      "name":nome
-    });
+    firebase.collection("Drivers").doc(id).update({"name": nome});
   }
-
-
-
 
   @observable
   bool editEmail = false;
@@ -30,13 +25,10 @@ abstract class _ConfigStore with Store {
   void turnEditMail() => editEmail = !editEmail;
 
   @action
-  Future<void> setMail(id,mail) async {
+  Future<void> setMail(id, mail) async {
     var firebase = FirebaseFirestore.instance;
-    firebase.collection("Drivers").doc(id).update({
-      "email":mail
-    });
+    firebase.collection("Drivers").doc(id).update({"email": mail});
   }
-
 
   @observable
   bool editPhone = false;
@@ -45,13 +37,10 @@ abstract class _ConfigStore with Store {
   void turnEditPhone() => editPhone = !editPhone;
 
   @action
-  Future<void> setPhone(id,phone) async {
+  Future<void> setPhone(id, phone) async {
     var firebase = FirebaseFirestore.instance;
-    firebase.collection("Drivers").doc(id).update({
-      "phone":phone
-    });
+    firebase.collection("Drivers").doc(id).update({"phone": phone});
   }
-
 
   @observable
   bool editCnh = false;
@@ -60,10 +49,8 @@ abstract class _ConfigStore with Store {
   void turnEditCnh() => editCnh = !editCnh;
 
   @action
-  Future<void> setCnh(id,cnh) async {
+  Future<void> setCnh(id, cnh) async {
     var firebase = FirebaseFirestore.instance;
-    firebase.collection("Drivers").doc(id).update({
-      "cnhDueDate":cnh
-    });
+    firebase.collection("Drivers").doc(id).update({"cnhDueDate": cnh});
   }
 }

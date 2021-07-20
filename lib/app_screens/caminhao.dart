@@ -14,8 +14,8 @@ class Caminhao extends StatefulWidget {
 }
 
 class _CaminhaoState extends State<Caminhao> {
-  Cadastro1Store cadastro1Store;
-  BaseStore baseStore;
+  late Cadastro1Store cadastro1Store;
+  late BaseStore baseStore;
   TextEditingController cavalo = new TextEditingController();
   TextEditingController carreta1 = new TextEditingController();
   TextEditingController carreta2 = new TextEditingController();
@@ -38,8 +38,7 @@ class _CaminhaoState extends State<Caminhao> {
       builder: (_) {
         return Expanded(
           child: Container(
-            padding:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.07, right: MediaQuery.of(context).size.width * 0.07),
+            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.07, right: MediaQuery.of(context).size.width * 0.07),
             color: Colors.white,
             child: SingleChildScrollView(
               child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
@@ -51,10 +50,8 @@ class _CaminhaoState extends State<Caminhao> {
                   child: Text(
                     "Veículo da jornada",
                     textScaleFactor: 1,
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 137, 202, 204),
-                        fontSize: MediaQuery.of(context).size.width * 0.073,
-                        fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(color: Color.fromARGB(255, 137, 202, 204), fontSize: MediaQuery.of(context).size.width * 0.073, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
@@ -157,12 +154,9 @@ class _CaminhaoState extends State<Caminhao> {
                         "Adicionar carreta",
                         textScaleFactor: 1,
                         style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Color.fromARGB(255, 25, 153, 158),
-                            fontSize: MediaQuery.of(context).size.width * 0.05),
+                            decoration: TextDecoration.underline, color: Color.fromARGB(255, 25, 153, 158), fontSize: MediaQuery.of(context).size.width * 0.05),
                       ),
-                      Icon(Icons.add_circle,
-                          color: Color.fromARGB(255, 25, 153, 158), size: MediaQuery.of(context).size.width * 0.05),
+                      Icon(Icons.add_circle, color: Color.fromARGB(255, 25, 153, 158), size: MediaQuery.of(context).size.width * 0.05),
                     ],
                   )),
                 ),
@@ -191,12 +185,8 @@ class _CaminhaoState extends State<Caminhao> {
                           onPressed: cadastro1Store.isFormValid
                               ? () async {
                                   final firestore = FirebaseFirestore.instance;
-                                  var document = await firestore
-                                      .collection("Companies")
-                                      .doc(baseStore.cnpj)
-                                      .collection("Horses")
-                                      .doc(cadastro1Store.placaCavalo)
-                                      .get();
+                                  var document =
+                                      await firestore.collection("Companies").doc(baseStore.cnpj).collection("Horses").doc(cadastro1Store.placaCavalo).get();
                                   var cavaloExists = document.data()?.isNotEmpty;
                                   var carreta1Exists = true;
                                   var carreta2Exists = true;
@@ -208,7 +198,7 @@ class _CaminhaoState extends State<Caminhao> {
                                         .collection("Trailers")
                                         .doc(cadastro1Store.placaCarreta1)
                                         .get();
-                                    carreta1Exists = x.data()?.isNotEmpty;
+                                    carreta1Exists = x.data()!.isNotEmpty;
                                   }
                                   if (cadastro1Store.placaCarreta2.length == 8) {
                                     var x = await firestore
@@ -217,7 +207,7 @@ class _CaminhaoState extends State<Caminhao> {
                                         .collection("Trailers")
                                         .doc(cadastro1Store.placaCarreta2)
                                         .get();
-                                    carreta2Exists = x.data()?.isNotEmpty;
+                                    carreta2Exists = x.data()!.isNotEmpty;
                                   }
                                   if (cadastro1Store.placaCarreta3.length == 8) {
                                     var x = await firestore
@@ -226,32 +216,22 @@ class _CaminhaoState extends State<Caminhao> {
                                         .collection("Trailers")
                                         .doc(cadastro1Store.placaCarreta2)
                                         .get();
-                                    carreta3Exists = x.data()?.isNotEmpty;
+                                    carreta3Exists = x.data()!.isNotEmpty;
                                   }
-                                  if (cavaloExists != null &&
-                                      carreta1Exists != null &&
-                                      carreta2Exists != null &&
-                                      carreta3Exists != null) {
-                                    baseStore.odometro = document.data()["odometer"].toDouble();
-                                    baseStore.mediaProposta = document.data()["average"].toDouble();
+                                  if (cavaloExists != null && carreta1Exists && carreta2Exists && carreta3Exists) {
+                                    baseStore.odometro = document["odometer"].toDouble();
+                                    baseStore.mediaProposta = document["average"].toDouble();
                                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Base()));
-                                    firestore
-                                        .collection("Drivers")
-                                        .doc(baseStore.cpf.replaceAll(".", "").replaceAll("-", ""))
-                                        .update({
+                                    firestore.collection("Drivers").doc(baseStore.cpf.replaceAll(".", "").replaceAll("-", "")).update({
                                       "horse": cadastro1Store.placaCavalo,
-                                      "trailers": [
-                                        cadastro1Store.placaCarreta1,
-                                        cadastro1Store.placaCarreta2,
-                                        cadastro1Store.placaCarreta3
-                                      ]
+                                      "trailers": [cadastro1Store.placaCarreta1, cadastro1Store.placaCarreta2, cadastro1Store.placaCarreta3]
                                     });
                                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Base()));
                                   } else if (cavaloExists == null) {
                                     baseStore.showMyDialog(context, "O veículo não está cadastrado");
-                                  } else if (carreta1Exists == null) {
+                                  } else if (carreta1Exists) {
                                     baseStore.showMyDialog(context, "A carreta 1 não está cadastrada");
-                                  } else if (carreta2Exists == null) {
+                                  } else if (carreta2Exists) {
                                     baseStore.showMyDialog(context, "A carreta 2 não está cadastrada");
                                   }
                                 }

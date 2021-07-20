@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "checklist_base_store.dart";
+part of 'checklist_base_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -9,7 +9,7 @@ part of "checklist_base_store.dart";
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChecklistBaseStore on _ChecklistBaseStore, Store {
-  final _$selectAtom = Atom(name: "_ChecklistBaseStore.select");
+  final _$selectAtom = Atom(name: '_ChecklistBaseStore.select');
 
   @override
   bool get select {
@@ -24,7 +24,7 @@ mixin _$ChecklistBaseStore on _ChecklistBaseStore, Store {
     });
   }
 
-  final _$indexAtom = Atom(name: "_ChecklistBaseStore.index");
+  final _$indexAtom = Atom(name: '_ChecklistBaseStore.index');
 
   @override
   int get index {
@@ -39,13 +39,11 @@ mixin _$ChecklistBaseStore on _ChecklistBaseStore, Store {
     });
   }
 
-  final _$_ChecklistBaseStoreActionController =
-      ActionController(name: "_ChecklistBaseStore");
+  final _$_ChecklistBaseStoreActionController = ActionController(name: '_ChecklistBaseStore');
 
   @override
   void setIndex(dynamic value) {
-    final _$actionInfo = _$_ChecklistBaseStoreActionController.startAction(
-        name: "_ChecklistBaseStore.setIndex");
+    final _$actionInfo = _$_ChecklistBaseStoreActionController.startAction(name: '_ChecklistBaseStore.setIndex');
     try {
       return super.setIndex(value);
     } finally {
@@ -55,8 +53,7 @@ mixin _$ChecklistBaseStore on _ChecklistBaseStore, Store {
 
   @override
   void turnSelect() {
-    final _$actionInfo = _$_ChecklistBaseStoreActionController.startAction(
-        name: "_ChecklistBaseStore.turnSelect");
+    final _$actionInfo = _$_ChecklistBaseStoreActionController.startAction(name: '_ChecklistBaseStore.turnSelect');
     try {
       return super.turnSelect();
     } finally {
@@ -66,9 +63,9 @@ mixin _$ChecklistBaseStore on _ChecklistBaseStore, Store {
 
   @override
   String toString() {
-    return """
+    return '''
 select: ${select},
 index: ${index}
-    """;
+    ''';
   }
 }
