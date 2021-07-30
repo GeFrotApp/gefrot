@@ -12,7 +12,10 @@ mixin _$LoginStore on _LoginStore, Store {
   Computed<bool>? _$isFormValidComputed;
 
   @override
-  bool get isFormValid => (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid, name: '_LoginStore.isFormValid')).value;
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_LoginStore.isFormValid'))
+          .value;
 
   final _$cpfAtom = Atom(name: '_LoginStore.cpf');
 
@@ -59,18 +62,21 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
-  final _$rememberCredentialsAsyncAction = AsyncAction('_LoginStore.rememberCredentials');
+  final _$rememberCredentialsAsyncAction =
+      AsyncAction('_LoginStore.rememberCredentials');
 
   @override
   Future<dynamic> rememberCredentials() {
-    return _$rememberCredentialsAsyncAction.run(() => super.rememberCredentials());
+    return _$rememberCredentialsAsyncAction
+        .run(() => super.rememberCredentials());
   }
 
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
 
   @override
   void setCPF(String value) {
-    final _$actionInfo = _$_LoginStoreActionController.startAction(name: '_LoginStore.setCPF');
+    final _$actionInfo =
+        _$_LoginStoreActionController.startAction(name: '_LoginStore.setCPF');
     try {
       return super.setCPF(value);
     } finally {
@@ -80,7 +86,8 @@ mixin _$LoginStore on _LoginStore, Store {
 
   @override
   void setPass(String value) {
-    final _$actionInfo = _$_LoginStoreActionController.startAction(name: '_LoginStore.setPass');
+    final _$actionInfo =
+        _$_LoginStoreActionController.startAction(name: '_LoginStore.setPass');
     try {
       return super.setPass(value);
     } finally {
@@ -90,7 +97,8 @@ mixin _$LoginStore on _LoginStore, Store {
 
   @override
   void turnVisible() {
-    final _$actionInfo = _$_LoginStoreActionController.startAction(name: '_LoginStore.turnVisible');
+    final _$actionInfo = _$_LoginStoreActionController.startAction(
+        name: '_LoginStore.turnVisible');
     try {
       return super.turnVisible();
     } finally {

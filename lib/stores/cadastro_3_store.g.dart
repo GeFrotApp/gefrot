@@ -12,7 +12,10 @@ mixin _$Cadastro3Store on _Cadastro3Store, Store {
   Computed<bool>? _$isFormValidComputed;
 
   @override
-  bool get isFormValid => (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid, name: '_Cadastro3Store.isFormValid')).value;
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_Cadastro3Store.isFormValid'))
+          .value;
 
   final _$cnpjAtom = Atom(name: '_Cadastro3Store.cnpj');
 
@@ -59,11 +62,13 @@ mixin _$Cadastro3Store on _Cadastro3Store, Store {
     });
   }
 
-  final _$_Cadastro3StoreActionController = ActionController(name: '_Cadastro3Store');
+  final _$_Cadastro3StoreActionController =
+      ActionController(name: '_Cadastro3Store');
 
   @override
   void setCheck1(dynamic value) {
-    final _$actionInfo = _$_Cadastro3StoreActionController.startAction(name: '_Cadastro3Store.setCheck1');
+    final _$actionInfo = _$_Cadastro3StoreActionController.startAction(
+        name: '_Cadastro3Store.setCheck1');
     try {
       return super.setCheck1(value);
     } finally {
@@ -73,7 +78,8 @@ mixin _$Cadastro3Store on _Cadastro3Store, Store {
 
   @override
   void setNomeEmpresa(dynamic value) {
-    final _$actionInfo = _$_Cadastro3StoreActionController.startAction(name: '_Cadastro3Store.setNomeEmpresa');
+    final _$actionInfo = _$_Cadastro3StoreActionController.startAction(
+        name: '_Cadastro3Store.setNomeEmpresa');
     try {
       return super.setNomeEmpresa(value);
     } finally {
@@ -83,7 +89,8 @@ mixin _$Cadastro3Store on _Cadastro3Store, Store {
 
   @override
   void setCnpj(dynamic value) {
-    final _$actionInfo = _$_Cadastro3StoreActionController.startAction(name: '_Cadastro3Store.setCnpj');
+    final _$actionInfo = _$_Cadastro3StoreActionController.startAction(
+        name: '_Cadastro3Store.setCnpj');
     try {
       return super.setCnpj(value);
     } finally {

@@ -101,7 +101,8 @@ mixin _$ConfigStore on _ConfigStore, Store {
 
   @override
   void turnEditNome() {
-    final _$actionInfo = _$_ConfigStoreActionController.startAction(name: '_ConfigStore.turnEditNome');
+    final _$actionInfo = _$_ConfigStoreActionController.startAction(
+        name: '_ConfigStore.turnEditNome');
     try {
       return super.turnEditNome();
     } finally {
@@ -111,7 +112,8 @@ mixin _$ConfigStore on _ConfigStore, Store {
 
   @override
   void turnEditMail() {
-    final _$actionInfo = _$_ConfigStoreActionController.startAction(name: '_ConfigStore.turnEditMail');
+    final _$actionInfo = _$_ConfigStoreActionController.startAction(
+        name: '_ConfigStore.turnEditMail');
     try {
       return super.turnEditMail();
     } finally {
@@ -121,7 +123,8 @@ mixin _$ConfigStore on _ConfigStore, Store {
 
   @override
   void turnEditPhone() {
-    final _$actionInfo = _$_ConfigStoreActionController.startAction(name: '_ConfigStore.turnEditPhone');
+    final _$actionInfo = _$_ConfigStoreActionController.startAction(
+        name: '_ConfigStore.turnEditPhone');
     try {
       return super.turnEditPhone();
     } finally {
@@ -131,7 +134,8 @@ mixin _$ConfigStore on _ConfigStore, Store {
 
   @override
   void turnEditCnh() {
-    final _$actionInfo = _$_ConfigStoreActionController.startAction(name: '_ConfigStore.turnEditCnh');
+    final _$actionInfo = _$_ConfigStoreActionController.startAction(
+        name: '_ConfigStore.turnEditCnh');
     try {
       return super.turnEditCnh();
     } finally {

@@ -12,7 +12,10 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
   Computed<bool>? _$isFormValidComputed;
 
   @override
-  bool get isFormValid => (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid, name: '_AbastecimentoRegistroStore.isFormValid')).value;
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_AbastecimentoRegistroStore.isFormValid'))
+          .value;
 
   final _$postoAtom = Atom(name: '_AbastecimentoRegistroStore.posto');
 
@@ -44,7 +47,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
     });
   }
 
-  final _$nomePostoControllerAtom = Atom(name: '_AbastecimentoRegistroStore.nomePostoController');
+  final _$nomePostoControllerAtom =
+      Atom(name: '_AbastecimentoRegistroStore.nomePostoController');
 
   @override
   TextEditingController get nomePostoController {
@@ -134,7 +138,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
     });
   }
 
-  final _$tanqueCheioAtom = Atom(name: '_AbastecimentoRegistroStore.tanqueCheio');
+  final _$tanqueCheioAtom =
+      Atom(name: '_AbastecimentoRegistroStore.tanqueCheio');
 
   @override
   bool get tanqueCheio {
@@ -149,7 +154,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
     });
   }
 
-  final _$odometroOldAtom = Atom(name: '_AbastecimentoRegistroStore.odometroOld');
+  final _$odometroOldAtom =
+      Atom(name: '_AbastecimentoRegistroStore.odometroOld');
 
   @override
   double get odometroOld {
@@ -164,7 +170,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
     });
   }
 
-  final _$combustivelAtom = Atom(name: '_AbastecimentoRegistroStore.combustivel');
+  final _$combustivelAtom =
+      Atom(name: '_AbastecimentoRegistroStore.combustivel');
 
   @override
   String get combustivel {
@@ -179,25 +186,29 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
     });
   }
 
-  final _$setDataAsyncAction = AsyncAction('_AbastecimentoRegistroStore.setData');
+  final _$setDataAsyncAction =
+      AsyncAction('_AbastecimentoRegistroStore.setData');
 
   @override
   Future<void> setData(dynamic value) {
     return _$setDataAsyncAction.run(() => super.setData(value));
   }
 
-  final _$setCnpjPostoAsyncAction = AsyncAction('_AbastecimentoRegistroStore.setCnpjPosto');
+  final _$setCnpjPostoAsyncAction =
+      AsyncAction('_AbastecimentoRegistroStore.setCnpjPosto');
 
   @override
   Future<void> setCnpjPosto(dynamic value) {
     return _$setCnpjPostoAsyncAction.run(() => super.setCnpjPosto(value));
   }
 
-  final _$_AbastecimentoRegistroStoreActionController = ActionController(name: '_AbastecimentoRegistroStore');
+  final _$_AbastecimentoRegistroStoreActionController =
+      ActionController(name: '_AbastecimentoRegistroStore');
 
   @override
   void setPosto(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController.startAction(name: '_AbastecimentoRegistroStore.setPosto');
+    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController
+        .startAction(name: '_AbastecimentoRegistroStore.setPosto');
     try {
       return super.setPosto(value);
     } finally {
@@ -207,7 +218,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
 
   @override
   void setOdometro(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController.startAction(name: '_AbastecimentoRegistroStore.setOdometro');
+    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController
+        .startAction(name: '_AbastecimentoRegistroStore.setOdometro');
     try {
       return super.setOdometro(value);
     } finally {
@@ -217,7 +229,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
 
   @override
   void setLitros(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController.startAction(name: '_AbastecimentoRegistroStore.setLitros');
+    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController
+        .startAction(name: '_AbastecimentoRegistroStore.setLitros');
     try {
       return super.setLitros(value);
     } finally {
@@ -227,7 +240,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
 
   @override
   void setValor(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController.startAction(name: '_AbastecimentoRegistroStore.setValor');
+    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController
+        .startAction(name: '_AbastecimentoRegistroStore.setValor');
     try {
       return super.setValor(value);
     } finally {
@@ -237,7 +251,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
 
   @override
   void setNf(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController.startAction(name: '_AbastecimentoRegistroStore.setNf');
+    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController
+        .startAction(name: '_AbastecimentoRegistroStore.setNf');
     try {
       return super.setNf(value);
     } finally {
@@ -247,7 +262,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
 
   @override
   void setTanqueCheio(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController.startAction(name: '_AbastecimentoRegistroStore.setTanqueCheio');
+    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController
+        .startAction(name: '_AbastecimentoRegistroStore.setTanqueCheio');
     try {
       return super.setTanqueCheio(value);
     } finally {
@@ -257,7 +273,8 @@ mixin _$AbastecimentoRegistroStore on _AbastecimentoRegistroStore, Store {
 
   @override
   dynamic setCombustivel(dynamic value) {
-    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController.startAction(name: '_AbastecimentoRegistroStore.setCombustivel');
+    final _$actionInfo = _$_AbastecimentoRegistroStoreActionController
+        .startAction(name: '_AbastecimentoRegistroStore.setCombustivel');
     try {
       return super.setCombustivel(value);
     } finally {

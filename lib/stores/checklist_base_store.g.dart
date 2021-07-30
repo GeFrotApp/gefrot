@@ -39,11 +39,13 @@ mixin _$ChecklistBaseStore on _ChecklistBaseStore, Store {
     });
   }
 
-  final _$_ChecklistBaseStoreActionController = ActionController(name: '_ChecklistBaseStore');
+  final _$_ChecklistBaseStoreActionController =
+      ActionController(name: '_ChecklistBaseStore');
 
   @override
   void setIndex(dynamic value) {
-    final _$actionInfo = _$_ChecklistBaseStoreActionController.startAction(name: '_ChecklistBaseStore.setIndex');
+    final _$actionInfo = _$_ChecklistBaseStoreActionController.startAction(
+        name: '_ChecklistBaseStore.setIndex');
     try {
       return super.setIndex(value);
     } finally {
@@ -53,7 +55,8 @@ mixin _$ChecklistBaseStore on _ChecklistBaseStore, Store {
 
   @override
   void turnSelect() {
-    final _$actionInfo = _$_ChecklistBaseStoreActionController.startAction(name: '_ChecklistBaseStore.turnSelect');
+    final _$actionInfo = _$_ChecklistBaseStoreActionController.startAction(
+        name: '_ChecklistBaseStore.turnSelect');
     try {
       return super.turnSelect();
     } finally {

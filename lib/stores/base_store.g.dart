@@ -133,7 +133,8 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   void turnLoading() {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.turnLoading');
+    final _$actionInfo = _$_BaseStoreActionController.startAction(
+        name: '_BaseStore.turnLoading');
     try {
       return super.turnLoading();
     } finally {
@@ -143,7 +144,8 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   void setWarnings(int value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setWarnings');
+    final _$actionInfo = _$_BaseStoreActionController.startAction(
+        name: '_BaseStore.setWarnings');
     try {
       return super.setWarnings(value);
     } finally {
@@ -153,7 +155,8 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   dynamic setNome(dynamic value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setNome');
+    final _$actionInfo =
+        _$_BaseStoreActionController.startAction(name: '_BaseStore.setNome');
     try {
       return super.setNome(value);
     } finally {
@@ -163,7 +166,8 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   dynamic setCNH(dynamic value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setCNH');
+    final _$actionInfo =
+        _$_BaseStoreActionController.startAction(name: '_BaseStore.setCNH');
     try {
       return super.setCNH(value);
     } finally {
@@ -173,7 +177,8 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   dynamic setTelefone(dynamic value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setTelefone');
+    final _$actionInfo = _$_BaseStoreActionController.startAction(
+        name: '_BaseStore.setTelefone');
     try {
       return super.setTelefone(value);
     } finally {
@@ -183,7 +188,8 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   dynamic setEmail(dynamic value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setEmail');
+    final _$actionInfo =
+        _$_BaseStoreActionController.startAction(name: '_BaseStore.setEmail');
     try {
       return super.setEmail(value);
     } finally {
@@ -193,7 +199,8 @@ mixin _$BaseStore on _BaseStore, Store {
 
   @override
   void setOdometro(dynamic value) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(name: '_BaseStore.setOdometro');
+    final _$actionInfo = _$_BaseStoreActionController.startAction(
+        name: '_BaseStore.setOdometro');
     try {
       return super.setOdometro(value);
     } finally {

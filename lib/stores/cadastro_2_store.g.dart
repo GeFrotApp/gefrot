@@ -12,7 +12,10 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
   Computed<bool>? _$isFormValidComputed;
 
   @override
-  bool get isFormValid => (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid, name: '_Cadastro2Store.isFormValid')).value;
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_Cadastro2Store.isFormValid'))
+          .value;
 
   final _$nomeAtom = Atom(name: '_Cadastro2Store.nome');
 
@@ -134,11 +137,13 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
     });
   }
 
-  final _$_Cadastro2StoreActionController = ActionController(name: '_Cadastro2Store');
+  final _$_Cadastro2StoreActionController =
+      ActionController(name: '_Cadastro2Store');
 
   @override
   void setNome(String value) {
-    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(name: '_Cadastro2Store.setNome');
+    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
+        name: '_Cadastro2Store.setNome');
     try {
       return super.setNome(value);
     } finally {
@@ -148,7 +153,8 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
 
   @override
   void turnVisible() {
-    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(name: '_Cadastro2Store.turnVisible');
+    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
+        name: '_Cadastro2Store.turnVisible');
     try {
       return super.turnVisible();
     } finally {
@@ -158,7 +164,8 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
 
   @override
   void setCpf(String value) {
-    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(name: '_Cadastro2Store.setCpf');
+    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
+        name: '_Cadastro2Store.setCpf');
     try {
       return super.setCpf(value);
     } finally {
@@ -168,7 +175,8 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
 
   @override
   void setPass(String value) {
-    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(name: '_Cadastro2Store.setPass');
+    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
+        name: '_Cadastro2Store.setPass');
     try {
       return super.setPass(value);
     } finally {
@@ -178,7 +186,8 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
 
   @override
   void setConfirmPass(String value) {
-    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(name: '_Cadastro2Store.setConfirmPass');
+    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
+        name: '_Cadastro2Store.setConfirmPass');
     try {
       return super.setConfirmPass(value);
     } finally {
@@ -188,7 +197,8 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
 
   @override
   void setTelefone(String value) {
-    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(name: '_Cadastro2Store.setTelefone');
+    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
+        name: '_Cadastro2Store.setTelefone');
     try {
       return super.setTelefone(value);
     } finally {
@@ -198,7 +208,8 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
 
   @override
   void setEmail(String value) {
-    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(name: '_Cadastro2Store.setEmail');
+    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
+        name: '_Cadastro2Store.setEmail');
     try {
       return super.setEmail(value);
     } finally {
@@ -208,7 +219,8 @@ mixin _$Cadastro2Store on _Cadastro2Store, Store {
 
   @override
   void setDataCNH(String value) {
-    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(name: '_Cadastro2Store.setDataCNH');
+    final _$actionInfo = _$_Cadastro2StoreActionController.startAction(
+        name: '_Cadastro2Store.setDataCNH');
     try {
       return super.setDataCNH(value);
     } finally {

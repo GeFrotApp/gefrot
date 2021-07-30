@@ -54,11 +54,13 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
     });
   }
 
-  final _$_JornadaBaseStoreActionController = ActionController(name: '_JornadaBaseStore');
+  final _$_JornadaBaseStoreActionController =
+      ActionController(name: '_JornadaBaseStore');
 
   @override
   void setIndex(dynamic value) {
-    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(name: '_JornadaBaseStore.setIndex');
+    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(
+        name: '_JornadaBaseStore.setIndex');
     try {
       return super.setIndex(value);
     } finally {
@@ -68,7 +70,8 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
 
   @override
   void turnSelect() {
-    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(name: '_JornadaBaseStore.turnSelect');
+    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(
+        name: '_JornadaBaseStore.turnSelect');
     try {
       return super.turnSelect();
     } finally {
@@ -78,7 +81,8 @@ mixin _$JornadaBaseStore on _JornadaBaseStore, Store {
 
   @override
   void turnJornada() {
-    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(name: '_JornadaBaseStore.turnJornada');
+    final _$actionInfo = _$_JornadaBaseStoreActionController.startAction(
+        name: '_JornadaBaseStore.turnJornada');
     try {
       return super.turnJornada();
     } finally {

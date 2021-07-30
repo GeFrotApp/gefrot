@@ -67,6 +67,17 @@ abstract class _ChecklistItemStore with Store {
     }
     this.setFormValid();
   }
+  @action
+  int deleteInput(index, value, type) {
+    print(inputArray[index][type]);
+      inputArray[index][type].removeAt(value);
+      if(inputArray[index][type].length==0){
+        inputArray[index].removeWhere((key, value) => key == type);
+        return 0;
+      }else{
+        return 1;
+      }
+  }
 
   @action
   void setAction(index, value) {

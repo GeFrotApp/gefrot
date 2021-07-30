@@ -129,11 +129,13 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
     });
   }
 
-  final _$_ChecklistItemStoreActionController = ActionController(name: '_ChecklistItemStore');
+  final _$_ChecklistItemStoreActionController =
+      ActionController(name: '_ChecklistItemStore');
 
   @override
   void setItemCode(dynamic value) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setItemCode');
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
+        name: '_ChecklistItemStore.setItemCode');
     try {
       return super.setItemCode(value);
     } finally {
@@ -143,7 +145,8 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setSelection(dynamic index, dynamic value) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setSelection');
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
+        name: '_ChecklistItemStore.setSelection');
     try {
       return super.setSelection(index, value);
     } finally {
@@ -153,7 +156,8 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setInput(dynamic index, dynamic value, dynamic type) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setInput');
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
+        name: '_ChecklistItemStore.setInput');
     try {
       return super.setInput(index, value, type);
     } finally {
@@ -162,8 +166,20 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
   }
 
   @override
+  int deleteInput(dynamic index, dynamic value, dynamic type) {
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
+        name: '_ChecklistItemStore.deleteInput');
+    try {
+      return super.deleteInput(index, value, type);
+    } finally {
+      _$_ChecklistItemStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setAction(dynamic index, dynamic value) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setAction');
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
+        name: '_ChecklistItemStore.setAction');
     try {
       return super.setAction(index, value);
     } finally {
@@ -173,7 +189,8 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setArray(dynamic value) {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setArray');
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
+        name: '_ChecklistItemStore.setArray');
     try {
       return super.setArray(value);
     } finally {
@@ -183,7 +200,8 @@ mixin _$ChecklistItemStore on _ChecklistItemStore, Store {
 
   @override
   void setFormValid() {
-    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(name: '_ChecklistItemStore.setFormValid');
+    final _$actionInfo = _$_ChecklistItemStoreActionController.startAction(
+        name: '_ChecklistItemStore.setFormValid');
     try {
       return super.setFormValid();
     } finally {

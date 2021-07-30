@@ -13,6 +13,7 @@ import "package:todomobx/stores/abastecimento_base_store.dart";
 import "package:todomobx/stores/abastecimento_registro_store.dart";
 import "package:todomobx/stores/base_store.dart";
 import "package:todomobx/stores/cadastro_1_store.dart";
+import 'package:todomobx/utils/Logger.dart';
 import "package:todomobx/widgets/aviso.dart";
 import "package:todomobx/widgets/custom_text_field.dart";
 import "package:todomobx/widgets/decimal.dart";
@@ -28,7 +29,7 @@ class _RegistroState extends State<Registro> {
   late AbastecimentoBaseStore abastecimentoBaseStore;
   var pressed = false;
   late BaseStore baseStore;
-  late File foto;
+  File foto = new File("");
   String path = "";
   var loading = false;
   TextEditingController data = new TextEditingController();
@@ -396,7 +397,7 @@ class _RegistroState extends State<Registro> {
                         icon: Icon(
                           Icons.camera_alt,
                           size: MediaQuery.of(context).size.width * 0.15,
-                          color: foto != null ? Color.fromARGB(255, 137, 202, 204) : Color.fromARGB(255, 164, 164, 164),
+                          color: foto.path != "" ? Color.fromARGB(255, 137, 202, 204) : Color.fromARGB(255, 164, 164, 164),
                         ),
                         onPressed: () async {
                           await ImagePicker().getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75).then((image) {
@@ -420,104 +421,70 @@ class _RegistroState extends State<Registro> {
                     ), //, side: BorderSide(color: Color.fromARGB(255, 25, 153, 158))),
                     onPressed: abastecimentoRegistroStore.isFormValid
                         ? () async {
-                            await showDialog(
-                                context: _context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                      title: Text(
-                                        "Atenção",
-                                        textScaleFactor: 1,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      content: Material(
-                                          type: MaterialType.card,
-                                          child: Container(
-                                              height: MediaQuery.of(context).size.height * 0.25,
-                                              width: MediaQuery.of(context).size.width * 0.9,
-                                              child: Column(
+                      try{
+                        await showDialog(
+                            context: _context,
+                            builder: (context) {
+                              return AlertDialog(
+                                  title: Text(
+                                    "Atenção",
+                                    textScaleFactor: 1,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  content: Material(
+                                      type: MaterialType.card,
+                                      child: Container(
+                                          height: MediaQuery.of(context).size.height * 0.25,
+                                          width: MediaQuery.of(context).size.width * 0.9,
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+                                                child: Text(
+                                                  "Completou o tanque?",
+                                                  textScaleFactor: 1,
+                                                  style: TextStyle(
+                                                      color: Color.fromARGB(255, 117, 117, 117),
+                                                      fontSize: MediaQuery.of(context).size.width * 0.035,
+                                                      decoration: TextDecoration.none),
+                                                ),
+                                              ),
+                                              Column(
                                                 children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-                                                    child: Text(
-                                                      "Completou o tanque?",
-                                                      textScaleFactor: 1,
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(255, 117, 117, 117),
-                                                          fontSize: MediaQuery.of(context).size.width * 0.035,
-                                                          decoration: TextDecoration.none),
-                                                    ),
-                                                  ),
-                                                  Column(
+                                                  Row(
                                                     children: [
-                                                      Row(
-                                                        children: [
-                                                          Observer(
-                                                            builder: (_) {
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  abastecimentoRegistroStore.setTanqueCheio(true);
-                                                                },
-                                                                child: Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        top: MediaQuery.of(context).size.width * 0.04,
-                                                                        left: MediaQuery.of(context).size.width * 0.04),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        Text(
-                                                                          "Sim ",
-                                                                          textScaleFactor: 1,
-                                                                          style: TextStyle(
-                                                                              fontSize: MediaQuery.of(context).size.width * 0.04,
-                                                                              color: abastecimentoRegistroStore.tanqueCheio
-                                                                                  ? Color.fromARGB(255, 25, 153, 158)
-                                                                                  : Color.fromARGB(255, 204, 204, 204)),
-                                                                        ),
-                                                                        Icon(
-                                                                          Icons.check,
-                                                                          size: MediaQuery.of(context).size.width * 0.045,
+                                                      Observer(
+                                                        builder: (_) {
+                                                          return GestureDetector(
+                                                            onTap: () {
+                                                              abastecimentoRegistroStore.setTanqueCheio(true);
+                                                            },
+                                                            child: Container(
+                                                                margin: EdgeInsets.only(
+                                                                    top: MediaQuery.of(context).size.width * 0.04,
+                                                                    left: MediaQuery.of(context).size.width * 0.04),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Sim ",
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                          fontSize: MediaQuery.of(context).size.width * 0.04,
                                                                           color: abastecimentoRegistroStore.tanqueCheio
                                                                               ? Color.fromARGB(255, 25, 153, 158)
-                                                                              : Color.fromARGB(255, 204, 204, 204),
-                                                                        )
-                                                                      ],
-                                                                    )),
-                                                              );
-                                                            },
-                                                          ),
-                                                          Observer(
-                                                            builder: (_) {
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  abastecimentoRegistroStore.setTanqueCheio(false);
-                                                                },
-                                                                child: Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        top: MediaQuery.of(context).size.width * 0.04,
-                                                                        left: MediaQuery.of(context).size.width * 0.04),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        Text(
-                                                                          "Não ",
-                                                                          textScaleFactor: 1,
-                                                                          style: TextStyle(
-                                                                              fontSize: MediaQuery.of(context).size.width * 0.04,
-                                                                              color: !abastecimentoRegistroStore.tanqueCheio
-                                                                                  ? Color.fromARGB(255, 25, 153, 158)
-                                                                                  : Color.fromARGB(255, 204, 204, 204)),
-                                                                        ),
-                                                                        Icon(
-                                                                          Icons.clear,
-                                                                          size: MediaQuery.of(context).size.width * 0.045,
-                                                                          color: !abastecimentoRegistroStore.tanqueCheio
-                                                                              ? Color.fromARGB(255, 25, 153, 158)
-                                                                              : Color.fromARGB(255, 204, 204, 204),
-                                                                        )
-                                                                      ],
-                                                                    )),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
+                                                                              : Color.fromARGB(255, 204, 204, 204)),
+                                                                    ),
+                                                                    Icon(
+                                                                      Icons.check,
+                                                                      size: MediaQuery.of(context).size.width * 0.045,
+                                                                      color: abastecimentoRegistroStore.tanqueCheio
+                                                                          ? Color.fromARGB(255, 25, 153, 158)
+                                                                          : Color.fromARGB(255, 204, 204, 204),
+                                                                    )
+                                                                  ],
+                                                                )),
+                                                          );
+                                                        },
                                                       ),
                                                       Observer(
                                                         builder: (_) {
@@ -531,54 +498,22 @@ class _RegistroState extends State<Registro> {
                                                                     left: MediaQuery.of(context).size.width * 0.04),
                                                                 child: Row(
                                                                   children: [
-                                                                    abastecimentoRegistroStore.tanqueCheio
-                                                                        ? Text(
-                                                                            "Média: ",
-                                                                            textScaleFactor: 1,
-                                                                            style: TextStyle(
-                                                                                fontSize: MediaQuery.of(context).size.width * 0.04,
-                                                                                color: Color.fromARGB(255, 25, 153, 158)),
-                                                                          )
-                                                                        : Text(
-                                                                            "",
-                                                                            textScaleFactor: 1,
-                                                                            style: TextStyle(
-                                                                                fontSize: MediaQuery.of(context).size.width * 0.04,
-                                                                                color: Color.fromARGB(255, 25, 153, 158)),
-                                                                          ),
-                                                                    abastecimentoRegistroStore.tanqueCheio
-                                                                        ? Text(
-                                                                            ((abastecimentoRegistroStore.litros != 0
-                                                                                                ? ((abastecimentoRegistroStore.odometro -
-                                                                                                            abastecimentoRegistroStore.odometroOld) /
-                                                                                                        (abastecimentoRegistroStore.litros +
-                                                                                                            abastecimentoRegistroStore.litrosIntermediarios))
-                                                                                                    .toStringAsFixed(2)
-                                                                                                : "0")
-                                                                                            .length >
-                                                                                        3
-                                                                                    ? (abastecimentoRegistroStore.litros != 0
-                                                                                            ? ((abastecimentoRegistroStore.odometro -
-                                                                                                        abastecimentoRegistroStore.odometroOld) /
-                                                                                                    (abastecimentoRegistroStore.litros +
-                                                                                                        abastecimentoRegistroStore.litrosIntermediarios))
-                                                                                                .toStringAsFixed(2)
-                                                                                            : "0")
-                                                                                        .substring(0, 3)
-                                                                                    : (abastecimentoRegistroStore.litros != 0
-                                                                                        ? ((abastecimentoRegistroStore.odometro -
-                                                                                                    abastecimentoRegistroStore.odometroOld) /
-                                                                                                (abastecimentoRegistroStore.litros +
-                                                                                                    abastecimentoRegistroStore.litrosIntermediarios))
-                                                                                            .toStringAsFixed(2)
-                                                                                        : "0")) +
-                                                                                "km/L",
-                                                                            textScaleFactor: 1,
-                                                                            style: TextStyle(
-                                                                                fontSize: MediaQuery.of(context).size.width * 0.036,
-                                                                                color: Color.fromARGB(255, 25, 153, 158)),
-                                                                          )
-                                                                        : Container(),
+                                                                    Text(
+                                                                      "Não ",
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                                                                          color: !abastecimentoRegistroStore.tanqueCheio
+                                                                              ? Color.fromARGB(255, 25, 153, 158)
+                                                                              : Color.fromARGB(255, 204, 204, 204)),
+                                                                    ),
+                                                                    Icon(
+                                                                      Icons.clear,
+                                                                      size: MediaQuery.of(context).size.width * 0.045,
+                                                                      color: !abastecimentoRegistroStore.tanqueCheio
+                                                                          ? Color.fromARGB(255, 25, 153, 158)
+                                                                          : Color.fromARGB(255, 204, 204, 204),
+                                                                    )
                                                                   ],
                                                                 )),
                                                           );
@@ -586,11 +521,78 @@ class _RegistroState extends State<Registro> {
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(
-                                                    height: MediaQuery.of(context).size.height * 0.03,
+                                                  Observer(
+                                                    builder: (_) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          abastecimentoRegistroStore.setTanqueCheio(false);
+                                                        },
+                                                        child: Container(
+                                                            margin: EdgeInsets.only(
+                                                                top: MediaQuery.of(context).size.width * 0.04,
+                                                                left: MediaQuery.of(context).size.width * 0.04),
+                                                            child: Row(
+                                                              children: [
+                                                                abastecimentoRegistroStore.tanqueCheio
+                                                                    ? Text(
+                                                                  "Média: ",
+                                                                  textScaleFactor: 1,
+                                                                  style: TextStyle(
+                                                                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                                                                      color: Color.fromARGB(255, 25, 153, 158)),
+                                                                )
+                                                                    : Text(
+                                                                  "",
+                                                                  textScaleFactor: 1,
+                                                                  style: TextStyle(
+                                                                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                                                                      color: Color.fromARGB(255, 25, 153, 158)),
+                                                                ),
+                                                                abastecimentoRegistroStore.tanqueCheio
+                                                                    ? Text(
+                                                                  ((abastecimentoRegistroStore.litros != 0
+                                                                      ? ((abastecimentoRegistroStore.odometro -
+                                                                      abastecimentoRegistroStore.odometroOld) /
+                                                                      (abastecimentoRegistroStore.litros +
+                                                                          abastecimentoRegistroStore.litrosIntermediarios))
+                                                                      .toStringAsFixed(2)
+                                                                      : "0")
+                                                                      .length >
+                                                                      3
+                                                                      ? (abastecimentoRegistroStore.litros != 0
+                                                                      ? ((abastecimentoRegistroStore.odometro -
+                                                                      abastecimentoRegistroStore.odometroOld) /
+                                                                      (abastecimentoRegistroStore.litros +
+                                                                          abastecimentoRegistroStore.litrosIntermediarios))
+                                                                      .toStringAsFixed(2)
+                                                                      : "0")
+                                                                      .substring(0, 3)
+                                                                      : (abastecimentoRegistroStore.litros != 0
+                                                                      ? ((abastecimentoRegistroStore.odometro -
+                                                                      abastecimentoRegistroStore.odometroOld) /
+                                                                      (abastecimentoRegistroStore.litros +
+                                                                          abastecimentoRegistroStore.litrosIntermediarios))
+                                                                      .toStringAsFixed(2)
+                                                                      : "0")) +
+                                                                      "km/L",
+                                                                  textScaleFactor: 1,
+                                                                  style: TextStyle(
+                                                                      fontSize: MediaQuery.of(context).size.width * 0.036,
+                                                                      color: Color.fromARGB(255, 25, 153, 158)),
+                                                                )
+                                                                    : Container(),
+                                                              ],
+                                                            )),
+                                                      );
+                                                    },
                                                   ),
-                                                  Center(
-                                                      child: RaisedButton(
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height * 0.03,
+                                              ),
+                                              Center(
+                                                  child: RaisedButton(
                                                     color: Color.fromARGB(255, 137, 202, 204),
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.circular(5),
@@ -610,145 +612,150 @@ class _RegistroState extends State<Registro> {
                                                       Navigator.of(context).pop();
                                                     },
                                                   )),
-                                                ],
-                                              ))));
-                                }).then((val) async {
-                              if (pressed) {
-                                setState(() {
-                                  loading = !loading;
-                                });
-                                var firestore;
-                                try {
-                                  final result = await InternetAddress.lookup("example.com");
-                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                    firestore = FirebaseFirestore.instance;
-                                  }
-                                } on SocketException catch (_) {
-                                  firestore = FirebaseFirestore.instance;
-                                  await firestore.disableNetwork();
-                                }
-
-                                await abastecimentoRegistroStore.setData(abastecimentoRegistroStore.data);
-                                if (((abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
-                                            (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios) >
-                                        (baseStore.mediaProposta + 2.5)) ||
-                                    ((abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
-                                            (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios) <
-                                        (baseStore.mediaProposta - 1.5))) {
-                                  abastecimentoRegistroStore.first = true;
-                                }
-                                if (abastecimentoRegistroStore.last) {
-                                  firestore
-                                      .collection("Companies")
-                                      .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
-                                      .collection("Horses")
-                                      .doc(cadastro1store.placaCavalo)
-                                      .update({"odometer": abastecimentoRegistroStore.odometro});
-                                }
-                                if (foto != null) {
-                                  var storageReference = FirebaseStorage.instance.ref().child("invoices/${Path.basename(foto.path)}");
-                                  var uploadTask = storageReference.putFile(foto);
-                                  await uploadTask.whenComplete(() => null);
-                                  await storageReference.getDownloadURL().then((fileURL) {
-                                    setState(() {
-                                      path = fileURL;
-                                    });
-                                  });
-                                }
-                                var id = baseStore.getRandomString(20) + baseStore.cpf + DateTime.now().toString();
-                                firestore
-                                    .collection("Companies")
-                                    .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
-                                    .collection("Supplies")
-                                    .doc(id)
-                                    .set({
-                                  "licensePlate": cadastro1store.placaCavalo,
-                                  "gasStationName": abastecimentoRegistroStore.posto,
-                                  "gasStationCnpj": abastecimentoRegistroStore.cnpjPosto,
-                                  "odometerOld": abastecimentoRegistroStore.last ? baseStore.odometro : abastecimentoRegistroStore.odometroOld,
-                                  "odometerNew": abastecimentoRegistroStore.odometro,
-                                  "amount": abastecimentoRegistroStore.litros,
-                                  "totalPrice": abastecimentoRegistroStore.valor,
-                                  "invoice": abastecimentoRegistroStore.nf,
-                                  "fullTank": abastecimentoRegistroStore.tanqueCheio,
-                                  "date": Timestamp.fromMillisecondsSinceEpoch(abastecimentoRegistroStore.data.millisecondsSinceEpoch),
-                                  "driverCPF": baseStore.cpf,
-                                  "invoicePhoto": path,
-                                  "fuel": abastecimentoRegistroStore.combustivel,
-                                  "driverName": baseStore.nome,
-                                  "first": abastecimentoRegistroStore.first,
-                                  "isCounted": true,
-                                  "average": (abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
-                                      (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios)
-                                });
-                                firestore.collection("Companies").doc(baseStore.cnpj).update({"numberOfSupplies": FieldValue.increment(1)});
-
-                                if ((abastecimentoRegistroStore.odometro - baseStore.odometro) /
-                                            (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios) <
-                                        (baseStore.mediaProposta - 1.5) ||
-                                    (abastecimentoRegistroStore.odometro - baseStore.odometro) /
-                                            (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios) >
-                                        (baseStore.mediaProposta + 2.5)) {
-                                  if (abastecimentoRegistroStore.tanqueCheio) {
-                                    firestore.collection("Companies").doc(baseStore.cnpj).collection("Warnings").add({
-                                      "driverCPF": baseStore.cpf,
-                                      "text": "Erro no abastecimento",
-                                      "date": Timestamp.fromMillisecondsSinceEpoch(abastecimentoRegistroStore.data.millisecondsSinceEpoch),
-                                      "supply": firestore.collection("Companies").doc(baseStore.cnpj).collection("Supplies").doc(id),
-                                      "checked": false,
-                                      "type": "supply"
-                                    });
-                                    baseStore.setWarnings(1);
-                                  }
-                                } else {
-                                  if (!abastecimentoRegistroStore.first) {
-                                    if (abastecimentoRegistroStore.tanqueCheio) {
-                                      var averages =
-                                          await firestore.collection("Drivers").doc(baseStore.cpf).collection("Averages").doc(cadastro1store.placaCavalo).get();
-                                      if (averages.exists) {
-                                        var data = averages.data();
-                                        firestore.collection("Drivers").doc(baseStore.cpf).collection("Averages").doc(cadastro1store.placaCavalo).update({
-                                          "distance": data["distance"] + abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld,
-                                          "liters": abastecimentoRegistroStore.litros + data["liters"] + abastecimentoRegistroStore.litrosIntermediarios,
-                                          "average": (data["distance"] + abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
-                                              (abastecimentoRegistroStore.litros + data["liters"] + abastecimentoRegistroStore.litrosIntermediarios),
-                                          "lastSupply": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch)
-                                        });
-                                      } else {
-                                        firestore.collection("Drivers").doc(baseStore.cpf).collection("Averages").doc(cadastro1store.placaCavalo).set({
-                                          "proposedAverage": baseStore.mediaProposta,
-                                          "distance": abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld,
-                                          "liters": (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios),
-                                          "average": (abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
-                                              (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios),
-                                          "lastSupply": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch)
-                                        });
-                                      }
-                                    }
-                                  }
-                                }
-                                if (abastecimentoRegistroStore.last) {
-                                  baseStore.odometro = abastecimentoRegistroStore.odometro;
-                                } else {
-                                  firestore
-                                      .collection("Companies")
-                                      .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
-                                      .collection("Supplies")
-                                      .doc(abastecimentoRegistroStore.idAbsNew)
-                                      .update({"odometerOld": abastecimentoRegistroStore.odometro});
-                                }
-
-                                setState(() {
-                                  loading = !loading;
-                                });
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                  return Aviso("Abastecimento registrado!");
-                                }));
-                                await Future.delayed(const Duration(seconds: 2), () => "2");
-                                abastecimentoBaseStore.setIndex(0, context, false);
-                                Navigator.of(context).pop();
-                              }
+                                            ],
+                                          ))));
+                            }).then((val) async {
+                          if (pressed) {
+                            setState(() {
+                              loading = !loading;
                             });
+                            var firestore;
+                            try {
+                              final result = await InternetAddress.lookup("example.com");
+                              if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                firestore = FirebaseFirestore.instance;
+                              }
+                            } on SocketException catch (_) {
+                              firestore = FirebaseFirestore.instance;
+                              await firestore.disableNetwork();
+                            }
+
+                            await abastecimentoRegistroStore.setData(abastecimentoRegistroStore.data);
+                            if (((abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios) >
+                                (baseStore.mediaProposta + 2.5)) ||
+                                ((abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                    (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios) <
+                                    (baseStore.mediaProposta - 1.5))) {
+                              abastecimentoRegistroStore.first = true;
+                            }
+                            if (abastecimentoRegistroStore.last) {
+                              firestore
+                                  .collection("Companies")
+                                  .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
+                                  .collection("Horses")
+                                  .doc(cadastro1store.placaCavalo)
+                                  .update({"odometer": abastecimentoRegistroStore.odometro});
+                            }
+                            if (foto.path != "") {
+                              var storageReference = FirebaseStorage.instance.ref().child("invoices/${Path.basename(foto.path)}");
+                              var uploadTask = storageReference.putFile(foto);
+                              await uploadTask.whenComplete(() => null);
+                              await storageReference.getDownloadURL().then((fileURL) {
+                                setState(() {
+                                  path = fileURL;
+                                });
+                              });
+                            }
+                            var id = baseStore.getRandomString(20) + baseStore.cpf + DateTime.now().toString();
+                            firestore
+                                .collection("Companies")
+                                .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
+                                .collection("Supplies")
+                                .doc(id)
+                                .set({
+                              "licensePlate": cadastro1store.placaCavalo,
+                              "gasStationName": abastecimentoRegistroStore.posto,
+                              "gasStationCnpj": abastecimentoRegistroStore.cnpjPosto,
+                              "odometerOld": abastecimentoRegistroStore.last ? baseStore.odometro : abastecimentoRegistroStore.odometroOld,
+                              "odometerNew": abastecimentoRegistroStore.odometro,
+                              "amount": abastecimentoRegistroStore.litros,
+                              "totalPrice": abastecimentoRegistroStore.valor,
+                              "invoice": abastecimentoRegistroStore.nf,
+                              "fullTank": abastecimentoRegistroStore.tanqueCheio,
+                              "date": Timestamp.fromMillisecondsSinceEpoch(abastecimentoRegistroStore.data.millisecondsSinceEpoch),
+                              "driverCPF": baseStore.cpf,
+                              "invoicePhoto": path,
+                              "fuel": abastecimentoRegistroStore.combustivel,
+                              "driverName": baseStore.nome,
+                              "first": abastecimentoRegistroStore.first,
+                              "isCounted": true,
+                              "average": (abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                  (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios)
+                            });
+                            firestore.collection("Companies").doc(baseStore.cnpj).update({"numberOfSupplies": FieldValue.increment(1)});
+
+                            if ((abastecimentoRegistroStore.odometro - baseStore.odometro) /
+                                (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios) <
+                                (baseStore.mediaProposta - 1.5) ||
+                                (abastecimentoRegistroStore.odometro - baseStore.odometro) /
+                                    (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios) >
+                                    (baseStore.mediaProposta + 2.5)) {
+                              if (abastecimentoRegistroStore.tanqueCheio) {
+                                firestore.collection("Companies").doc(baseStore.cnpj).collection("Warnings").add({
+                                  "driverCPF": baseStore.cpf,
+                                  "text": "Erro no abastecimento",
+                                  "date": Timestamp.fromMillisecondsSinceEpoch(abastecimentoRegistroStore.data.millisecondsSinceEpoch),
+                                  "supply": firestore.collection("Companies").doc(baseStore.cnpj).collection("Supplies").doc(id),
+                                  "checked": false,
+                                  "type": "supply"
+                                });
+                                baseStore.setWarnings(1);
+                              }
+                            } else {
+                              if (!abastecimentoRegistroStore.first) {
+                                if (abastecimentoRegistroStore.tanqueCheio) {
+                                  var averages =
+                                  await firestore.collection("Drivers").doc(baseStore.cpf).collection("Averages").doc(cadastro1store.placaCavalo).get();
+                                  if (averages.exists) {
+                                    var data = averages.data();
+                                    firestore.collection("Drivers").doc(baseStore.cpf).collection("Averages").doc(cadastro1store.placaCavalo).update({
+                                      "distance": data["distance"] + abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld,
+                                      "liters": abastecimentoRegistroStore.litros + data["liters"] + abastecimentoRegistroStore.litrosIntermediarios,
+                                      "average": (data["distance"] + abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                          (abastecimentoRegistroStore.litros + data["liters"] + abastecimentoRegistroStore.litrosIntermediarios),
+                                      "lastSupply": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch)
+                                    });
+                                  } else {
+                                    firestore.collection("Drivers").doc(baseStore.cpf).collection("Averages").doc(cadastro1store.placaCavalo).set({
+                                      "proposedAverage": baseStore.mediaProposta,
+                                      "distance": abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld,
+                                      "liters": (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios),
+                                      "average": (abastecimentoRegistroStore.odometro - abastecimentoRegistroStore.odometroOld) /
+                                          (abastecimentoRegistroStore.litros + abastecimentoRegistroStore.litrosIntermediarios),
+                                      "lastSupply": Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch)
+                                    });
+                                  }
+                                }
+                              }
+                            }
+                            if (abastecimentoRegistroStore.last) {
+                              baseStore.odometro = abastecimentoRegistroStore.odometro;
+                            } else {
+                              firestore
+                                  .collection("Companies")
+                                  .doc(baseStore.cnpj.replaceAll(".", "").replaceAll("-", ""))
+                                  .collection("Supplies")
+                                  .doc(abastecimentoRegistroStore.idAbsNew)
+                                  .update({"odometerOld": abastecimentoRegistroStore.odometro});
+                            }
+
+                            setState(() {
+                              loading = !loading;
+                            });
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                              return Aviso("Abastecimento registrado!");
+                            }));
+                            await Future.delayed(const Duration(seconds: 2), () => "2");
+                            abastecimentoBaseStore.setIndex(0, context, false);
+                            Navigator.of(context).pop();
+                          }
+                        });
+                      }
+                      catch(e){
+                        Logger logger = new Logger();
+                        logger.firebaseLog(e,data: {"Motorista":baseStore.cpf, "Cavalo":cadastro1store.placaCarreta1});
+                      }
                           }
                         : () {
                             showDialog(

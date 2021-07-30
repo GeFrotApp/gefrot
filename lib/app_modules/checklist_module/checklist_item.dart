@@ -19,6 +19,8 @@ import 'package:todomobx/utils/Logger.dart';
 import 'package:todomobx/widgets/aviso.dart';
 import 'package:uuid/uuid.dart';
 
+import 'edit_images.dart';
+
 class ChecklistItem extends StatefulWidget {
   @override
   _ChecklistItemState createState() => _ChecklistItemState();
@@ -37,6 +39,21 @@ class _ChecklistItemState extends State<ChecklistItem> {
   var noteSignature = {};
   var requiredSignature = "";
 
+  void SetPicture(index)async{
+    await ImagePicker()
+        .getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75)
+        .then((image) async {
+      File file = new File(image!.path);
+      try {
+        var path = await getApplicationDocumentsDirectory();
+        await file.rename(path.path + "/" + Path.basename(file.path));
+        checklistItemStore.setInput(checklistItemStore.itemArray.keys.elementAt(index),
+            File(path.path + "/" + Path.basename(file.path)), "picture");
+      } catch (e) {
+        baseStore.showMyDialog(context, "Não foi possível armazenar a foto");
+      }
+    });
+  }
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -422,19 +439,19 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             ),
                                             GestureDetector(
                                               onTap: () async {
-                                                await ImagePicker()
-                                                    .getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75)
-                                                    .then((image) async {
-                                                  File file = new File(image!.path);
-                                                  try {
-                                                    var path = await getApplicationDocumentsDirectory();
-                                                    await file.rename(path.path + "/" + Path.basename(file.path));
-                                                    checklistItemStore.setInput(checklistItemStore.itemArray.keys.elementAt(index),
-                                                        File(path.path + "/" + Path.basename(file.path)), "picture");
-                                                  } catch (e) {
-                                                    baseStore.showMyDialog(context, "Não foi possível armazenar a foto");
-                                                  }
-                                                });
+                                                checklistItemStore.actionArray[checklistItemStore.itemArray.keys.elementAt(index)] is List &&
+                                                    checklistItemStore.actionArray[checklistItemStore.itemArray.keys.elementAt(index)]
+                                                        .contains("picture")
+                                                    ? checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)] != null &&
+                                                    checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)]["picture"] !=
+                                                        null
+                                                    ? Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditImages(index)))
+                                                    : SetPicture(index)
+                                                    : checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)] != null &&
+                                                    checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)]["picture"] !=
+                                                        null
+                                                    ? Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditImages(index)))
+                                                    : SetPicture(index);
                                               },
                                               child: Row(
                                                 children: [
@@ -495,7 +512,6 @@ class _ChecklistItemState extends State<ChecklistItem> {
                           onPressed: checklistItemStore.isFormValid && checklistItemStore.isEditable
                               ? () async {
                                   try {
-                                    throw ("deu boa!");
                                     setState(() {
                                       loading = true;
                                     });

@@ -12,7 +12,10 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
   Computed<bool>? _$isFormValidComputed;
 
   @override
-  bool get isFormValid => (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid, name: '_PassRecoverStore.isFormValid')).value;
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_PassRecoverStore.isFormValid'))
+          .value;
 
   final _$cpfAtom = Atom(name: '_PassRecoverStore.cpf');
 
@@ -96,11 +99,13 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
     return _$checkCpfAsyncAction.run(() => super.checkCpf(cpf));
   }
 
-  final _$_PassRecoverStoreActionController = ActionController(name: '_PassRecoverStore');
+  final _$_PassRecoverStoreActionController =
+      ActionController(name: '_PassRecoverStore');
 
   @override
   void setCpf(dynamic value) {
-    final _$actionInfo = _$_PassRecoverStoreActionController.startAction(name: '_PassRecoverStore.setCpf');
+    final _$actionInfo = _$_PassRecoverStoreActionController.startAction(
+        name: '_PassRecoverStore.setCpf');
     try {
       return super.setCpf(value);
     } finally {
@@ -110,7 +115,8 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
 
   @override
   void setPass(dynamic value) {
-    final _$actionInfo = _$_PassRecoverStoreActionController.startAction(name: '_PassRecoverStore.setPass');
+    final _$actionInfo = _$_PassRecoverStoreActionController.startAction(
+        name: '_PassRecoverStore.setPass');
     try {
       return super.setPass(value);
     } finally {
@@ -120,7 +126,8 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
 
   @override
   void setConfirmPass(dynamic value) {
-    final _$actionInfo = _$_PassRecoverStoreActionController.startAction(name: '_PassRecoverStore.setConfirmPass');
+    final _$actionInfo = _$_PassRecoverStoreActionController.startAction(
+        name: '_PassRecoverStore.setConfirmPass');
     try {
       return super.setConfirmPass(value);
     } finally {
@@ -130,7 +137,8 @@ mixin _$PassRecoverStore on _PassRecoverStore, Store {
 
   @override
   void turnVisible() {
-    final _$actionInfo = _$_PassRecoverStoreActionController.startAction(name: '_PassRecoverStore.turnVisible');
+    final _$actionInfo = _$_PassRecoverStoreActionController.startAction(
+        name: '_PassRecoverStore.turnVisible');
     try {
       return super.turnVisible();
     } finally {
