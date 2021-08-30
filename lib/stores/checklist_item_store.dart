@@ -67,16 +67,17 @@ abstract class _ChecklistItemStore with Store {
     }
     this.setFormValid();
   }
+
   @action
   int deleteInput(index, value, type) {
     print(inputArray[index][type]);
-      inputArray[index][type].removeAt(value);
-      if(inputArray[index][type].length==0){
-        inputArray[index].removeWhere((key, value) => key == type);
-        return 0;
-      }else{
-        return 1;
-      }
+    inputArray[index][type].removeAt(value);
+    if (inputArray[index][type].length == 0) {
+      inputArray[index].removeWhere((key, value) => key == type);
+      return 0;
+    } else {
+      return 1;
+    }
   }
 
   @action
@@ -91,7 +92,7 @@ abstract class _ChecklistItemStore with Store {
   @action
   void setFormValid() {
     var check = true;
-    if (online!= null&&online !=false) {
+    if (online != null && online != false) {
       actionArray.forEach((k, v) {
         if (v.contains("note")) {
           if (inputArray[k] == null || inputArray[k]["note"] == null) {
@@ -212,5 +213,32 @@ abstract class _ChecklistItemStore with Store {
         delete.deleteSync(recursive: true);
       }
     }
+  }
+
+  Future<List> getAllChecklists(cnpj, cpf) async {
+    Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+    Directory checklitsDir = new Directory(appDocumentsDirectory.path + "/docs/checklists");
+    List checklists = [];
+    if (checklitsDir.existsSync()) {
+      var checklistsOffline = checklitsDir.listSync();
+      for (var checklistEntity in checklistsOffline) {
+        var checklistPath = checklistEntity.path;
+        File checklist = File(checklistPath);
+        var fileContent = await checklist.readAsString();
+        var checklistContent = jsonDecode(fileContent);
+        checklistContent["date"] = DateTime.fromMillisecondsSinceEpoch(checklistContent["date"]);
+        checklists.add(checklistContent);
+      }
+    }
+    var docs = await FirebaseFirestore.instance
+        .collection("Companies")
+        .doc(cnpj)
+        .collection("CheckLists")
+        .where("driverCPF", isEqualTo: cpf)
+        .orderBy("date", descending: true)
+        .get();
+    checklists.addAll(docs.docs);
+    print(docs.docs[0].runtimeType);
+    return checklists;
   }
 }

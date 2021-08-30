@@ -284,17 +284,44 @@ class _HomeState extends State<Home> {
                                     onPressed: () async {
                                       baseStore.turnLoading();
                                       var average = (await FirebaseFirestore.instance
-                                          .collection("Drivers")
-                                          .doc(baseStore.cpf)
-                                          .collection("Averages")
+                                          .collection("Companies")
+                                          .doc(baseStore.cnpj)
+                                          .collection("Horses")
                                           .doc(cadastro1Store.placaCavalo)
                                           .get());
-                                      var proposedAverage = 0.0;
-                                      var currentAverage = 0.0;
-                                      if (average.exists) {
-                                        proposedAverage = average["proposedAverage"];
-                                        currentAverage = average["average"];
+                                      var supplies = (await FirebaseFirestore.instance
+                                          .collection("Companies")
+                                          .doc(baseStore.cnpj)
+                                          .collection("Supplies")
+                                          .where("driverCPF", isEqualTo: baseStore.cpf)
+                                          .where("licensePlate", isEqualTo: cadastro1Store.placaCavalo)
+                                          .get());
+                                      var proposedAverage = average.data()!['proposedAverage'];
+                                      double amountAcumulator = 0.0;
+                                      double distanceAcumulator = 0.0;
+                                      double tempAmountAcumulator = 0.0;
+                                      double tempDistanceAcumulator = 0.0;
+                                      for(var supply in supplies.docs){
+                                        if(!supply["first"]&&supply['fullTank']){
+                                          var tempAverage = ((supply['odometerNew']-supply['odometerOld']+tempDistanceAcumulator)/(supply['amount']+tempAmountAcumulator));
+                                          if(tempAverage > (proposedAverage+1) || tempAverage < (proposedAverage - 1.5)){
+                                            tempAmountAcumulator = 0.0;
+                                            tempDistanceAcumulator = 0.0;
+                                          }else{
+                                            amountAcumulator += (supply['amount']+tempAmountAcumulator);
+                                            distanceAcumulator += (supply['odometerNew']-supply['odometerOld']+tempDistanceAcumulator);
+                                            tempAmountAcumulator = 0.0;
+                                            tempDistanceAcumulator = 0.0;
+                                          }
+
+                                        }else if(!supply['first']){
+                                          tempAmountAcumulator += supply['amount'];
+                                          tempDistanceAcumulator += (supply['odometerNew']-supply['odometerOld']);
+                                        }
                                       }
+
+                                      var currentAverage = distanceAcumulator/amountAcumulator;
+
                                       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                                         return Media(proposedAverage, currentAverage);
                                       }));

@@ -24,7 +24,7 @@ class _DocumentoState extends State<Documento> {
   var enDatesFuture = initializeDateFormatting("pt_BR", null);
   var formatter = DateFormat.yMMMMEEEEd("pt_BR").add_Hm();
   var hora = new DateTime.now().hour;
-  late File foto;
+  late File foto = new File("");
   var loading = false;
   String path = "";
   TextEditingController data = new TextEditingController();
@@ -483,7 +483,7 @@ class _DocumentoState extends State<Documento> {
                           icon: Icon(
                             Icons.camera_alt,
                             size: MediaQuery.of(context).size.width * 0.15,
-                            color: foto != null ? Color.fromARGB(255, 137, 202, 204) : Color.fromARGB(255, 164, 164, 164),
+                            color: foto.path != ""? Color.fromARGB(255, 137, 202, 204) : Color.fromARGB(255, 164, 164, 164),
                           ),
                           onPressed: () async {
                             await ImagePicker().getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75).then((image) {

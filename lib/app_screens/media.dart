@@ -31,6 +31,69 @@ class _MediaState extends State<Media> {
   late BaseStore baseStore;
   var hora = new DateTime.now().hour;
 
+  Future getMedias()async{
+    Map<String,dynamic> listaMedias = {};
+    Map<String,dynamic> amountAcumulator = {};
+    Map<String,dynamic> distanceAcumulator = {};
+    Map<String,dynamic> tempAmountAcumulator = {};
+    Map<String,dynamic> tempDistanceAcumulator = {};
+    Map<String,dynamic> proposedAverages = {};
+    String licensePlate;
+    QuerySnapshot<Map<String,dynamic>> supplies = (await FirebaseFirestore.instance
+        .collection("Companies")
+        .doc(baseStore.cnpj)
+        .collection("Supplies")
+        .where("driverCPF", isEqualTo: baseStore.cpf)
+        .get());
+    for(var supply in supplies.docs){
+      licensePlate = supply["licensePlate"];
+      if(!amountAcumulator.containsKey(licensePlate)){
+        amountAcumulator[licensePlate] = 0.0;
+      }
+      if(!distanceAcumulator.containsKey(licensePlate)){
+        distanceAcumulator[licensePlate] = 0.0;
+      }
+      if(!tempAmountAcumulator.containsKey(licensePlate)){
+        tempAmountAcumulator[licensePlate] = 0.0;
+      }
+      if(!tempDistanceAcumulator.containsKey(licensePlate)){
+        tempDistanceAcumulator[licensePlate] = 0.0;
+      }
+      if(!proposedAverages.containsKey(licensePlate.toString())){
+        var average = (await FirebaseFirestore.instance
+            .collection("Companies")
+            .doc(baseStore.cnpj)
+            .collection("Horses")
+            .doc(licensePlate)
+            .get());
+        proposedAverages[licensePlate] = average["proposedAverage"];
+      }
+      if(!supply["first"]&&supply['fullTank']){
+        var tempAverage = ((supply['odometerNew']-supply['odometerOld']+tempDistanceAcumulator[licensePlate])/(supply['amount']+tempAmountAcumulator[licensePlate]));
+        if(tempAverage > (proposedAverages[licensePlate]+1) || tempAverage < (proposedAverages[licensePlate] - 1.5)){
+          tempAmountAcumulator[supply["licensePlate"]] = 0.0;
+          tempDistanceAcumulator[supply["licensePlate"]] = 0.0;
+        }else{
+          amountAcumulator[licensePlate] += (supply['amount']+tempAmountAcumulator[licensePlate]);
+          distanceAcumulator[licensePlate] += (supply['odometerNew']-supply['odometerOld']+tempDistanceAcumulator[licensePlate]);
+          tempAmountAcumulator[licensePlate] = 0.0;
+          tempDistanceAcumulator[licensePlate] = 0.0;
+        }
+
+      }else if(!supply['first']){
+        tempAmountAcumulator[licensePlate] += supply['amount'];
+        tempDistanceAcumulator[licensePlate] += (supply['odometerNew']-supply['odometerOld']);
+      }
+    }
+    distanceAcumulator.forEach((key, value) {
+      listaMedias[key] = {};
+      listaMedias[key]["mediaAtual"] = distanceAcumulator[key]/amountAcumulator[key];
+      listaMedias[key]["mediaProposta"] = proposedAverages[key];
+    });
+    print(listaMedias);
+    return listaMedias;
+
+  }
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -179,98 +242,99 @@ class _MediaState extends State<Media> {
                           child: Container(
                               width: MediaQuery.of(context).size.width,
                               color: Colors.white,
-                              child: StreamBuilder<QuerySnapshot>(
-                                stream: FirebaseFirestore.instance
-                                    .collection("Drivers")
-                                    .doc(baseStore.cpf)
-                                    .collection("Averages")
-                                    .orderBy("lastSupply", descending: true)
-                                    .snapshots(),
-                                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                              child: FutureBuilder(
+                                future: getMedias(),
+                                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                  List<Widget> listMedias = [];
                                   if (!snapshot.hasData) return new Text("Loading...");
-                                  return new ListView(
-                                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                      return new Container(
-                                        height: MediaQuery.of(context).size.height * 0.1,
-                                        width: MediaQuery.of(context).size.width,
-                                        margin:
-                                            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.02, right: MediaQuery.of(context).size.width * 0.02),
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(width: 1, color: Color.fromARGB(255, 210, 210, 210)),
-                                            bottom: BorderSide(width: 1, color: Color.fromARGB(255, 210, 210, 210)),
+                                  snapshot.data!.forEach((key, value) {
+                                    listMedias.add(Container(
+                                      height: MediaQuery.of(context).size.height * 0.1,
+                                      width: MediaQuery.of(context).size.width,
+                                      margin:
+                                      EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.02, right: MediaQuery.of(context).size.width * 0.02),
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(width: 1, color: Color.fromARGB(255, 210, 210, 210)),
+                                          bottom: BorderSide(width: 1, color: Color.fromARGB(255, 210, 210, 210)),
+                                        ),
+                                        color: Colors.white,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Placa",
+                                                textScaleFactor: 1,
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(255, 84, 84, 84),
+                                                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                                                ),
+                                              ),
+                                              Text(
+                                                key,
+                                                textScaleFactor: 1,
+                                                style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
+                                              ),
+                                            ],
                                           ),
-                                          color: Colors.white,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Placa",
-                                                  textScaleFactor: 1,
-                                                  style: TextStyle(
-                                                    color: Color.fromARGB(255, 84, 84, 84),
-                                                    fontSize: MediaQuery.of(context).size.width * 0.04,
-                                                  ),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Sua média",
+                                                textScaleFactor: 1,
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(255, 84, 84, 84),
+                                                  fontSize: MediaQuery.of(context).size.width * 0.04,
                                                 ),
-                                                Text(
-                                                  document.id,
-                                                  textScaleFactor: 1,
-                                                  style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
+                                              ),
+                                              Text(
+                                                value["mediaAtual"].toStringAsFixed(2).replaceAll(".", ","),
+                                                textScaleFactor: 1,
+                                                style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Média proposta",
+                                                textScaleFactor: 1,
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(255, 84, 84, 84),
+                                                  fontSize: MediaQuery.of(context).size.width * 0.04,
                                                 ),
-                                              ],
-                                            ),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Sua média",
-                                                  textScaleFactor: 1,
-                                                  style: TextStyle(
-                                                    color: Color.fromARGB(255, 84, 84, 84),
-                                                    fontSize: MediaQuery.of(context).size.width * 0.04,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  document["average"].toStringAsFixed(2).replaceAll(".", ","),
-                                                  textScaleFactor: 1,
-                                                  style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
-                                                ),
-                                              ],
-                                            ),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Média proposta",
-                                                  textScaleFactor: 1,
-                                                  style: TextStyle(
-                                                    color: Color.fromARGB(255, 84, 84, 84),
-                                                    fontSize: MediaQuery.of(context).size.width * 0.04,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  document["proposedAverage"].toStringAsFixed(2).replaceAll(".", ","),
-                                                  textScaleFactor: 1,
-                                                  style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  );
-                                },
+                                              ),
+                                              Text(
+                                                value["mediaProposta"].toStringAsFixed(2).replaceAll(".", ","),
+                                                textScaleFactor: 1,
+                                                style: TextStyle(color: Color.fromARGB(255, 164, 164, 164)),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ));
+                                  });
+                                    return ListView(
+                                      children: [
+                                        ...listMedias
+                                      ],
+                                    );
+                                  })
+
+
                               )),
-                        ),
+
                       ],
                     )))
           ],

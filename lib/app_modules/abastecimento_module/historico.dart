@@ -142,9 +142,9 @@ class _HistoricoState extends State<Historico> {
                                       ),
                                     ),
                                     Text(
-                                      document["first"] ? "N/A" : document["average"].toStringAsFixed(2).replaceAll(".", ",") + "Km/l",
+                                      document["first"]||!document['fullTank'] ? "N/A" : document["average"].toStringAsFixed(2).replaceAll(".", ",") + "Km/l",
                                       style: TextStyle(
-                                          color: document["first"]
+                                          color: document["first"]||!document['fullTank']
                                               ? Color.fromARGB(255, 120, 120, 120)
                                               : document["average"] >= baseStore.mediaProposta
                                                   ? Color.fromARGB(255, 163, 247, 127)

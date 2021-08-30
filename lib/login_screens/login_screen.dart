@@ -27,6 +27,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late Dialog dialog;
+  bool splashScreen = true;
   late LoginStore loginStore;
   late BaseStore baseStore;
   List<String> warnings = ["supply"];
@@ -44,10 +45,18 @@ class _LoginScreenState extends State<LoginScreen> {
     cpfController.text = loginStore.cpf;
     passController.text = loginStore.pass;
   }
+  @override
+  void initState(){
+    Future.delayed(Duration(seconds: 2)).then((value) => setState(() {
+      splashScreen = false;
+    }));
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return CustomBackground(
+    return splashScreen?Container(child: Image.asset("assets/images/splashscreen.png", fit: BoxFit.fill,),):CustomBackground(
         header: "Acesse sua conta",
         children: loading
             ? [
