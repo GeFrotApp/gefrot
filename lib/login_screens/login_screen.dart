@@ -5,6 +5,7 @@ import "package:crypto/crypto.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_mobx/flutter_mobx.dart";
+import 'package:geolocator/geolocator.dart';
 import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
 import "package:provider/provider.dart";
 import "package:todomobx/login_screens/cadastro_1.dart";
@@ -260,6 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   .orderBy("date", descending: true)
                   .get();
               baseStore.warnings = warningCount.size;
+              await Geolocator.requestPermission();
 
               Navigator.push(context, MaterialPageRoute(builder: (context) => Cadastro1()));
             } else {

@@ -57,7 +57,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if(!isDependencyChangedOnce){
+    if (!isDependencyChangedOnce) {
       checklistItemStore = Provider.of<ChecklistItemStore>(context);
       checklistBaseStore = Provider.of<ChecklistBaseStore>(context);
       cadastro1Store = Provider.of<Cadastro1Store>(context);
@@ -69,9 +69,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
           if (question.values.elementAt(0) == true) {
             _signQuestions.add(GlobalKey<SignatureState>());
           }
-          }}
+        }
+      }
     }
-
   }
 
   @override
@@ -531,17 +531,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                     } catch (e) {
                                       isOnline = false;
                                     }
-                                    var position;
-                                    var latitude;
-                                    var longitude;
-                                    try {
-                                      position = checklistItemStore.locationIsRequired ? await baseStore.determinePosition() : null;
-                                      latitude = checklistItemStore.locationIsRequired ? position.latitude : null;
-                                      longitude = checklistItemStore.locationIsRequired ? position.longitude : null;
-                                    } catch (error) {
-                                      await baseStore.showMyDialog(context, "Nesse checklist é obrigatório que a localização esteja ligada!!");
-                                      return;
-                                    }
+
                                     //UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
                                     //Se for uma edição (isEdit) impede que a assinatura seja modificada
                                     if (!checklistItemStore.isEdit) {
@@ -572,8 +562,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                         backgroundPainter: null,
                                                         // Additional custom painter to draw stuff like watermark
                                                         // Callback called on user pan drawing
-                                                        key:
-                                                        _signQuestions[signCounter], // key that allow you to provide a GlobalKey that"ll let you retrieve the image once user has signed
+                                                        key: _signQuestions[
+                                                            signCounter], // key that allow you to provide a GlobalKey that"ll let you retrieve the image once user has signed
                                                       ),
                                                     )),
                                                     actions: <Widget>[
@@ -710,10 +700,17 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                       }
                                     }
 
-                                    setState(() {
-                                      loading = true;
-                                    });
-
+                                    var position;
+                                    var latitude;
+                                    var longitude;
+                                    try {
+                                      position = checklistItemStore.locationIsRequired ? await baseStore.determinePosition() : null;
+                                      latitude = checklistItemStore.locationIsRequired ? position.latitude : null;
+                                      longitude = checklistItemStore.locationIsRequired ? position.longitude : null;
+                                    } catch (error) {
+                                      await baseStore.showMyDialog(context, "Nesse checklist é obrigatório que a localização esteja ligada!!");
+                                      return;
+                                    }
                                     var form = Map();
 
                                     for (var k in checklistItemStore.itemArray.keys) {
@@ -761,9 +758,6 @@ class _ChecklistItemState extends State<ChecklistItem> {
 
                                     if (isOnline) {
                                       try {
-                                        setState(() {
-                                          loading = true;
-                                        });
                                         await checklistItemStore.uploadOfflineChecklists(baseStore.cnpj);
                                         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                                           return Aviso(checklistItemStore.documentId != null ? "Checklist atualizado!" : "Checklist registrado!");
@@ -781,11 +775,11 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                       }
                                     } else {
                                       await baseStore.showMyDialog(context, "Erro de rede. Os checklists serão salvos na próxima vez em que logar");
+                                      setState(() {
+                                        loading = false;
+                                      });
                                       checklistBaseStore.setIndex(3);
                                     }
-                                    setState(() {
-                                      loading = false;
-                                    });
                                   } catch (e, stacktrace) {
                                     Logger logger = new Logger();
                                     setState(() {
@@ -799,6 +793,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                       "modelo": nome,
                                       "carretas": [cadastro1Store.placaCarreta1, cadastro1Store.placaCarreta2, cadastro1Store.placaCarreta3],
                                     });
+                                    await baseStore.showMyDialog(context, "Houve um erro inesperado. Nossa equipe já foi notificada e corrigirá o problema");
                                   }
                                 }
                               : () async {
