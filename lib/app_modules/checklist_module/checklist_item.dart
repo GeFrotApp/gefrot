@@ -31,37 +31,47 @@ class _ChecklistItemState extends State<ChecklistItem> {
   late ChecklistBaseStore checklistBaseStore;
   late Cadastro1Store cadastro1Store;
   var image;
-  final _sign = GlobalKey<SignatureState>();
+  GlobalKey<SignatureState> _signRequired = GlobalKey<SignatureState>();
+  List<GlobalKey<SignatureState>> _signQuestions = [];
   late BaseStore baseStore;
   var loading = false;
   TextEditingController observation = new TextEditingController();
   var charCounter = 0;
   var noteSignature = {};
   var requiredSignature = "";
+  var isDependencyChangedOnce = false;
 
-  void SetPicture(index)async{
-    await ImagePicker()
-        .getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75)
-        .then((image) async {
+  void setPicture(index) async {
+    await ImagePicker().pickImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75).then((image) async {
       File file = new File(image!.path);
       try {
         var path = await getApplicationDocumentsDirectory();
         await file.rename(path.path + "/" + Path.basename(file.path));
-        checklistItemStore.setInput(checklistItemStore.itemArray.keys.elementAt(index),
-            File(path.path + "/" + Path.basename(file.path)), "picture");
+        checklistItemStore.setInput(checklistItemStore.itemArray.keys.elementAt(index), File(path.path + "/" + Path.basename(file.path)), "picture");
       } catch (e) {
         baseStore.showMyDialog(context, "Não foi possível armazenar a foto");
       }
     });
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    checklistItemStore = Provider.of<ChecklistItemStore>(context);
-    checklistBaseStore = Provider.of<ChecklistBaseStore>(context);
-    cadastro1Store = Provider.of<Cadastro1Store>(context);
-    baseStore = Provider.of<BaseStore>(context);
-    checklistItemStore.online = baseStore.online;
+    if(!isDependencyChangedOnce){
+      checklistItemStore = Provider.of<ChecklistItemStore>(context);
+      checklistBaseStore = Provider.of<ChecklistBaseStore>(context);
+      cadastro1Store = Provider.of<Cadastro1Store>(context);
+      baseStore = Provider.of<BaseStore>(context);
+      checklistItemStore.online = baseStore.online;
+      isDependencyChangedOnce = true;
+      if (!checklistItemStore.isEdit) {
+        for (var question in checklistItemStore.noteText.values) {
+          if (question.values.elementAt(0) == true) {
+            _signQuestions.add(GlobalKey<SignatureState>());
+          }
+          }}
+    }
+
   }
 
   @override
@@ -440,18 +450,15 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                             GestureDetector(
                                               onTap: () async {
                                                 checklistItemStore.actionArray[checklistItemStore.itemArray.keys.elementAt(index)] is List &&
-                                                    checklistItemStore.actionArray[checklistItemStore.itemArray.keys.elementAt(index)]
-                                                        .contains("picture")
+                                                        checklistItemStore.actionArray[checklistItemStore.itemArray.keys.elementAt(index)].contains("picture")
                                                     ? checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)] != null &&
-                                                    checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)]["picture"] !=
-                                                        null
-                                                    ? Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditImages(index)))
-                                                    : SetPicture(index)
+                                                            checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)]["picture"] != null
+                                                        ? Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditImages(index)))
+                                                        : setPicture(index)
                                                     : checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)] != null &&
-                                                    checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)]["picture"] !=
-                                                        null
-                                                    ? Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditImages(index)))
-                                                    : SetPicture(index);
+                                                            checklistItemStore.inputArray[checklistItemStore.itemArray.keys.elementAt(index)]["picture"] != null
+                                                        ? Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditImages(index)))
+                                                        : setPicture(index);
                                               },
                                               child: Row(
                                                 children: [
@@ -538,6 +545,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                     //UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
                                     //Se for uma edição (isEdit) impede que a assinatura seja modificada
                                     if (!checklistItemStore.isEdit) {
+                                      var signCounter = 0;
                                       for (var question in checklistItemStore.noteText.values) {
                                         if (question.values.elementAt(0) == true) {
                                           await showDialog<void>(
@@ -563,12 +571,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                         // with
                                                         backgroundPainter: null,
                                                         // Additional custom painter to draw stuff like watermark
-                                                        onSign: () {
-                                                          final sign = _sign.currentState;
-                                                        },
                                                         // Callback called on user pan drawing
                                                         key:
-                                                            _sign, // key that allow you to provide a GlobalKey that"ll let you retrieve the image once user has signed
+                                                        _signQuestions[signCounter], // key that allow you to provide a GlobalKey that"ll let you retrieve the image once user has signed
                                                       ),
                                                     )),
                                                     actions: <Widget>[
@@ -578,7 +583,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                           textScaleFactor: 1,
                                                         ),
                                                         onPressed: () {
-                                                          final sign = _sign.currentState;
+                                                          final sign = _signQuestions[signCounter].currentState;
                                                           sign!.clear();
                                                         },
                                                       ),
@@ -588,7 +593,8 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                           textScaleFactor: 1,
                                                         ),
                                                         onPressed: () async {
-                                                          final sign = _sign.currentState;
+                                                          final sign = _signQuestions[signCounter].currentState;
+                                                          signCounter++;
                                                           image = await sign!.getData();
                                                           sign.clear();
                                                           Navigator.of(context).pop();
@@ -598,20 +604,6 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                   ));
                                             },
                                           );
-
-                                          // if (isOnline) {
-                                          //   setState(() {
-                                          //     loading = !loading;
-                                          //   });
-                                          //   var storageReference =
-                                          //   FirebaseStorage.instance.ref().child("signatures/${Path.basename(file.path)}");
-                                          //   var uploadTask = storageReference.putFile(file);
-                                          //   await uploadTask;
-                                          //   noteSignature[question.keys.elementAt(0)] = await storageReference.getDownloadURL();
-                                          //   setState(() {
-                                          //     loading = !loading;
-                                          //   });
-                                          // } else {
                                           try {
                                             var data = await image.toByteData(format: ImageByteFormat.png);
                                             final file = File("${(await getTemporaryDirectory()).path}/" + Uuid().v4().toString() + ".png");
@@ -653,13 +645,10 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                       strokeWidth: 5.0,
                                                       // with
                                                       backgroundPainter: null,
-                                                      // Additional custom painter to draw stuff like watermark
-                                                      onSign: () {
-                                                        final sign = _sign.currentState;
-                                                      },
+
                                                       // Callback called on user pan drawing
                                                       key:
-                                                          _sign, // key that allow you to provide a GlobalKey that"ll let you retrieve the image once user has signed
+                                                          _signRequired, // key that allow you to provide a GlobalKey that"ll let you retrieve the image once user has signed
                                                     ),
                                                   )),
                                                   actions: <Widget>[
@@ -669,7 +658,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                         textScaleFactor: 1,
                                                       ),
                                                       onPressed: () {
-                                                        final sign = _sign.currentState;
+                                                        final sign = _signRequired.currentState;
                                                         sign!.clear();
                                                       },
                                                     ),
@@ -679,7 +668,7 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                                         textScaleFactor: 1,
                                                       ),
                                                       onPressed: () async {
-                                                        final sign = _sign.currentState;
+                                                        final sign = _signRequired.currentState;
                                                         image = await sign!.getData();
                                                         Navigator.of(context).pop();
                                                       },
@@ -797,13 +786,13 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                     setState(() {
                                       loading = false;
                                     });
-                                  } catch (e) {
+                                  } catch (e, stacktrace) {
                                     Logger logger = new Logger();
                                     setState(() {
                                       loading = false;
                                     });
                                     var nome = checklistItemStore.model['name'].toString();
-                                    logger.firebaseLog(e, data: {
+                                    logger.firebaseLog(e, stacktrace, data: {
                                       "tela": "checklist",
                                       "motorista": baseStore.cpf,
                                       "cavalo": cadastro1Store.placaCavalo,

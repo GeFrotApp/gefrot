@@ -116,8 +116,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color.fromARGB(255, 108, 190, 193),
-          cursorColor: Color.fromARGB(255, 108, 190, 193),
-          scaffoldBackgroundColor: Color.fromARGB(255, 108, 190, 193),
+          scaffoldBackgroundColor: Color.fromARGB(255, 108, 190, 193), textSelectionTheme: TextSelectionThemeData(cursorColor: Color.fromARGB(255, 108, 190, 193)),
         ),
         home: _introScreen(),
       ),

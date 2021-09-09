@@ -91,28 +91,6 @@ class _CheckListSelecaoState extends State<CheckListSelecao> {
                               //checklistItemStore.arrTail.add(checklistItemStore.itemArray.last);
                             });
                             checklistItemStore.arrTail.add(lastItem);
-
-                            // if(document.data().containsKey("groups")){
-                            //   temp = checklistItemStore.itemArray;
-                            //   checklistItemStore.itemArray = {};
-                            //   print(document["groups"]);is
-                            //   var k=1;
-                            //   for(var i=0;i<document["groups"].length;i++){
-                            //     //print(document["groups"][i]);
-                            //     for(var j =1; j<=temp.length;j++){
-                            //       if(document["groups"][i]==temp["Item "+j.toString()]["group"]){
-                            //         print(document["groups"][i]);
-                            //         checklistItemStore.itemArray["Item "+k.toString()]= temp["Item "+j.toString()];
-                            //         k++;
-                            //       }
-                            //     }
-                            //   }
-                            // }
-                            // //print(checklistItemStore.itemArray);
-                            // print("------");
-                            // for(var i =0; i<temp.length;i++){
-                            //   print(checklistItemStore.itemArray.keys.elementAt(i));
-                            // }
                             checklistItemStore.selectionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.actionArray = new ObservableMap<dynamic, dynamic>();
                             checklistItemStore.inputArray = new ObservableMap<dynamic, dynamic>();

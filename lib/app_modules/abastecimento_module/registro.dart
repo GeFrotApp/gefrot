@@ -400,7 +400,7 @@ class _RegistroState extends State<Registro> {
                           color: foto.path != "" ? Color.fromARGB(255, 137, 202, 204) : Color.fromARGB(255, 164, 164, 164),
                         ),
                         onPressed: () async {
-                          await ImagePicker().getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75).then((image) {
+                          await ImagePicker().pickImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75).then((image) {
                             setState(() {
                               foto = File(image!.path);
                             });
@@ -752,9 +752,9 @@ class _RegistroState extends State<Registro> {
                           }
                         });
                       }
-                      catch(e){
+                      catch(e, stacktrace){
                         Logger logger = new Logger();
-                        logger.firebaseLog(e,data: {"Motorista":baseStore.cpf, "Cavalo":cadastro1store.placaCarreta1});
+                        logger.firebaseLog(e,stacktrace,data: {"Motorista":baseStore.cpf, "Cavalo":cadastro1store.placaCarreta1});
                       }
                           }
                         : () {

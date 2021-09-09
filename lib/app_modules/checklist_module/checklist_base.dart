@@ -109,7 +109,7 @@ class _ChecklistBaseState extends State<ChecklistBase> {
                                             final result = await InternetAddress.lookup("example.com");
                                             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                               baseStore.online = true;
-                                              UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                                              await FirebaseAuth.instance.signInAnonymously();
                                             }
                                           } on SocketException catch (_) {
                                             baseStore.online = false;
@@ -146,7 +146,7 @@ class _ChecklistBaseState extends State<ChecklistBase> {
                                             final result = await InternetAddress.lookup("example.com");
                                             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                               baseStore.online = true;
-                                              UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                                              await FirebaseAuth.instance.signInAnonymously();
                                             }
                                           } on SocketException catch (_) {
                                             baseStore.online = false;

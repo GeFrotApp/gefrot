@@ -74,7 +74,7 @@ abstract class _BaseStore with Store {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -422,7 +422,7 @@ Os eventuais litígios deverão ser apresentados no foro da comarca em que se en
               ),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text("OK"),
                 onPressed: () {
                   Navigator.of(context).pop();

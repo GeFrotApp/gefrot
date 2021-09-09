@@ -37,7 +37,7 @@ class CustomBackground extends StatelessWidget {
                                 alignment: Alignment.center,
                                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.075),
                                 child: Text(
-                                  header != null ? header : "",
+                                  header,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: MediaQuery.of(context).size.width * 0.056,

@@ -5,7 +5,7 @@ class Aviso extends StatelessWidget {
     this.aviso = aviso;
   }
 
-  var aviso;
+  late final String aviso;
 
   @override
   Widget build(BuildContext context) {

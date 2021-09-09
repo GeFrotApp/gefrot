@@ -486,7 +486,7 @@ class _DocumentoState extends State<Documento> {
                             color: foto.path != ""? Color.fromARGB(255, 137, 202, 204) : Color.fromARGB(255, 164, 164, 164),
                           ),
                           onPressed: () async {
-                            await ImagePicker().getImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75).then((image) {
+                            await ImagePicker().pickImage(source: ImageSource.camera, maxHeight: 600, maxWidth: 800, imageQuality: 75).then((image) {
                               setState(() {
                                 foto = File(image!.path);
                               });

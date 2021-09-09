@@ -423,14 +423,14 @@ class _Cadastro1State extends State<Cadastro1> {
       } else if (carreta2Exists == null) {
         baseStore.showMyDialog(context, "A carreta 2 não está cadastrada");
       } else if (carreta3Exists == null) {
-        baseStore.showMyDialog(context, "A carreta 2 não está cadastrada");
+        baseStore.showMyDialog(context, "A carreta 3 não está cadastrada");
       }
       setState(() {
         loading = false;
       });
-    } catch (e) {
+    } catch (e,stacktrace) {
       var logger = new Logger();
-      logger.firebaseLog(e, data: {
+      logger.firebaseLog(e,stacktrace, data: {
         "tela": "cadastro_1",
         "motorista": baseStore.cpf,
         "cavalo": cadastro1Store.placaCavalo,

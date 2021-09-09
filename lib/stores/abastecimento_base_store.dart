@@ -108,7 +108,7 @@ abstract class _AbastecimentoBaseStore with Store {
                 ),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Container(
                     height: MediaQuery.of(context).size.width * 0.09,
                     width: MediaQuery.of(context).size.width * 0.15,
@@ -125,7 +125,7 @@ abstract class _AbastecimentoBaseStore with Store {
                     Navigator.of(context).pop();
                   },
                 ),
-                FlatButton(
+                TextButton(
                   child: Container(
                     height: MediaQuery.of(context).size.width * 0.09,
                     width: MediaQuery.of(context).size.width * 0.15,

@@ -7,7 +7,6 @@ import "package:flutter/material.dart";
 import "package:flutter_mobx/flutter_mobx.dart";
 import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
 import "package:provider/provider.dart";
-import 'package:todomobx/login_screens/cadastro_1.dart';
 import "package:todomobx/stores/base_store.dart";
 import "package:todomobx/stores/cadastro_1_store.dart";
 import "package:todomobx/stores/cadastro_2_store.dart";

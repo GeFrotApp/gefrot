@@ -137,14 +137,14 @@ abstract class _ChecklistItemStore with Store {
         for (var v in checklistContent["noteSignature"].entries) {
           var foto = File(v.value);
           var storageReference = FirebaseStorage.instance.ref().child("signatures/${Path.basename(foto.path)}");
-          var uploadTask = await storageReference.putFile(foto);
+          await storageReference.putFile(foto);
           checklistContent["noteSignature"][v.key] = await storageReference.getDownloadURL();
         }
 
         if (checklistContent["requiredSignature"] != "" && checklistContent["requiredSignature"] != null) {
           var foto = File(checklistContent["requiredSignature"]);
           var storageReference = FirebaseStorage.instance.ref().child("signatures/${Path.basename(foto.path)}");
-          var uploadTask = await storageReference.putFile(foto);
+          await storageReference.putFile(foto);
           checklistContent["requiredSignature"] = await storageReference.getDownloadURL();
         }
         for (var v in checklistContent["selection"].entries) {
@@ -153,7 +153,6 @@ abstract class _ChecklistItemStore with Store {
           // Caso esteja online, salva os arquivos no banco de dados. Caso não, salva no JSON o caminho do arquivo.
           if (v.value["actions"] != "" && v.value["actions"] != null && v.value["actions"]["picture"] != "" && v.value["actions"]["picture"] != null) {
             for (var picture in v.value["actions"]["picture"]) {
-              var path;
               var foto = File(picture);
               var storageReference = FirebaseStorage.instance.ref().child("checklistPhotos/${Path.basename(foto.path)}");
               var uploadTask = storageReference.putFile(foto);
@@ -165,7 +164,6 @@ abstract class _ChecklistItemStore with Store {
           if (v.value["actions"] != null && v.value["actions"]["picture"] != null) {
             var c = 0;
             for (var picture in v.value["actions"]["picture"]) {
-              var path;
               var foto = File(picture);
 
               var storageReference = FirebaseStorage.instance.ref().child("checklistPhotos/${Path.basename(foto.path)}");

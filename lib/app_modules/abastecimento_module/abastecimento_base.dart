@@ -48,7 +48,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                       ),
                     ),
                     actions: <Widget>[
-                      FlatButton(
+                      TextButton(
                         child: Container(
                           height: MediaQuery.of(context).size.width * 0.06,
                           width: MediaQuery.of(context).size.width * 0.1,
@@ -66,7 +66,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                           confirm = false;
                         },
                       ),
-                      FlatButton(
+                      TextButton(
                         child: Container(
                           height: MediaQuery.of(context).size.width * 0.06,
                           width: MediaQuery.of(context).size.width * 0.1,
@@ -164,7 +164,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                                             final result = await InternetAddress.lookup("example.com");
                                             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                               baseStore.online = true;
-                                              UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                                              await FirebaseAuth.instance.signInAnonymously();
                                             }
                                           } on SocketException catch (_) {
                                             baseStore.online = false;
@@ -206,7 +206,7 @@ class _AbastecimentoBaseState extends State<AbastecimentoBase> {
                                             final result = await InternetAddress.lookup("example.com");
                                             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                               baseStore.online = true;
-                                              UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                                              await FirebaseAuth.instance.signInAnonymously();
                                             }
                                           } on SocketException catch (_) {
                                             baseStore.online = false;

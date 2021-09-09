@@ -2,7 +2,6 @@ import "dart:ui";
 
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:mask_text_input_formatter/mask_text_input_formatter.dart";
 
 class CustomPassTextField extends StatelessWidget {
   CustomPassTextField(
@@ -48,9 +47,7 @@ class CustomPassTextField extends StatelessWidget {
         enabled: enabled,
         inputFormatters: <TextInputFormatter>[
           LengthLimitingTextInputFormatter(92),
-          formatter != null
-              ? formatter
-              : new MaskTextInputFormatter(mask: "###############################################", filter: {"#": RegExp(r"[a-zA-Z0-9@. ]")})
+           formatter
         ],
         decoration: InputDecoration(
           suffixIcon: suffix,

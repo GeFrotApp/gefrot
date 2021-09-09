@@ -191,9 +191,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () async {
                             try {
                               await formAction();
-                            } catch (e) {
+                            } catch (e,stacktrace) {
                               var logger = new Logger();
-                              logger.firebaseLog(e, data: {"tela": "login"});
+                              logger.firebaseLog(e,stacktrace, data: {"tela": "login"});
                             }
                           }),
                     );
@@ -279,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     actions: <Widget>[
-                      FlatButton(
+                      TextButton(
                         child: Text("OK"),
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -310,7 +310,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       "OK",
                       textScaleFactor: 1,
