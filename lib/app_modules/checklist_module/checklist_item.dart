@@ -709,6 +709,9 @@ class _ChecklistItemState extends State<ChecklistItem> {
                                       longitude = checklistItemStore.locationIsRequired ? position.longitude : null;
                                     } catch (error) {
                                       await baseStore.showMyDialog(context, "Nesse checklist é obrigatório que a localização esteja ligada!!");
+                                      setState(() {
+                                        loading = false;
+                                      });
                                       return;
                                     }
                                     var form = Map();
